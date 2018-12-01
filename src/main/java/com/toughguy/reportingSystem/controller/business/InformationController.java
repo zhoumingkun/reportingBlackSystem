@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,8 +45,10 @@ import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.druid.support.json.JSONUtils;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.reportingSystem.dto.InformationDTO;
 import com.toughguy.reportingSystem.model.authority.User;
@@ -61,6 +64,7 @@ import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
 import com.toughguy.reportingSystem.util.BackupUtil;
 import com.toughguy.reportingSystem.util.FileUploadUtil;
 import com.toughguy.reportingSystem.util.JsonUtil;
+import com.toughguy.reportingSystem.util.MD5Util;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONUtil;
@@ -83,13 +87,38 @@ public class InformationController {
 	@ResponseBody	
 	@RequestMapping(value = "/save")
 //	@RequiresPermissions("information:save")
-	public String saveInformation(Information information) {
+	public String saveInformation(Information information,String resultMap) throws ParseException {
+		Map<String, Object> map = null;
 		try {
-			informationService.save(information);
-			return "{ \"success\" : true }";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+			ObjectMapper om = new ObjectMapper();
+			map = new HashMap<String,Object>();
+			if (!StringUtils.isEmpty(resultMap)) {
+				// 参数处理
+				map = om.readValue(resultMap, new TypeReference<Map<String, Object>>() {});
+			}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String verityCodeMD5 = MD5Util.MD5Encode(map.get("verityCode").toString(), "utf8");
+		String customCodeTime = map.get("tamp").toString();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = simpleDateFormat.parse(customCodeTime);
+		String newDate = simpleDateFormat.format(new Date());
+		if(date.compareTo(simpleDateFormat.parse(newDate)) > 0) {
+			if(verityCodeMD5.equalsIgnoreCase(map.get("customCode").toString())) {
+				try {
+					informationService.save(information);
+					return "{ \"success\" : true }";
+				} catch (Exception e) {
+					e.printStackTrace();
+					return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+				}
+			} else {
+				return "{ \"success\" : 验证码错误}";
+			}
+		} else {
+			return "{ \"success\" : 超时}";
 		}
 	}
 	
@@ -180,8 +209,14 @@ public class InformationController {
 		try {
 			List<Integer> is = informationService.findValidNumber(); //首页图表每日已接案
 			List<InformationDTO> informationDTOs  = informationService.findSum(); //首页图表每日数量汇总
-			for(int i=0;i<is.size();i++) {
-				informationDTOs.get(i).setValidNumber(is.get(i));
+			if(is.size() > informationDTOs.size()) {
+				for(int i=0;i<informationDTOs.size();i++) {
+					informationDTOs.get(i).setValidNumber(is.get(i));
+				}
+			} else {
+				for(int i=0;i<is.size();i++) {
+					informationDTOs.get(i).setValidNumber(is.get(i));
+				}
 			}
 			return informationDTOs;
 		} catch (Exception e) {
@@ -247,12 +282,16 @@ public class InformationController {
 	@RequestMapping(value = "/getInformation")
 //	@RequiresPermissions("information:getInformation")
 	public List<Information> getInformationByOpenId(String openId) {
-		Informer inf = informerService.getInformer(openId);
-		List<Information> inft= informationService.getInformation(inf.getId());
-		if(inft != null){
-			return inft;
-		}else{
+		if("".equals(openId) || openId == null) {
 			return null;
+		} else {
+			Informer inf = informerService.getInformer(openId);
+			List<Information> inft= informationService.getInformation(inf.getId());
+			if(inft != null){
+				return inft;
+			}else{
+				return null;
+			}
 		}
 		
 	}
@@ -298,8 +337,8 @@ public class InformationController {
 	public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request,int id, int state,int assessorId) {
 		String fileName = file.getOriginalFilename();
 		
-//		String filePath = "C:\\java\\reportingSytem\\upload\\barcode\\";
-		String filePath ="C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode\\";
+		String filePath = "C:\\java\\reportingSytem\\upload\\barcode\\";
+//		String filePath ="C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode\\";
 		System.out.println(fileName);
 		try {
 			FileUploadUtil.uploadFile(file.getBytes(), filePath, fileName);
@@ -330,8 +369,8 @@ public class InformationController {
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
-//        String realPath = "C:/java/reportingSytem/upload/barcode";
+//        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
+        String realPath = "C:/java/reportingSytem/upload/barcode";
         String path = BackupUtil.rename("jpg");
         try {
             File dir = new File(path);
@@ -356,8 +395,8 @@ public class InformationController {
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
-//        String realPath = "C:/java/reportingSytem/upload/video";
+//        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
+        String realPath = "C:/java/reportingSytem/upload/video";
         String path = BackupUtil.rename("mp4");
         try {
             File dir = new File(path);

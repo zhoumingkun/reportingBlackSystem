@@ -78,7 +78,7 @@
 	<!-- 查询图表中每天举报已接案数量 -->
 	<select id="findValidNumber" parameterType="int" resultType="int">
 		SELECT count(*) validNumber
-		FROM business_information WHERE state = - 1 GROUP BY createTime order by createTime asc
+		FROM business_information WHERE state = 1 or state = 2 or state = 3 GROUP BY DATE_FORMAT(createTime, '%Y-%M-%D') order by createTime asc
 	</select>
 	<!-- 查询已接案列表 -->
 	<select id="findValidTotal" resultType="int">
