@@ -198,6 +198,17 @@
 			<classifier>jdk15</classifier><!--指定jdk版本-->
 		</dependency>
 		<!-- weixin小程序 -->
+		<dependency>    
+		    <groupId>org.codehaus.xfire</groupId>    
+		    <artifactId>xfire-core</artifactId>    
+		    <version>1.2.6</version>  
+		</dependency>  
+		<dependency>    
+		    <groupId>org.bouncycastle</groupId>
+		    <artifactId>bcprov-jdk16</artifactId>    
+		    <version>1.46</version>  
+		</dependency> 
+		
 		<dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
