@@ -1,8 +1,5 @@
 package com.toughguy.reportingSystem.controller.business;
-import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
-import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,6 +35,8 @@ import com.toughguy.reportingSystem.service.business.prototype.IInformationServi
 import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
 import com.toughguy.reportingSystem.util.BackupUtil;
 import com.toughguy.reportingSystem.util.MD5Util;
+import com.toughguy.reportingSystem.util.MyEncryptUtil;
+
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -45,9 +44,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WeixinController {
  
-    @Autowired
-    private WxMpService wxMpService;
-
     @Autowired
 	private IContentService contentService;
     
@@ -65,9 +61,12 @@ public class WeixinController {
 		  String WX_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
 	           //这三个参数就是之后要填上自己的值。
 	      //替换appid，appsecret，和code
-	      String requestUrl = WX_URL.replace("APPID", "wx05dd96e3e0d5a7fb").//填写自己的appid
-	        replace("SECRET", "d6aae1ffc685b60fbc7a8b848514108f").replace("JSCODE", code).//填写自己的appsecret，
+	      String requestUrl = WX_URL.replace("APPID", "wxb24760396cbf5bc4").//填写自己的appid
+	        replace("SECRET", "294538f45fcbd980ade5ab589fd993ba").replace("JSCODE", code).//填写自己的appsecret，
 	        replace("authorization_code", "authorization_code");
+//	      String requestUrl = WX_URL.replace("APPID", "wx05dd96e3e0d5a7fb").//填写自己的appid
+//	    		  replace("SECRET", "d6aae1ffc685b60fbc7a8b848514108f").replace("JSCODE", code).//填写自己的appsecret，
+//	    		  replace("authorization_code", "authorization_code");
 		   
 	       //调用get方法发起get请求，并把返回值赋值给returnvalue
 	         String  returnvalue=GET(requestUrl);
@@ -197,7 +196,7 @@ public class WeixinController {
 	@ResponseBody
 	@RequestMapping(value = "/getInformation")
 	public List<Information> getInformationByOpenId(String openId) {
-		if("".equals(openId) || openId == null) {
+		if(openId == null || "".equals(openId)) {
 			return null;
 		} else {
 			Informer inf = informerService.getInformer(openId);
@@ -225,8 +224,8 @@ public class WeixinController {
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
-//        String realPath = "C:/java/reportingSytem/upload/barcode";
+//	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
+        String realPath = "C:/java/reportingSytem/upload/barcode";
         String path = BackupUtil.rename("jpg");
         try {
             File dir = new File(path);
@@ -259,8 +258,8 @@ public class WeixinController {
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
-//        String realPath = "C:/java/reportingSytem/upload/video";
+//	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
+        String realPath = "C:/java/reportingSytem/upload/video";
         String path = BackupUtil.rename("mp4");
         try {
             File dir = new File(path);
@@ -287,8 +286,42 @@ public class WeixinController {
 	@RequestMapping(value = "/saveInformer")
 	public String saveinformer(Informer informer) {
 		try {
+			String informerName = informer.getInformerName();
+			String idCard = informer.getIdCard();
+			String phoneNumber = informer.getPhoneNumber();
+			String otherContectWay = informer.getOtherContectWay();
+			//md5加密举报人信息
+//			String informerNameMD5 = MD5Util.MD5Encode(informerName, "utf8");
+			String idCardMD5 = MyEncryptUtil.encryptPhone(idCard);
+			String phoneNumberMD5 = MyEncryptUtil.encryptPhone(phoneNumber);
+			String otherContectWayMD5 = MyEncryptUtil.encryptPhone(otherContectWay);
+//			informer.setInformerName(informerNameMD5);
+			informer.setIdCard(idCardMD5);
+			informer.setPhoneNumber(phoneNumberMD5);
+			informer.setOtherContectWay(otherContectWayMD5);
+			//添加加密举报人姓名（页面显示）
+			char[] informerNames = informerName.toCharArray();
+			String encryptName = "";
+			if(informerNames.length == 2) {
+				encryptName = informerName.substring(0,1) + "*";
+			} else if(informerName.length() == 3) {
+				encryptName = informerName.substring(0,1) + "**";
+			} else if(informerName.length() == 4) {
+				encryptName = informerName.substring(0,1) + "***";
+			} else {
+				encryptName = informerName.substring(0,1) + "***";
+			}
+			informer.setEncryptName(encryptName);
+			//添加加密举报人身份证号（页面显示）
+			String encryptIdCard = idCard.substring(0,1)+ "****************" + idCard.substring(idCard.length()-1,1);
+			informer.setEncryptIdCard(encryptIdCard);
+			//添加加密举报人手机号（页面显示）
+			String encryptPhoneNumber = phoneNumber.substring(1) + "*********" + phoneNumber.substring(phoneNumber.length()-1, 1);
+			informer.setEncryptPhoneNumber(encryptPhoneNumber);
+		    //添加加密其他联系方式（页面显示）
+			String encryptOtherContectWay = otherContectWay.substring(1) + "*********" + otherContectWay.substring(otherContectWay.length()-1, 1);
+			informer.setEncryptOtherContectWay(encryptOtherContectWay);
 			informerService.save(informer);
-			System.out.println(informer);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -304,9 +337,17 @@ public class WeixinController {
 	@ResponseBody
 	@RequestMapping(value = "/getInformer")
 	public Informer getInformer(String openId) {
-		Informer inf=informerService.getInformer(openId);
+		Informer i = new Informer();
+		Informer inf = informerService.getInformer(openId);
 		if(inf != null){
-			return inf;
+			i.setEncryptName(inf.getEncryptName());
+			i.setEncryptIdCard(inf.getEncryptIdCard());
+			i.setEncryptOtherContectWay(inf.getEncryptOtherContectWay());
+			i.setEncryptPhoneNumber(inf.getEncryptPhoneNumber());
+			i.setWorkPlace(inf.getWorkPlace());
+			i.setAddress(inf.getAddress());
+			i.setLivingArea(inf.getLivingArea());
+			return i;
 		}else{
 			return null;
 		}

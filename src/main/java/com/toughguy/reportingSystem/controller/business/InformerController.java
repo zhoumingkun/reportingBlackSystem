@@ -24,24 +24,23 @@ public class InformerController {
 	@Autowired
 	private IInformerService informerService;
 	
-	@ResponseBody	
-	@RequestMapping(value = "/save")
+//	@ResponseBody	
+//	@RequestMapping(value = "/save")
 //	@RequiresPermissions("informer:save")
-	public String saveinformer(Informer informer) {
-		try {
-			informerService.save(informer);
-			System.out.println(informer);
-			return "{ \"success\" : true }";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
-		}
-	}
+//	public String saveinformer(Informer informer) {
+//		try {
+//			informerService.save(informer);
+//			System.out.println(informer);
+//			return "{ \"success\" : true }";
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+//		}
+//	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/get")
 	public Informer getInformer(String openId) {
-		System.out.println(openId);
 		Informer inf=informerService.getInformer(openId);
 		if(inf != null){
 			return inf;
