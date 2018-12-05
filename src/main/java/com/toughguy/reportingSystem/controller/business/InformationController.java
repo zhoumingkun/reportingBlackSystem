@@ -231,6 +231,16 @@ public class InformationController {
 		try {
 			Information i = informationService.find(id);
 			Informer ir = informerService.find(i.getInformerId());
+			Informer informer = new Informer();
+			informer.setWorkPlace(ir.getWorkPlace());
+			informer.setLivingArea(ir.getLivingArea());
+			informer.setAddress(ir.getAddress());
+			informer.setEncryptName(ir.getEncryptName());
+			informer.setEncryptPhoneNumber(ir.getEncryptPhoneNumber());
+			informer.setEncryptIdCard(ir.getEncryptIdCard());
+			informer.setEncryptOtherContectWay(ir.getEncryptOtherContectWay());
+			informer.setCreateTime(ir.getCreateTime());
+			informer.setUpdateTime(ir.getUpdateTime());
 //			String str1 = JsonUtil.objectToJson(i);
 //			String str2 = JsonUtil.objectToJson(ir);
 			User u1 = new User();
@@ -263,7 +273,7 @@ public class InformationController {
 			ObjectMapper om = new ObjectMapper();
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("information", i);
-			result.put("informer", ir);
+			result.put("informer", informer);
 			return om.writeValueAsString(result);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
