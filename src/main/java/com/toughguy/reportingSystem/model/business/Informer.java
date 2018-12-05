@@ -79,6 +79,7 @@ public class Informer extends AbstractModel {
 	public void setOtherContectWay(String otherContectWay) {
 		this.otherContectWay = otherContectWay;
 	}
+	//加密信息
 	public String getEncryptName() {
 		return encryptName;
 	}
@@ -104,7 +105,7 @@ public class Informer extends AbstractModel {
 		this.encryptOtherContectWay = encryptOtherContectWay;
 	}
 	
-	//加密信息
+
 	
 	
 	
