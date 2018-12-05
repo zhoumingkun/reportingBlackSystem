@@ -20,6 +20,10 @@ public class Informer extends AbstractModel {
 	private String address;          //详细地址
 	private String phoneNumber;      //手机号码
 	private String openId;              //微信唯一标识符
+	private String encryptName;      //加密举报人姓名
+	private String encryptIdCard;     //加密举报人身份证号
+	private String encryptPhoneNumber;   //加密手机号
+	private String encryptOtherContectWay;   //加密其他联系方式
 	public int getId() {
 		return id;
 	}
@@ -75,7 +79,32 @@ public class Informer extends AbstractModel {
 	public void setOtherContectWay(String otherContectWay) {
 		this.otherContectWay = otherContectWay;
 	}
+	public String getEncryptName() {
+		return encryptName;
+	}
+	public void setEncryptName(String encryptName) {
+		this.encryptName = encryptName;
+	}
+	public String getEncryptIdCard() {
+		return encryptIdCard;
+	}
+	public void setEncryptIdCard(String encryptIdCard) {
+		this.encryptIdCard = encryptIdCard;
+	}
+	public String getEncryptPhoneNumber() {
+		return encryptPhoneNumber;
+	}
+	public void setEncryptPhoneNumber(String encryptPhoneNumber) {
+		this.encryptPhoneNumber = encryptPhoneNumber;
+	}
+	public String getEncryptOtherContectWay() {
+		return encryptOtherContectWay;
+	}
+	public void setEncryptOtherContectWay(String encryptOtherContectWay) {
+		this.encryptOtherContectWay = encryptOtherContectWay;
+	}
 	
+	//加密信息
 	
 	
 	
