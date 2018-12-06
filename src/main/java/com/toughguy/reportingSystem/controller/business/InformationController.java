@@ -152,7 +152,7 @@ public class InformationController {
 
 	@ResponseBody
 	@RequestMapping(value = "/data")
-//	@RequiresPermissions("information:data")
+	@RequiresPermissions("information:data")
 	public String data(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -162,7 +162,7 @@ public class InformationController {
 				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
 			}
 			PagerModel<Information> pg = informationService.findPaginated(map);
-			
+			System.out.println(pg.getData());
 			// 序列化查询结果为JSON
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("total", pg.getTotal());
@@ -232,6 +232,7 @@ public class InformationController {
 			Information i = informationService.find(id);
 			Informer ir = informerService.find(i.getInformerId());
 			Informer informer = new Informer();
+			informer.setId(ir.getId());
 			informer.setWorkPlace(ir.getWorkPlace());
 			informer.setLivingArea(ir.getLivingArea());
 			informer.setAddress(ir.getAddress());

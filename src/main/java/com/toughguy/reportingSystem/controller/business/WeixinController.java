@@ -1,5 +1,4 @@
 package com.toughguy.reportingSystem.controller.business;
-import me.chanjar.weixin.mp.api.WxMpService;
 import net.sf.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
@@ -300,27 +299,33 @@ public class WeixinController {
 			informer.setPhoneNumber(phoneNumberMD5);
 			informer.setOtherContectWay(otherContectWayMD5);
 			//添加加密举报人姓名（页面显示）
-			char[] informerNames = informerName.toCharArray();
-			String encryptName = "";
-			if(informerNames.length == 2) {
-				encryptName = informerName.substring(0,1) + "*";
-			} else if(informerName.length() == 3) {
-				encryptName = informerName.substring(0,1) + "**";
-			} else if(informerName.length() == 4) {
-				encryptName = informerName.substring(0,1) + "***";
+			if(informerName == null || informerName.equals("")) {
 			} else {
-				encryptName = informerName.substring(0,1) + "***";
+				char[] informerNames = informerName.toCharArray();
+				String encryptName = "";
+				if(informerNames.length == 2 && informerNames.length > 0) {
+					encryptName = informerName.substring(0,1) + "*";
+				} else if(informerName.length() == 3) {
+					encryptName = informerName.substring(0,1) + "**";
+				} else if(informerName.length() == 4) {
+					encryptName = informerName.substring(0,1) + "***";
+				} else {
+					encryptName = informerName.substring(0,1) + "***";
+				}
+				informer.setEncryptName(encryptName);
 			}
-			informer.setEncryptName(encryptName);
 			//添加加密举报人身份证号（页面显示）
-			String encryptIdCard = idCard.substring(0,1)+ "****************" + idCard.substring(idCard.length()-1,1);
+			String encryptIdCard = idCard.substring(0,1)+ "****************" + idCard.substring(idCard.length()-1);
 			informer.setEncryptIdCard(encryptIdCard);
 			//添加加密举报人手机号（页面显示）
-			String encryptPhoneNumber = phoneNumber.substring(1) + "*********" + phoneNumber.substring(phoneNumber.length()-1, 1);
+			String encryptPhoneNumber = phoneNumber.substring(0,1) + "*********" + phoneNumber.substring(phoneNumber.length()-1);
 			informer.setEncryptPhoneNumber(encryptPhoneNumber);
 		    //添加加密其他联系方式（页面显示）
-			String encryptOtherContectWay = otherContectWay.substring(1) + "*********" + otherContectWay.substring(otherContectWay.length()-1, 1);
-			informer.setEncryptOtherContectWay(encryptOtherContectWay);
+			if(otherContectWay == null|| otherContectWay.equals("")) {
+			}else {
+				String encryptOtherContectWay = otherContectWay.substring(0,1) + "*********" + otherContectWay.substring(otherContectWay.length()-1);
+				informer.setEncryptOtherContectWay(encryptOtherContectWay);
+			}
 			informerService.save(informer);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
@@ -347,6 +352,7 @@ public class WeixinController {
 			i.setWorkPlace(inf.getWorkPlace());
 			i.setAddress(inf.getAddress());
 			i.setLivingArea(inf.getLivingArea());
+			i.setId(inf.getId());
 			return i;
 		}else{
 			return null;
@@ -363,8 +369,6 @@ public class WeixinController {
 	public String editinformer(Informer informer) {
 		try {
 			informerService.update(informer);
-			System.out.println(informer);
-			System.out.println("改完了");
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			// TODO: handle exception

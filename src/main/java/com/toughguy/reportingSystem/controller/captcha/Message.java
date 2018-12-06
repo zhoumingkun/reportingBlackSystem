@@ -45,6 +45,7 @@ public class Message {
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("customCode", customCode);
 		resultMap.put("tamp", currentTime);
+		System.out.println(sendSmsResponse.getCode());
 		if(sendSmsResponse.getCode().equals("OK")) {
 			return resultMap;
 		} else {

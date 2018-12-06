@@ -30,7 +30,8 @@ public class Information extends AbstractModel{
 	private int investigationAssessorId;  //审核员（侦办中）(当前用户id)
 	private int endAssessorId;  //审核员（已结束）(当前用户id)
 	
-	private String phoneNumber; //举报人手机号（页面使用）
+//	private String phoneNumber; //举报人手机号（页面使用）
+	private String encryptPhoneNumber; //加密手机号
 	private String validAssessor; //审核员（页面使用）(已接案)
 	private String investigationAssessor; //审核员（页面使用）(侦办中)
 	private String endAssessor; //审核员（页面使用）(已结束)
@@ -141,11 +142,12 @@ public class Information extends AbstractModel{
 	public void setFeedbackInformation(String feedbackInformation) {
 		this.feedbackInformation = feedbackInformation;
 	}
-	public String getPhoneNumber() {
-		return phoneNumber;
+	
+	public String getEncryptPhoneNumber() {
+		return encryptPhoneNumber;
 	}
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setEncryptPhoneNumber(String encryptPhoneNumber) {
+		this.encryptPhoneNumber = encryptPhoneNumber;
 	}
 	public String getValidAssessor() {
 		return validAssessor;

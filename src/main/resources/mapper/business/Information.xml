@@ -29,7 +29,7 @@
 	
 	<!-- 分页查询举报信息 -->
 	<select id="findPaginated" resultType="Information" parameterType="Map">
-		select bio.*,bir.phoneNumber,au.userName assessor from business_information bio 
+		select bio.*,bir.encryptPhoneNumber,au.userName assessor from business_information bio 
 		LEFT JOIN business_informer bir ON bio.informerId = bir.id
 		LEFT JOIN auth_user au ON bio.validAssessorId = au.id
 		<include refid="paramsSQL"/>
