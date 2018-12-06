@@ -345,6 +345,7 @@ public class InformationController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/upload")
+	@RequiresPermissions("information:upload")
 	public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request,int id, int state,int assessorId) {
 		String fileName = file.getOriginalFilename();
 		
