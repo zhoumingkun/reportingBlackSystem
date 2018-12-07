@@ -41,4 +41,8 @@ public interface IInformationDao  extends IGenericDao<Information, Integer>{
 	 * 查询各行业领域类型数量
 	 */
 	public Information findAllInformerType();
+	/**
+	 * 根据openId查询举报信息（匿名）
+	 */
+	public List<Information> findByOpenId(String openId);
 }

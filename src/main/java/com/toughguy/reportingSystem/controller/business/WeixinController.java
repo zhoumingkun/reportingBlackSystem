@@ -1,5 +1,8 @@
 package com.toughguy.reportingSystem.controller.business;
 import net.sf.json.JSONObject;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +12,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -186,6 +190,26 @@ public class WeixinController {
 			return "{ \"success\" : 超时}";
 		}
 	}
+	/**
+	 * 匿名保存举报信息
+	 * @param information
+	 * @param resultMap
+	 * @return
+	 * @throws ParseException
+	 */
+	@ResponseBody	
+	@RequestMapping(value = "/anonymitySaveInformation")
+	public String anonymitySaveInformation(Information information) throws ParseException {
+		try {
+			information.setInformerId(0);
+			informationService.save(information);
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "{ \"success\" : false }";
+		}
+	}
 	
 	/**
 	 * 获取用户的举报信息
@@ -194,17 +218,25 @@ public class WeixinController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/getInformation")
-	public List<Information> getInformationByOpenId(String openId) {
+	public List<Information> getInformation(String openId) {
 		if(openId == null || "".equals(openId)) {
 			return null;
 		} else {
+			List<Information> inft = new ArrayList<Information>();
 			Informer inf = informerService.getInformer(openId);
-			List<Information> inft= informationService.getInformation(inf.getId());
-			if(inft != null){
-				return inft;
-			}else{
-				return null;
+			if(inf == null) {
+				//匿名
+				List<Information> inft1 = informationService.findByOpenId(openId);
+				for(Information i:inft1) {
+					inft.add(i);
+				}
+			} else {
+				List<Information> inft1= informationService.getInformation(inf.getId());
+				for(Information i:inft1) {
+					inft.add(i);
+				}
 			}
+			return inft;
 		}
 		
 	}

@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Information">
 
 	<insert id="save" parameterType="Information" keyProperty="id" useGeneratedKeys="true">
-		insert into business_information (createTime,updateTime,threadArea, clueAddress,industryField,informType,informContent,picture,video,informerId,validAssessorId,validFile,investigationFile,feedbackInformation,investigationAssessorId) 
-		values (#{createTime},#{updateTime},#{threadArea}, #{clueAddress},#{industryField},#{informType}, #{informContent},#{picture},#{video},#{informerId},#{validAssessorId},#{validFile},#{investigationFile},#{feedbackInformation},#{investigationAssessorId})
+		insert into business_information (createTime,updateTime,threadArea, clueAddress,industryField,informType,informContent,picture,video,informerId,validAssessorId,validFile,investigationFile,feedbackInformation,investigationAssessorId,openId) 
+		values (#{createTime},#{updateTime},#{threadArea}, #{clueAddress},#{industryField},#{informType}, #{informContent},#{picture},#{video},#{informerId},#{validAssessorId},#{validFile},#{investigationFile},#{feedbackInformation},#{investigationAssessorId},#{openId})
 	</insert>
 	
 	<!-- 删除某个举报信息 -->
@@ -62,6 +62,7 @@
 			<if test="state != null and state != ''">state = #{state},</if>
 			<if test="investigationAssessorId != null and investigationAssessorId != ''">investigationAssessorId = #{investigationAssessorId},</if>
 			<if test="endAssessorId != null and endAssessorId != ''">endAssessorId = #{endAssessorId},</if>
+			<if test="openId != null and openId != ''">openId = #{openId},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -100,6 +101,11 @@
         COUNT(case when industryField = '9.插手民间纠纷' then industryField end ) as CSMJJFNumber,
         COUNT(case when industryField ='10.境外黑社会' then industryField end) as JWHSHNumber
         from  business_information where state >= 1
+	</select>
+	
+	<!-- 根据openId查询举报信息 -->
+	<select id="findByOpenId" parameterType="String" resultType="Information">
+		select * FROM business_information where openId = #{openId}
 	</select>
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">

@@ -46,6 +46,11 @@ public class InformationServiceImpl extends GenericServiceImpl<Information, Inte
 		// TODO Auto-generated method stub
 		return ((IInformationDao)dao).findAllInformerType();
 	}
+	@Override
+	public List<Information> findByOpenId(String openId) {
+		// TODO Auto-generated method stub
+		return ((IInformationDao)dao).findByOpenId(openId);
+	}
 
 
 }

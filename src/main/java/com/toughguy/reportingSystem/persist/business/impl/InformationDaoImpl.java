@@ -58,4 +58,10 @@ public class InformationDaoImpl extends GenericDaoImpl<Information, Integer> imp
 		// TODO Auto-generated method stub
 		return  sqlSessionTemplate.selectOne(typeNameSpace + ".findAllInformerType");
 	}
+
+	@Override
+	public List<Information> findByOpenId(String openId) {
+		// TODO Auto-generated method stub
+		return  sqlSessionTemplate.selectList(typeNameSpace + ".findByOpenId",openId);
+	}
 }

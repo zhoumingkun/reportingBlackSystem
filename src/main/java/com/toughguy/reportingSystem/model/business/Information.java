@@ -29,6 +29,7 @@ public class Information extends AbstractModel{
 	private String feedbackInformation;     //反馈信息
 	private int investigationAssessorId;  //审核员（侦办中）(当前用户id)
 	private int endAssessorId;  //审核员（已结束）(当前用户id)
+	private String openId;  //如果是匿名则保持openId
 	
 //	private String phoneNumber; //举报人手机号（页面使用）
 	private String encryptPhoneNumber; //加密手机号
@@ -232,6 +233,12 @@ public class Information extends AbstractModel{
 	}
 	public void setJWHSHNumber(String jWHSHNumber) {
 		JWHSHNumber = jWHSHNumber;
+	}
+	public String getOpenId() {
+		return openId;
+	}
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
 	
 	
