@@ -67,8 +67,8 @@ public class WeixinController{
 		  String WX_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
 	           //这三个参数就是之后要填上自己的值。
 	      //替换appid，appsecret，和code
-	      String requestUrl = WX_URL.replace("APPID", "wxb24760396cbf5bc4").//填写自己的appid
-	        replace("SECRET", "294538f45fcbd980ade5ab589fd993ba").replace("JSCODE", code).//填写自己的appsecret，
+	      String requestUrl = WX_URL.replace("APPID", "wx34f0abb780bc5072").//填写自己的appid
+	        replace("SECRET", "d4cd1f6b9e0b96f506b99aebcddb1cf9").replace("JSCODE", code).//填写自己的appsecret，
 	        replace("authorization_code", "authorization_code");
 //	      String requestUrl = WX_URL.replace("APPID", "wx05dd96e3e0d5a7fb").//填写自己的appid
 //	    		  replace("SECRET", "d6aae1ffc685b60fbc7a8b848514108f").replace("JSCODE", code).//填写自己的appsecret，
