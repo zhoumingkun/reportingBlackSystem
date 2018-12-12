@@ -43,6 +43,11 @@ public class reportingSystemApplication {
 	    factory.setContextPath("/reportingSystem");
 	    factory.setSessionTimeout(60, TimeUnit.MINUTES);
 	    return factory;
+//	    TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();
+//	    factory.setPort(8080);
+//	    factory.setContextPath("/reportingSystem");
+//	    factory.setSessionTimeout(60, TimeUnit.MINUTES);
+//	    return factory;
 	}
 	
 	private Connector initiateHttpConnector() {
