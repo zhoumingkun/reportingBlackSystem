@@ -256,19 +256,14 @@ public class MyEncryptUtil {
 		if(!MyEncryptUtil.isNumber(phoneStr)){
 			//1.去除字符串前”~”
 			phoneStr=filterStr(phoneStr);
-			System.out.println("一：" + phoneStr);
 			//2.去除所有数字
 			phoneStr=removeNum(phoneStr);
-			System.out.println("二：" + phoneStr);
 			//3.将所有e k f j m
 			phoneStr=removeLetter(phoneStr);
-			System.out.println("三：" + phoneStr);
 			//3.将剩余字母全部转换为对应的数字
 			phoneStr=getPhoneNum(phoneStr);
-			System.out.println("三：" + phoneStr);
 			//4.换位号码中两组数字：第二位和第六位交换，第三位和第五位交换
 			phoneStr=changeNum(phoneStr);
-			System.out.println("四：" + phoneStr);
 		}
 		return phoneStr;
 	}

@@ -1,13 +1,9 @@
 package com.toughguy.reportingSystem.controller.business;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,55 +15,33 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.support.MultipartFilter;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.druid.support.json.JSONUtils;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.reportingSystem.dto.InformationDTO;
 import com.toughguy.reportingSystem.model.authority.User;
-import com.toughguy.reportingSystem.model.business.FeedbackInformation;
 import com.toughguy.reportingSystem.model.business.Information;
 import com.toughguy.reportingSystem.model.business.Informer;
 import com.toughguy.reportingSystem.pagination.PagerModel;
-import com.toughguy.reportingSystem.persist.business.prototype.IFeedbackInformationDao;
 import com.toughguy.reportingSystem.service.authority.prototype.IUserService;
-import com.toughguy.reportingSystem.service.business.prototype.IFeedbackInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
 import com.toughguy.reportingSystem.util.BackupUtil;
 import com.toughguy.reportingSystem.util.FileUploadUtil;
-import com.toughguy.reportingSystem.util.JsonUtil;
 import com.toughguy.reportingSystem.util.MD5Util;
-
-import net.minidev.json.JSONObject;
-import net.minidev.json.JSONUtil;
+import com.toughguy.reportingSystem.util.MyEncryptUtil;
 
 @Controller
 @RequestMapping(value = "/information")
@@ -78,8 +52,8 @@ public class InformationController {
 	@Autowired
 	private IInformerService informerService;
 	
-	@Autowired
-	private IFeedbackInformationService feedbackInformerService;
+//	@Autowired
+//	private IFeedbackInformationService feedbackInformerService;
 	
 	@Autowired
 	private IUserService userService;
@@ -149,11 +123,17 @@ public class InformationController {
 			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
 		}
 	}
-
+	
+	/**
+	 * 无权限
+	 * @param params
+	 * @param session
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value = "/data")
+	@RequestMapping(value = "/noAccessData")
 	@RequiresPermissions("information:data")
-	public String data(String params,HttpSession session) {
+	public String noAccessData(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -162,7 +142,39 @@ public class InformationController {
 				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
 			}
 			PagerModel<Information> pg = informationService.findPaginated(map);
-			System.out.println(pg.getData());
+			for(Information i:pg.getData()) {
+				i.setPhoneNumber("");
+			}
+			// 序列化查询结果为JSON
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("total", pg.getTotal());
+			result.put("rows", pg.getData());
+			return om.writeValueAsString(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"total\" : 0, \"rows\" : [] }";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/accessData")
+	@RequiresPermissions("information:getEncrypt")
+	public String accessData(String params,HttpSession session) {
+		try {
+			ObjectMapper om = new ObjectMapper();
+			Map<String, Object> map = new HashMap<String, Object>();
+			if (!StringUtils.isEmpty(params)) {
+				// 参数处理
+				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
+			}
+			PagerModel<Information> pg = informationService.findPaginated(map);
+			for(Information i:pg.getData()) {
+				if(i.getPhoneNumber() == null || "".equals(i.getPhoneNumber())) {
+					i.setPhoneNumber("");
+				}
+				i.setEncryptPhoneNumber(MyEncryptUtil.decryptPhone(i.getPhoneNumber()));
+				i.setPhoneNumber("");
+			}
 			// 序列化查询结果为JSON
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("total", pg.getTotal());
@@ -224,24 +236,98 @@ public class InformationController {
 			return null;
 		}
 	}
+	/**
+	 * 无权限
+	 * @param id
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value = "/get")
+	@RequestMapping(value = "/noAccessGet")
 	@RequiresPermissions("information:get")
-	public String get(int id) {
+	public String noAccessGet(int id) {
 		try {
 			Information i = informationService.find(id);
 			Informer ir = informerService.find(i.getInformerId());
 			Informer informer = new Informer();
-			informer.setId(ir.getId());
-			informer.setWorkPlace(ir.getWorkPlace());
-			informer.setLivingArea(ir.getLivingArea());
-			informer.setAddress(ir.getAddress());
-			informer.setEncryptName(ir.getEncryptName());
-			informer.setEncryptPhoneNumber(ir.getEncryptPhoneNumber());
-			informer.setEncryptIdCard(ir.getEncryptIdCard());
-			informer.setEncryptOtherContectWay(ir.getEncryptOtherContectWay());
-			informer.setCreateTime(ir.getCreateTime());
-			informer.setUpdateTime(ir.getUpdateTime());
+			if(ir == null) {
+			} else {
+				informer.setId(ir.getId());
+				informer.setWorkPlace(ir.getWorkPlace());
+				informer.setLivingArea(ir.getLivingArea());
+				informer.setAddress(ir.getAddress());
+				informer.setEncryptName(ir.getEncryptName());
+				informer.setEncryptPhoneNumber(ir.getEncryptPhoneNumber());
+				informer.setEncryptIdCard(ir.getEncryptIdCard());
+				informer.setEncryptOtherContectWay(ir.getEncryptOtherContectWay());
+				informer.setCreateTime(ir.getCreateTime());
+				informer.setUpdateTime(ir.getUpdateTime());
+			}
+//			String str1 = JsonUtil.objectToJson(i);
+//			String str2 = JsonUtil.objectToJson(ir);
+			User u1 = new User();
+			User u2 = new User();
+			User u3 = new User();
+			if(i.getValidAssessorId() != 0) {
+				u1 = userService.find(i.getValidAssessorId());
+			}
+			if(i.getInvestigationAssessorId() != 0) {
+				u2 = userService.find(i.getInvestigationAssessorId());
+			}
+			if(i.getEndAssessorId() != 0) {
+				u3 = userService.find(i.getEndAssessorId());
+			}
+			if(u1.equals(null)) {
+				System.out.println("u1为空");
+			} else {
+				i.setValidAssessor(u1.getUserName());
+			}
+			if(u2.equals(null)) {
+				System.out.println("u2为空");
+			} else {
+				i.setInvestigationAssessor(u2.getUserName());
+			}
+			if(u3.equals(null)) {
+				System.out.println("u3为空");
+			} else {
+				i.setEndAssessor(u3.getUserName());
+			}
+			ObjectMapper om = new ObjectMapper();
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("information", i);
+			result.put("informer", informer);
+			return om.writeValueAsString(result);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	/**
+	 * 有权限
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/accessGet")
+	@RequiresPermissions("information:getEncrypt")
+	public String AccessGet(int id) {
+		try {
+			Information i = informationService.find(id);
+			Informer ir = informerService.find(i.getInformerId());
+			Informer informer = new Informer();
+			if(ir == null) {
+			} else {
+				informer.setId(ir.getId());
+				informer.setWorkPlace(ir.getWorkPlace());
+				informer.setLivingArea(ir.getLivingArea());
+				informer.setAddress(ir.getAddress());
+				informer.setEncryptName(ir.getInformerName());
+				informer.setEncryptPhoneNumber(MyEncryptUtil.decryptPhone(ir.getPhoneNumber()));
+				informer.setEncryptIdCard(MyEncryptUtil.decryptPhone(ir.getIdCard()));
+				informer.setEncryptOtherContectWay(MyEncryptUtil.decryptPhone(ir.getOtherContectWay()));
+				informer.setCreateTime(ir.getCreateTime());
+				informer.setUpdateTime(ir.getUpdateTime());
+			}
 //			String str1 = JsonUtil.objectToJson(i);
 //			String str2 = JsonUtil.objectToJson(ir);
 			User u1 = new User();
@@ -507,7 +593,7 @@ public class InformationController {
 	@ResponseBody
 	@RequestMapping(value = "/findAllInformerType")
 	@RequiresPermissions("information:findAllInformerType")
-	public Map findAllInformerType() {
+	public Map<String, Object> findAllInformerType() {
 		Information information = informationService.findAllInformerType();
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("GJZZAQNumber", information.getGJZZAQNumber());

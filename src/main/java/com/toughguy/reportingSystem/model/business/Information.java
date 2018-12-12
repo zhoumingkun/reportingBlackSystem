@@ -1,6 +1,11 @@
 package com.toughguy.reportingSystem.model.business;
 
 import java.awt.TextArea;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.toughguy.reportingSystem.model.AbstractModel;
@@ -31,7 +36,7 @@ public class Information extends AbstractModel{
 	private int endAssessorId;  //审核员（已结束）(当前用户id)
 	private String openId;  //如果是匿名则保持openId
 	
-//	private String phoneNumber; //举报人手机号（页面使用）
+	private String phoneNumber; //举报人手机号（页面使用）
 	private String encryptPhoneNumber; //加密手机号
 	private String validAssessor; //审核员（页面使用）(已接案)
 	private String investigationAssessor; //审核员（页面使用）(侦办中)
@@ -240,6 +245,11 @@ public class Information extends AbstractModel{
 	public void setOpenId(String openId) {
 		this.openId = openId;
 	}
-	
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 	
 }

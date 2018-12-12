@@ -13,6 +13,8 @@ import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +39,7 @@ import com.toughguy.reportingSystem.service.business.prototype.IContentService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
 import com.toughguy.reportingSystem.util.BackupUtil;
+import com.toughguy.reportingSystem.util.ListSortUtil;
 import com.toughguy.reportingSystem.util.MD5Util;
 import com.toughguy.reportingSystem.util.MyEncryptUtil;
 
@@ -45,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/wechat")
 @Slf4j
-public class WeixinController {
+public class WeixinController{
  
     @Autowired
 	private IContentService contentService;
@@ -169,25 +172,32 @@ public class WeixinController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		String verityCodeMD5 = MD5Util.MD5Encode(map.get("verityCode").toString(), "utf8");
-		String customCodeTime = map.get("tamp").toString();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = simpleDateFormat.parse(customCodeTime);
-		String newDate = simpleDateFormat.format(new Date());
-		if(date.compareTo(simpleDateFormat.parse(newDate)) > 0) {
-			if(verityCodeMD5.equalsIgnoreCase(map.get("customCode").toString())) {
-				try {
-					informationService.save(information);
-					return "{ \"success\" : true }";
-				} catch (Exception e) {
-					e.printStackTrace();
-					return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
-				}
-			} else {
-				return "{ \"success\" : 验证码错误}";
-			}
-		} else {
-			return "{ \"success\" : 超时}";
+//		String verityCodeMD5 = MD5Util.MD5Encode(map.get("verityCode").toString(), "utf8");
+//		String customCodeTime = map.get("tamp").toString();
+//		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		Date date = simpleDateFormat.parse(customCodeTime);
+//		String newDate = simpleDateFormat.format(new Date());
+//		if(date.compareTo(simpleDateFormat.parse(newDate)) > 0) {
+//			if(verityCodeMD5.equalsIgnoreCase(map.get("customCode").toString())) {
+//				try {
+//					informationService.save(information);
+//					return "{ \"success\" : true }";
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//					return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+//				}
+//			} else {
+//				return "{ \"success\" : 验证码错误}";
+//			}
+//		} else {
+//			return "{ \"success\" : 超时}";
+//		}
+		try {
+			informationService.save(information);
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
 		}
 	}
 	/**
@@ -224,18 +234,21 @@ public class WeixinController {
 		} else {
 			List<Information> inft = new ArrayList<Information>();
 			Informer inf = informerService.getInformer(openId);
-			if(inf == null) {
+			List<Information> information = informationService.findByOpenId(openId);
+			if(information.size()>0) {
 				//匿名
 				List<Information> inft1 = informationService.findByOpenId(openId);
 				for(Information i:inft1) {
 					inft.add(i);
 				}
-			} else {
+			}
+			if(inf !=  null) {
 				List<Information> inft1= informationService.getInformation(inf.getId());
 				for(Information i:inft1) {
 					inft.add(i);
 				}
 			}
+			ListSortUtil.ListSort(inft);
 			return inft;
 		}
 		
@@ -408,7 +421,6 @@ public class WeixinController {
 			return "{ \"success\" : false }";
 		}
 	}
-	
 }
 
 

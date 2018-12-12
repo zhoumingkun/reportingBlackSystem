@@ -29,7 +29,7 @@
 	
 	<!-- 分页查询举报信息 -->
 	<select id="findPaginated" resultType="Information" parameterType="Map">
-		select bio.*,bir.encryptPhoneNumber,au.userName assessor from business_information bio 
+		select bio.*,bir.encryptPhoneNumber,bir.phoneNumber,au.userName assessor from business_information bio 
 		LEFT JOIN business_informer bir ON bio.informerId = bir.id
 		LEFT JOIN auth_user au ON bio.validAssessorId = au.id
 		<include refid="paramsSQL"/>
@@ -105,7 +105,7 @@
 	
 	<!-- 根据openId查询举报信息 -->
 	<select id="findByOpenId" parameterType="String" resultType="Information">
-		select * FROM business_information where openId = #{openId}
+		select * FROM business_information where openId = #{openId} ORDER BY createTime desc
 	</select>
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
@@ -126,7 +126,7 @@
 				and validAssessorId = #{validAssessorId}
 			</if>
 			<if test=" valid != null and valid != '' ">
-				and bio.state = 1 or bio.state = 2 or bio.state = 3
+				and bio.state &gt; -1 and bio.state &lt; 4
 			</if>
 			<if test=" phoneNumber != null and phoneNumber != '' ">
 				and phoneNumber = #{phoneNumber}
