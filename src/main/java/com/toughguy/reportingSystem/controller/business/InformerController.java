@@ -23,7 +23,6 @@ import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
 public class InformerController {
 	@Autowired
 	private IInformerService informerService;
-	
 //	@ResponseBody	
 //	@RequestMapping(value = "/save")
 //	@RequiresPermissions("informer:save")
