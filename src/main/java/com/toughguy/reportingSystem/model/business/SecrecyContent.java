@@ -4,17 +4,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.toughguy.reportingSystem.model.AbstractModel;
 
 /**
- * 信息实体类
- * @author BOBO
+ * 保密规定实体类
+ * @author zmk
  *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL) //为空字段不返回
-public class Content extends AbstractModel {
+public class SecrecyContent extends AbstractModel {
 	private int id;
 	private String title;   //标题
 	private String author;   //作者
 	private String textContent;     //内容
-	private String image;    //图片
 	private int type;        //类型（1.举报种类  2.保密规定   3.奖励制度    4.举报须知）
 	public int getId() {
 		return id;
@@ -39,12 +38,6 @@ public class Content extends AbstractModel {
 	}
 	public void setTextContent(String textContent) {
 		this.textContent = textContent;
-	}
-	public String getImage() {
-		return image;
-	}
-	public void setImage(String image) {
-		this.image = image;
 	}
 	public int getType() {
 		return type;

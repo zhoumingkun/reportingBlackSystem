@@ -32,12 +32,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toughguy.reportingSystem.model.business.Content;
 import com.toughguy.reportingSystem.model.business.Information;
 import com.toughguy.reportingSystem.model.business.Informer;
-import com.toughguy.reportingSystem.service.business.prototype.IContentService;
+import com.toughguy.reportingSystem.model.business.KindContent;
+import com.toughguy.reportingSystem.service.business.prototype.IAwardContentService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
+import com.toughguy.reportingSystem.service.business.prototype.IKindContentService;
+import com.toughguy.reportingSystem.service.business.prototype.INoticeContentService;
+import com.toughguy.reportingSystem.service.business.prototype.ISecrecyContentService;
 import com.toughguy.reportingSystem.util.BackupUtil;
 import com.toughguy.reportingSystem.util.ListSortUtil;
 import com.toughguy.reportingSystem.util.MD5Util;
@@ -51,7 +54,13 @@ import lombok.extern.slf4j.Slf4j;
 public class WeixinController{
  
     @Autowired
-	private IContentService contentService;
+	private IKindContentService kindContentService;
+    @Autowired
+	private IAwardContentService awardContentService;
+    @Autowired
+	private ISecrecyContentService secrecyContentService;
+    @Autowired
+	private INoticeContentService noticeContentService;
     
     @Autowired
 	private IInformationService informationService;
@@ -144,11 +153,12 @@ public class WeixinController{
 //        System.out.println(openId);
 //        return openId;
 //    }
-	
+		
+	//需要修改
 	@ResponseBody
 	@RequestMapping(value = "/findAllContent")
-	public List<Content> findAll() {
-		return contentService.findAll();
+	public List<KindContent> findAll() {
+		return kindContentService.findAll();
 	}
 	/**
 	 * 保存举报信息

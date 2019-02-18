@@ -2,7 +2,6 @@ package com.toughguy.reportingSystem.persist.business.impl;
 
 import org.springframework.stereotype.Repository;
 
-import com.toughguy.reportingSystem.model.business.Content;
 import com.toughguy.reportingSystem.model.business.Informer;
 import com.toughguy.reportingSystem.persist.business.prototype.IInformerDao;
 import com.toughguy.reportingSystem.persist.impl.GenericDaoImpl;

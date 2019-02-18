@@ -12,22 +12,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toughguy.reportingSystem.model.business.Content;
+import com.toughguy.reportingSystem.model.business.AwardContent;
+import com.toughguy.reportingSystem.model.business.KindContent;
 import com.toughguy.reportingSystem.pagination.PagerModel;
-import com.toughguy.reportingSystem.service.business.prototype.IContentService;
+import com.toughguy.reportingSystem.service.business.prototype.IAwardContentService;
 
 @Controller
-@RequestMapping(value = "/content")
-public class ContentController {
+@RequestMapping(value = "/award")
+public class AwardContentController {
 	@Autowired
-	private IContentService contentService;
+	private IAwardContentService awardContentService;
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("content:save")
-	public String saveContent(Content content) {
+	//@RequiresPermissions("award:save")
+	public String saveAwardContent(AwardContent awardContent) {
 		try {
-			contentService.save(content);
+			awardContentService.save(awardContent);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -37,10 +38,10 @@ public class ContentController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("content:edit")
-	public String editContent(Content content) {
+	//@RequiresPermissions("award:edit")
+	public String editAwardContent(AwardContent awardContent) {
 		try {
-			contentService.update(content);
+			awardContentService.update(awardContent);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -52,10 +53,10 @@ public class ContentController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("content:detele")
-	public String deleteContent(int id) {
+	//@RequiresPermissions("award:detele")
+	public String deleteAwardContent(int id) {
 		try {
-			contentService.delete(id);
+			awardContentService.delete(id);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,7 +66,7 @@ public class ContentController {
 
 	@ResponseBody
 	@RequestMapping(value = "/data")
-	//@RequiresPermissions("content:data")
+	//@RequiresPermissions("award:data")
 	public String data(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -74,7 +75,7 @@ public class ContentController {
 				// 参数处理
 				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
 			}
-			PagerModel<Content> pg = contentService.findPaginated(map);
+			PagerModel<AwardContent> pg = awardContentService.findPaginated(map);
 			
 			// 序列化查询结果为JSON
 			Map<String, Object> result = new HashMap<String, Object>();
@@ -89,17 +90,17 @@ public class ContentController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/findByType")
-	//@RequiresPermissions("content:findByType")
-	public Content findByType(int type) {
+	//@RequiresPermissions("award:findByType")
+	public AwardContent findByType(int type) {
 		
-	    return contentService.findByType(type);
+	    return awardContentService.findByType(type);
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")
-	//@RequiresPermissions("content:findAll")
-	public List<Content> findAll() {
-		return contentService.findAll();
+	//@RequiresPermissions("award:findAll")
+	public List<AwardContent> findAll() {
+		return awardContentService.findAll();
 	}
 	
 }
