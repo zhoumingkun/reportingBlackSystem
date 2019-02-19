@@ -87,13 +87,6 @@ public class KindContentController {
 		}
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/findByType")
-	//@RequiresPermissions("kind:findByType")
-	public KindContent findByType(int type) {
-		
-	    return kindContentService.findByType(type);
-	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")

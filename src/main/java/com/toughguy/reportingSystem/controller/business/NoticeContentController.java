@@ -87,13 +87,6 @@ public class NoticeContentController {
 		}
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/findByType")
-	//@RequiresPermissions("notice:findByType")
-	public NoticeContent findByType(int type) {
-		
-	    return noticeContentService.findByType(type);
-	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")

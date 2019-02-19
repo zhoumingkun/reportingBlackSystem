@@ -252,13 +252,10 @@ public class InformationController {
 			if(ir == null) {
 			} else {
 				informer.setId(ir.getId());
-				informer.setWorkPlace(ir.getWorkPlace());
-				informer.setLivingArea(ir.getLivingArea());
 				informer.setAddress(ir.getAddress());
 				informer.setEncryptName(ir.getEncryptName());
 				informer.setEncryptPhoneNumber(ir.getEncryptPhoneNumber());
 				informer.setEncryptIdCard(ir.getEncryptIdCard());
-				informer.setEncryptOtherContectWay(ir.getEncryptOtherContectWay());
 				informer.setCreateTime(ir.getCreateTime());
 				informer.setUpdateTime(ir.getUpdateTime());
 			}
@@ -318,13 +315,10 @@ public class InformationController {
 			if(ir == null) {
 			} else {
 				informer.setId(ir.getId());
-				informer.setWorkPlace(ir.getWorkPlace());
-				informer.setLivingArea(ir.getLivingArea());
 				informer.setAddress(ir.getAddress());
 				informer.setEncryptName(ir.getInformerName());
 				informer.setEncryptPhoneNumber(MyEncryptUtil.decryptPhone(ir.getPhoneNumber()));
 				informer.setEncryptIdCard(MyEncryptUtil.decryptPhone(ir.getIdCard()));
-				informer.setEncryptOtherContectWay(MyEncryptUtil.decryptPhone(ir.getOtherContectWay()));
 				informer.setCreateTime(ir.getCreateTime());
 				informer.setUpdateTime(ir.getUpdateTime());
 			}

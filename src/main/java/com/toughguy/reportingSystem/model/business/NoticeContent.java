@@ -14,7 +14,6 @@ public class NoticeContent extends AbstractModel {
 	private String title;   //标题
 	private String author;   //作者
 	private String textContent;     //内容
-	private int type;        //类型（1.举报种类  2.保密规定   3.奖励制度    4.举报须知）
 	public int getId() {
 		return id;
 	}
@@ -38,12 +37,6 @@ public class NoticeContent extends AbstractModel {
 	}
 	public void setTextContent(String textContent) {
 		this.textContent = textContent;
-	}
-	public int getType() {
-		return type;
-	}
-	public void setType(int type) {
-		this.type = type;
 	}
 	
 

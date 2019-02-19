@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Information">
 
 	<insert id="save" parameterType="Information" keyProperty="id" useGeneratedKeys="true">
-		insert into business_information (createTime,updateTime,threadArea, clueAddress,industryField,informType,informContent,picture,video,informerId,validAssessorId,validFile,investigationFile,feedbackInformation,investigationAssessorId,openId) 
-		values (#{createTime},#{updateTime},#{threadArea}, #{clueAddress},#{industryField},#{informType}, #{informContent},#{picture},#{video},#{informerId},#{validAssessorId},#{validFile},#{investigationFile},#{feedbackInformation},#{investigationAssessorId},#{openId})
+		insert into business_information (createTime,updateTime,threadArea, clueAddress,industryField,informType,informContent,picture,video,informerId,validAssessorId,validFile,investigationFile,feedbackInformation,investigationAssessorId,openId,alarmNumber,acceptUnits,reportWay,acceptTime,receiverAgree,dutyleadAgree,sweepblackAgree,tingleadAgree,classleadAgree,watch) 
+		values (#{createTime},#{updateTime},#{threadArea}, #{clueAddress},#{industryField},#{informType}, #{informContent},#{picture},#{video},#{informerId},#{validAssessorId},#{validFile},#{investigationFile},#{feedbackInformation},#{investigationAssessorId},#{openId},#{alarmNumber},#{acceptUnits},#{reportWay},#{acceptTime},#{receiverAgree},#{dutyleadAgree},#{sweepblackAgree},#{tingleadAgree},#{classleadAgree},#{watch})
 	</insert>
 	
 	<!-- 删除某个举报信息 -->
@@ -63,6 +63,16 @@
 			<if test="investigationAssessorId != null and investigationAssessorId != ''">investigationAssessorId = #{investigationAssessorId},</if>
 			<if test="endAssessorId != null and endAssessorId != ''">endAssessorId = #{endAssessorId},</if>
 			<if test="openId != null and openId != ''">openId = #{openId},</if>
+			<if test="alarmNumber != null and alarmNumber != ''">alarmNumber = #{alarmNumber},</if>
+			<if test="acceptUnits != null and acceptUnits != ''">acceptUnits = #{acceptUnits},</if>
+			<if test="reportWay != null and reportWay != ''">reportWay = #{reportWay},</if>
+			<if test="acceptTime != null and acceptTime != ''">opeacceptTimenId = #{acceptTime},</if>
+			<if test="receiverAgree != null and receiverAgree != ''">receiverAgree = #{receiverAgree},</if>
+			<if test="dutyleadAgree != null and dutyleadAgree != ''">dutyleadAgree = #{dutyleadAgree},</if>
+			<if test="sweepblackAgree != null and sweepblackAgree != ''">sweepblackAgree = #{sweepblackAgree},</if>
+			<if test="tingleadAgree != null and tingleadAgree != ''">tingleadAgree = #{tingleadAgree},</if>
+			<if test="classleadAgree != null and classleadAgree != ''">classleadAgree = #{classleadAgree},</if>
+			<if test="watch != null and watch != ''">watch = #{watch},</if>
 		</set>
 		where id = #{id}
 	</update>

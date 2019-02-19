@@ -88,14 +88,6 @@ public class SecrecyContentController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/findByType")
-	//@RequiresPermissions("secrecy:findByType")
-	public SecrecyContent findByType(int type) {
-		
-	    return secrecyContentService.findByType(type);
-	}
-	
-	@ResponseBody
 	@RequestMapping(value = "/findAll")
 	//@RequiresPermissions("award:findAll")
 	public List<SecrecyContent> findAll() {

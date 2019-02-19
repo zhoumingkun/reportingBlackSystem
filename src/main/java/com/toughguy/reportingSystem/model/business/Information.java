@@ -53,6 +53,18 @@ public class Information extends AbstractModel{
 	private String CSMJJFNumber;	//9.插手民间纠纷
 	private String JWHSHNumber;		//10.境外黑社会
 	
+	private String alarmNumber;      //报警单号
+	private String acceptUnits;      //受理单位
+	private String reportWay;        //举报方式
+	private Date acceptTime;       //受理时间
+	private String receiverAgree;    //受理人员意见
+	private String dutyleadAgree;    //值班领导意见
+	private String sweepblackAgree;  //扫黑办意见
+	private String tingleadAgree;    //厅领导意见
+	private String classleadAgree;   //带班领导
+	private String watch;            //值班员
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -94,6 +106,66 @@ public class Information extends AbstractModel{
 	}
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+	public String getAlarmNumber() {
+		return alarmNumber;
+	}
+	public void setAlarmNumber(String alarmNumber) {
+		this.alarmNumber = alarmNumber;
+	}
+	public String getAcceptUnits() {
+		return acceptUnits;
+	}
+	public void setAcceptUnits(String acceptUnits) {
+		this.acceptUnits = acceptUnits;
+	}
+	public String getReportWay() {
+		return reportWay;
+	}
+	public void setReportWay(String reportWay) {
+		this.reportWay = reportWay;
+	}
+	public Date getAcceptTime() {
+		return acceptTime;
+	}
+	public void setAcceptTime(Date acceptTime) {
+		this.acceptTime = acceptTime;
+	}
+	public String getReceiverAgree() {
+		return receiverAgree;
+	}
+	public void setReceiverAgree(String receiverAgree) {
+		this.receiverAgree = receiverAgree;
+	}
+	public String getDutyleadAgree() {
+		return dutyleadAgree;
+	}
+	public void setDutyleadAgree(String dutyleadAgree) {
+		this.dutyleadAgree = dutyleadAgree;
+	}
+	public String getSweepblackAgree() {
+		return sweepblackAgree;
+	}
+	public void setSweepblackAgree(String sweepblackAgree) {
+		this.sweepblackAgree = sweepblackAgree;
+	}
+	public String getTingleadAgree() {
+		return tingleadAgree;
+	}
+	public void setTingleadAgree(String tingleadAgree) {
+		this.tingleadAgree = tingleadAgree;
+	}
+	public String getClassleadAgree() {
+		return classleadAgree;
+	}
+	public void setClassleadAgree(String classleadAgree) {
+		this.classleadAgree = classleadAgree;
+	}
+	public String getWatch() {
+		return watch;
+	}
+	public void setWatch(String watch) {
+		this.watch = watch;
 	}
 	public String getVideo() {
 		return video;

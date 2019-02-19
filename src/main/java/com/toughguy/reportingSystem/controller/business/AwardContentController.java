@@ -88,13 +88,6 @@ public class AwardContentController {
 		}
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/findByType")
-	//@RequiresPermissions("award:findByType")
-	public AwardContent findByType(int type) {
-		
-	    return awardContentService.findByType(type);
-	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")

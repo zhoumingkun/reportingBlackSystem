@@ -343,16 +343,13 @@ public class WeixinController{
 			String informerName = informer.getInformerName();
 			String idCard = informer.getIdCard();
 			String phoneNumber = informer.getPhoneNumber();
-			String otherContectWay = informer.getOtherContectWay();
 			//md5加密举报人信息
 //			String informerNameMD5 = MD5Util.MD5Encode(informerName, "utf8");
 			String idCardMD5 = MyEncryptUtil.encryptPhone(idCard);
 			String phoneNumberMD5 = MyEncryptUtil.encryptPhone(phoneNumber);
-			String otherContectWayMD5 = MyEncryptUtil.encryptPhone(otherContectWay);
 //			informer.setInformerName(informerNameMD5);
 			informer.setIdCard(idCardMD5);
 			informer.setPhoneNumber(phoneNumberMD5);
-			informer.setOtherContectWay(otherContectWayMD5);
 			//添加加密举报人姓名（页面显示）
 			if(informerName == null || informerName.equals("")) {
 			} else {
@@ -376,11 +373,11 @@ public class WeixinController{
 			String encryptPhoneNumber = phoneNumber.substring(0,1) + "*********" + phoneNumber.substring(phoneNumber.length()-1);
 			informer.setEncryptPhoneNumber(encryptPhoneNumber);
 		    //添加加密其他联系方式（页面显示）
-			if(otherContectWay == null|| otherContectWay.equals("")) {
-			}else {
-				String encryptOtherContectWay = otherContectWay.substring(0,1) + "*********" + otherContectWay.substring(otherContectWay.length()-1);
-				informer.setEncryptOtherContectWay(encryptOtherContectWay);
-			}
+//			if(otherContectWay == null|| otherContectWay.equals("")) {
+//			}else {
+//				String encryptOtherContectWay = otherContectWay.substring(0,1) + "*********" + otherContectWay.substring(otherContectWay.length()-1);
+//				informer.setEncryptOtherContectWay(encryptOtherContectWay);
+//			}
 			informerService.save(informer);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
@@ -402,11 +399,8 @@ public class WeixinController{
 		if(inf != null){
 			i.setEncryptName(inf.getEncryptName());
 			i.setEncryptIdCard(inf.getEncryptIdCard());
-			i.setEncryptOtherContectWay(inf.getEncryptOtherContectWay());
 			i.setEncryptPhoneNumber(inf.getEncryptPhoneNumber());
-			i.setWorkPlace(inf.getWorkPlace());
 			i.setAddress(inf.getAddress());
-			i.setLivingArea(inf.getLivingArea());
 			i.setId(inf.getId());
 			return i;
 		}else{
