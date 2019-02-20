@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toughguy.reportingSystem.model.business.AboutContent">
+
+	<insert id="save" parameterType="AboutContent" keyProperty="id" useGeneratedKeys="true">
+		insert into business_content_about (createTime,updateTime,organizationName, intro,phoneNum,serviceAddress,author) 
+		values (#{createTime},#{updateTime},#{organizationName},#{intro},#{phoneNum},#{serviceAddress},#{author})
+	</insert>
+	
+	<!-- 删除某个信息 -->
+	<delete id="delete" parameterType="int" >
+		delete from business_content_about where id = #{id}
+	</delete>
+	
+	<!-- 查询某个信息 -->
+	<select id="find" parameterType="int" resultType="AboutContent">
+		select * from business_content_about where id = #{id}
+	</select>
+	
+	
+	
+	<!-- 查询全部信息 -->
+	<select id="findAll" resultType="AboutContent" parameterType="Map">
+		select * from business_content_about
+		<include refid="paramsSQL"/>
+	</select>
+	
+	<!-- 分页查询信息 -->
+	<select id="findPaginated" resultType="AboutContent" parameterType="Map">
+		select * from business_content_about
+		<include refid="paramsSQL"/>
+		ORDER BY createTime desc  limit #{offset}, #{limit}
+	</select>
+	
+	<select id="getTotalOfItems" parameterType="Map" resultType="int">
+		select count(*) from business_content_about
+		<include refid="paramsSQL"/>
+	</select>
+
+	<!-- 修个某条信息 -->
+	<update id="update" parameterType="AboutContent">
+		update business_content_about
+		<set>
+			<if test="organizationName != null and organizationName != ''">organizationName = #{organizationName},</if>
+			<if test="intro != null and intro != ''">intro = #{intro},</if>
+			<if test="phoneNum != null and phoneNum != ''">phoneNum = #{phoneNum},</if>
+			<if test="author != null and author != ''">author = #{author},</if>
+			<if test="serviceAddress != null and serviceAddress != ''">serviceAddress = #{serviceAddress},</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<!-- 通用的设置条件的查询SQL语句 -->
+	<sql id="paramsSQL">
+		<where>
+			<if test=" organizationName != null and organizationName != '' ">
+				and organizationName = #{organizationName}
+			</if>
+			<if test=" author != null and author != '' ">
+				and author = #{author}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>

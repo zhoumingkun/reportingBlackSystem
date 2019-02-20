@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toughguy.reportingSystem.model.business.AwardContent">
+
+	<insert id="save" parameterType="AwardContent" keyProperty="id" useGeneratedKeys="true">
+		insert into business_content_award (createTime,updateTime,title, author,textContent) 
+		values (#{createTime},#{updateTime},#{title},#{author},#{textContent})
+	</insert>
+	
+	<!-- 删除某个信息 -->
+	<delete id="delete" parameterType="int" >
+		delete from business_content_award where id = #{id}
+	</delete>
+	
+	<!-- 查询某个信息 -->
+	<select id="find" parameterType="int" resultType="AwardContent">
+		select * from business_content_award where id = #{id}
+	</select>
+	
+	
+	
+	<!-- 查询全部信息 -->
+	<select id="findAll" resultType="AwardContent" parameterType="Map">
+		select * from business_content_award
+		<include refid="paramsSQL"/>
+	</select>
+	
+	<!-- 分页查询信息 -->
+	<select id="findPaginated" resultType="AwardContent" parameterType="Map">
+		select * from business_content_award
+		<include refid="paramsSQL"/>
+		ORDER BY createTime desc  limit #{offset}, #{limit}
+	</select>
+	
+	<select id="getTotalOfItems" parameterType="Map" resultType="int">
+		select count(*) from business_content_award
+		<include refid="paramsSQL"/>
+	</select>
+
+	<!-- 修个某条信息 -->
+	<update id="update" parameterType="AwardContent">
+		update business_content_award
+		<set>
+			<if test="title != null and title != ''">title = #{title},</if>
+			<if test="author != null and author != ''">author = #{author},</if>
+			<if test="textContent != null and textContent != ''">textContent = #{textContent},</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<!-- 通用的设置条件的查询SQL语句 -->
+	<sql id="paramsSQL">
+		<where>
+			<if test=" title != null and title != '' ">
+				and title = #{title}
+			</if>
+			<if test=" author != null and author != '' ">
+				and author = #{author}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>

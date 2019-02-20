@@ -11,10 +11,5 @@ import com.toughguy.reportingSystem.persist.impl.GenericDaoImpl;
 @Repository
 public class KindContentDaoImpl extends GenericDaoImpl<KindContent, Integer> implements IKindContentDao{
 	
-	@Override
-	public KindContent findByType(int type) {
-		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectOne(typeNameSpace + ".findByType", type);
-	}
 
 }

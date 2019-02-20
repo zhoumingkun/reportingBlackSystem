@@ -10,10 +10,6 @@ import com.toughguy.reportingSystem.persist.prototype.IGenericDao;
  */
 public interface ISecrecyContentDao extends IGenericDao<SecrecyContent, Integer>{
 	
-	/**
-	 * 根据内容类型查询
-	 * */
-	public SecrecyContent findByType(int type);
 	
 
 }

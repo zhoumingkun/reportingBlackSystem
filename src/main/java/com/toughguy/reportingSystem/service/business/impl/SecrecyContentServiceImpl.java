@@ -15,11 +15,5 @@ import com.toughguy.reportingSystem.service.impl.GenericServiceImpl;
  */
 @Service
 public class SecrecyContentServiceImpl extends GenericServiceImpl<SecrecyContent, Integer> implements ISecrecyContentService{
-	
-	@Override
-	public SecrecyContent findByType(int type) {
-		// TODO Auto-generated method stub
-		return ((ISecrecyContentDao)dao).findByType(type);	
-	}
 
 }

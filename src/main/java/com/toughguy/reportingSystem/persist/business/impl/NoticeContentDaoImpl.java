@@ -11,10 +11,5 @@ import com.toughguy.reportingSystem.persist.impl.GenericDaoImpl;
 @Repository
 public class NoticeContentDaoImpl extends GenericDaoImpl<NoticeContent, Integer> implements INoticeContentDao{
 	
-	@Override
-	public NoticeContent findByType(int type) {
-		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectOne(typeNameSpace + ".findByType", type);
-	}
 
 }

@@ -7,9 +7,5 @@ import com.toughguy.reportingSystem.service.prototype.IGenericService;
  *
  */
 public interface ISecrecyContentService extends IGenericService<SecrecyContent, Integer>{
-	/**
-	 * 根据内容类型查询
-	 * */
-	public SecrecyContent findByType(int type);
 
 }

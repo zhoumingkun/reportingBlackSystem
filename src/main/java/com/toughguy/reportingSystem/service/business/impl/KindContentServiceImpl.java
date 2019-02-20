@@ -15,11 +15,5 @@ import com.toughguy.reportingSystem.service.impl.GenericServiceImpl;
  */
 @Service
 public class KindContentServiceImpl extends GenericServiceImpl<KindContent, Integer> implements IKindContentService{
-	
-	@Override
-	public KindContent findByType(int type) {
-		// TODO Auto-generated method stub
-		return ((IKindContentDao)dao).findByType(type);	
-	}
 
 }

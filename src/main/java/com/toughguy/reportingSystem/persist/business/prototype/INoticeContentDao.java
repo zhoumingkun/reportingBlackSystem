@@ -10,10 +10,5 @@ import com.toughguy.reportingSystem.persist.prototype.IGenericDao;
  */
 public interface INoticeContentDao extends IGenericDao<NoticeContent, Integer>{
 	
-	/**
-	 * 根据内容类型查询
-	 * */
-	public NoticeContent findByType(int type);
-	
 
 }

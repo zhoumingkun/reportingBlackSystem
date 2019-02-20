@@ -19,10 +19,5 @@ import com.toughguy.reportingSystem.service.impl.GenericServiceImpl;
 @Service
 public class NoticeContentServiceImpl extends GenericServiceImpl<NoticeContent, Integer> implements INoticeContentService{
 	
-	@Override
-	public NoticeContent findByType(int type) {
-		// TODO Auto-generated method stub
-		return ((INoticeContentDao)dao).findByType(type);	
-	}
 
 }

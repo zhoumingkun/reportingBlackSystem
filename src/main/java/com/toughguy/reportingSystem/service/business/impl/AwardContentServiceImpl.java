@@ -16,10 +16,5 @@ import com.toughguy.reportingSystem.service.impl.GenericServiceImpl;
 @Service
 public class AwardContentServiceImpl extends GenericServiceImpl<AwardContent, Integer> implements IAwardContentService{
 	
-	@Override
-	public AwardContent findByType(int type) {
-		// TODO Auto-generated method stub
-		return ((IAwardContentDao)dao).findByType(type);	
-	}
 
 }

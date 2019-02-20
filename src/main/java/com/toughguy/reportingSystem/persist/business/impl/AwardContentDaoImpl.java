@@ -12,10 +12,5 @@ import com.toughguy.reportingSystem.persist.impl.GenericDaoImpl;
 @Repository
 public class AwardContentDaoImpl extends GenericDaoImpl<AwardContent, Integer> implements IAwardContentDao{
 	
-	@Override
-	public AwardContent findByType(int type) {
-		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectOne(typeNameSpace + ".findByType", type);
-	}
 
 }

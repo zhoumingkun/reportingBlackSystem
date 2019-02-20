@@ -1,14 +1,14 @@
 package com.toughguy.reportingSystem.persist.business.prototype;
 
-import com.toughguy.reportingSystem.model.business.AwardContent;
+import com.toughguy.reportingSystem.model.business.AboutContent;
 import com.toughguy.reportingSystem.persist.prototype.IGenericDao;
 
 /**
- * 奖励规定Dao接口类
+ * 关于我们Dao接口类
  * @author zmk
  *
  */
-public interface IAwardContentDao extends IGenericDao<AwardContent, Integer>{
+public interface IAboutContentDao extends IGenericDao<AboutContent, Integer>{
 	
 	
 
