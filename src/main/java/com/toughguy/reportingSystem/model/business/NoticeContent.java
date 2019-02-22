@@ -12,7 +12,6 @@ import com.toughguy.reportingSystem.model.AbstractModel;
 public class NoticeContent extends AbstractModel {
 	private int id;
 	private String title;   //标题
-	private String author;   //作者
 	private String textContent;     //内容
 	public int getId() {
 		return id;
@@ -25,12 +24,6 @@ public class NoticeContent extends AbstractModel {
 	}
 	public void setTitle(String title) {
 		this.title = title;
-	}
-	public String getAuthor() {
-		return author;
-	}
-	public void setAuthor(String author) {
-		this.author = author;
 	}
 	public String getTextContent() {
 		return textContent;

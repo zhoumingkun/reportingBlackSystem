@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.NoticeContent">
 
 	<insert id="save" parameterType="NoticeContent" keyProperty="id" useGeneratedKeys="true">
-		insert into business_content_notice (createTime,updateTime,title, author,textContent) 
-		values (#{createTime},#{updateTime},#{title}, #{author},#{textContent})
+		insert into business_content_notice (createTime,updateTime,title,textContent) 
+		values (#{createTime},#{updateTime},#{title},#{textContent})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -40,7 +40,6 @@
 		update business_content_notice
 		<set>
 			<if test="title != null and title != ''">title = #{title},</if>
-			<if test="author != null and author != ''">author = #{author},</if>
 			<if test="textContent != null and textContent != ''">textContent = #{textContent},</if>
 		</set>
 		where id = #{id}
@@ -51,9 +50,6 @@
 		<where>
 			<if test=" title != null and title != '' ">
 				and title = #{title}
-			</if>
-			<if test=" author != null and author != '' ">
-				and author = #{author}
 			</if>
 		</where>
 	</sql>

@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Region">
 
 	<insert id="save" parameterType="Region" keyProperty="id" useGeneratedKeys="true">
-		insert into business_region (createTime,updateTime,pId, province,city,district) 
-		values (#{createTime},#{updateTime},#{pId}, #{province},#{city},#{district})
+		insert into business_region (createTime,updateTime,province,city,district,pId) 
+		values (#{createTime},#{updateTime}, #{province},#{city},#{district}#{pId},)
 	</insert>
 	
 	<!-- 删除某个信息 -->

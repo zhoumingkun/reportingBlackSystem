@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.AboutContent">
 
 	<insert id="save" parameterType="AboutContent" keyProperty="id" useGeneratedKeys="true">
-		insert into business_content_about (createTime,updateTime,organizationName, intro,phoneNum,serviceAddress,author) 
-		values (#{createTime},#{updateTime},#{organizationName},#{intro},#{phoneNum},#{serviceAddress},#{author})
+		insert into business_content_about (createTime,updateTime,organizationName, intro,phoneNum,serviceAddress) 
+		values (#{createTime},#{updateTime},#{organizationName},#{intro},#{phoneNum},#{serviceAddress})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -55,9 +55,6 @@
 		<where>
 			<if test=" organizationName != null and organizationName != '' ">
 				and organizationName = #{organizationName}
-			</if>
-			<if test=" author != null and author != '' ">
-				and author = #{author}
 			</if>
 		</where>
 	</sql>
