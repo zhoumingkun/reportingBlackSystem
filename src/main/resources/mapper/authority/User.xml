@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.authority.User">
 
 	<insert id="save" parameterType="User" keyProperty="id" useGeneratedKeys="true">
-		insert into auth_user (guid, createTime,updateTime,userName, userPass,phone,email,libraryId) 
-		values (#{guid}, #{createTime},#{updateTime},#{userName}, #{userPass},#{phone},#{email},#{libraryId})
+		insert into auth_user (guid, createTime,updateTime,userName, userPass,phone,email,region,libraryId) 
+		values (#{guid}, #{createTime},#{updateTime},#{userName}, #{userPass},#{phone},#{email},#{region},#{libraryId})
 	</insert>
 	
 	<!-- 存储某个用户和角色的对应关系 -->
@@ -87,6 +87,7 @@
 			<if test="userPass != null and userPass != ''">userPass = #{userPass},</if>
 			<if test="phone != null and phone != ''">phone = #{phone},</if>
 			<if test="email != null and email != ''">email = #{email},</if>
+			<if test="region != null and region != ''">region = #{region},</if>
 			<if test="updateTime != null">updateTime = #{updateTime},</if>
 			<if test="libraryId != null">libraryId = #{libraryId},</if>
 		</set>

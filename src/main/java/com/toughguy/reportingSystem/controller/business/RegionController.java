@@ -1,6 +1,7 @@
 package com.toughguy.reportingSystem.controller.business;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +21,40 @@ import com.toughguy.reportingSystem.service.business.prototype.IRegionService;
 public class RegionController {
 	@Autowired
 	private IRegionService regionService;
+	
+	@ResponseBody
+	@RequestMapping("/getAll")
+//	@RequiresPermissions("region:list")
+	public List<Region> getAll(){
+		return regionService.findAll();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/getByParams")
+//	@RequiresPermissions("library:list")
+	public String getByParams(String params){
+		try { 
+			ObjectMapper om = new ObjectMapper();
+			Map<String, Object> map = new HashMap<String, Object>();
+			if (!StringUtils.isEmpty(params)) {
+				// 参数处理
+				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
+			}
+			List<Region> ls =  regionService.findByParams(map);
+			return om.writeValueAsString(ls);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"total\" : 0, \"rows\" : [] }";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("/get")
+	//@RequiresPermissions("library:getById")
+	public Region get(int id){
+		return regionService.find(id);
+	}
+	
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
