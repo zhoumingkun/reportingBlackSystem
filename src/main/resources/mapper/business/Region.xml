@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Region">
 
 	<insert id="save" parameterType="Region" keyProperty="id" useGeneratedKeys="true">
-		insert into business_region (createTime,updateTime,province,city,district,pId) 
-		values (#{createTime},#{updateTime}, #{province},#{city},#{district}#{pId},)
+		insert into business_region (createTime,updateTime,regionName,province,city,district,pId) 
+		values (#{createTime},#{updateTime},#{regionName}, #{province},#{city},#{district}#{pId},)
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -12,9 +12,18 @@
 		delete from business_region where id = #{id}
 	</delete>
 	
-	<!-- 查询某个信息 -->
+	<!-- 删除集 -->
+	<delete id="deleteByIDs" parameterType="List">
+		delete from business_region where id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<!-- 查询某条库 -->
 	<select id="find" parameterType="int" resultType="Region">
-		select * from business_region where id = #{id}
+		select bl.*,pbl.regionName pIdName from business_region bl 
+left join business_region pbl on bl.pId = pbl.id where bl.id = #{id}
 	</select>
 	
 	<!-- 查询全部信息 -->
@@ -22,6 +31,18 @@
 		select * from business_region
 		<include refid="paramsSQL"/>
 	</select>
+	
+	<!-- 临时查询之根据RegionName查询库 -->
+	<select id="findByRegionName" parameterType="String" resultType="Region">
+		select * from business_region where regionName = #{regionName}
+	</select>
+	
+	<!-- 查询某条库 -->
+	<select id="findByParams" resultType="Region" parameterType="Map">
+		select * from business_region br
+		<include refid="paramsSQL"/>
+	</select>
+	
 	
 	<!-- 分页查询信息 -->
 	<select id="findPaginated" resultType="Region" parameterType="Map">
@@ -40,6 +61,7 @@
 		update business_region
 		<set>
 			<if test="pId != null and pId != ''">pId = #{pId},</if>
+			<if test="regionName != null and regionName != ''">regionName = #{regionName},</if>
 			<if test="province != null and province != ''">province = #{province},</if>
 			<if test="city != null and city != ''">city = #{city},</if>
 			<if test="district != null and district != ''">district = #{district},</if>
@@ -50,6 +72,9 @@
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>
+		<if test=" regionName != null and regionName != '' ">
+				and regionName = #{regionName}
+			</if>
 			<if test=" province != null and province != '' ">
 				and province = #{province}
 			</if>

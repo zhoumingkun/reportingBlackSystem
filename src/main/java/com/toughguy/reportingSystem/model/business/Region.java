@@ -11,7 +11,8 @@ import com.toughguy.reportingSystem.model.AbstractModel;
 @JsonInclude(JsonInclude.Include.NON_NULL) //为空字段不返回
 public class Region extends AbstractModel {
 	private int id;
-	private int pId;             //父id  	
+	private int pId;             //父id  
+	private String regionName;   //省份
 	private String province;     //省份
 	private String city;         //市
 	private String district;     //区
@@ -46,6 +47,13 @@ public class Region extends AbstractModel {
 	public void setDistrict(String district) {
 		this.district = district;
 	}
+	public String getRegionName() {
+		return regionName;
+	}
+	public void setRegionName(String regionName) {
+		this.regionName = regionName;
+	}
+	
 	
 
 	

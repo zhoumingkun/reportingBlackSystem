@@ -25,6 +25,7 @@ import com.toughguy.reportingSystem.model.business.Information;
 import com.toughguy.reportingSystem.model.business.Informer;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
+import com.toughguy.reportingSystem.util.MyEncryptUtil;
 import com.toughguy.reportingSystem.util.UploadUtil;
 import com.toughguy.reportingSystem.util.WordUtils;
 
@@ -62,12 +63,16 @@ public class ExportWord {
             params.put("${industryField}",i.getIndustryField());
             params.put("${informType}",i.getInformType());
             params.put("${informerName}",ir.getInformerName());
-            params.put("${phoneNumber}",ir.getPhoneNumber());
+            params.put("${phoneNumber}",MyEncryptUtil.decryptPhone(ir.getPhoneNumber()));
             params.put("${informContent}",i.getInformContent());
            
         
             try {
 				Map<String, Object> picture = new HashMap<String, Object>();
+				String[] pictures = i.getPicture().split(",");
+				for (int j = 0; j < pictures.length; j++) {
+					
+				}
 				picture.put("width", 189);
 				picture.put("height", 119);
 				picture.put("type", "jpg");

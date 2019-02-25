@@ -278,8 +278,8 @@ public class WeixinController{
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-//	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
-        String realPath = "C:/java/reportingSytem/upload/barcode";
+	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
+//        String realPath = "C:/java/reportingSytem/upload/barcode";
         String path = BackupUtil.rename("jpg");
         try {
             File dir = new File(path);
@@ -312,8 +312,8 @@ public class WeixinController{
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-//	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
-        String realPath = "C:/java/reportingSytem/upload/video";
+	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
+//        String realPath = "C:/java/reportingSytem/upload/video";
         String path = BackupUtil.rename("mp4");
         try {
             File dir = new File(path);

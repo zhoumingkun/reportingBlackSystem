@@ -1,4 +1,7 @@
 package com.toughguy.reportingSystem.service.business.prototype;
+import java.util.List;
+import java.util.Map;
+
 import com.toughguy.reportingSystem.model.business.Region;
 import com.toughguy.reportingSystem.service.prototype.IGenericService;
 /**
@@ -7,5 +10,8 @@ import com.toughguy.reportingSystem.service.prototype.IGenericService;
  *
  */
 public interface IRegionService extends IGenericService<Region, Integer>{
+	public List<Region> findByParams(Map<String, Object> params);
+
+	public Region findByRegionName(String regionName);
 
 }
