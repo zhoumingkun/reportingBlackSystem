@@ -19,7 +19,7 @@ import com.toughguy.reportingSystem.model.AbstractModel;
 public class Information extends AbstractModel{
 	
 	private int id;
-	private String threadArea; //线报地域
+	private int threadArea; //线报地域(县/区id)
 	private String clueAddress; //线报详址
 	private String industryField; //行业领域
 	private String informType;  //举报类别
@@ -71,10 +71,10 @@ public class Information extends AbstractModel{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getThreadArea() {
+	public int getThreadArea() {
 		return threadArea;
 	}
-	public void setThreadArea(String threadArea) {
+	public void setThreadArea(int threadArea) {
 		this.threadArea = threadArea;
 	}
 	public String getClueAddress() {
