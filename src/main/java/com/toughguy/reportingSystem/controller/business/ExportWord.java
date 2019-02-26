@@ -72,17 +72,17 @@ public class ExportWord {
 				String[] pictures = i.getPicture().split(",");
 				for (int j = 0; j < pictures.length; j++) {
 					
-				}
 				picture.put("width", 189);
 				picture.put("height", 119);
 				picture.put("type", "jpg");
-				picture.put("content", WordUtils.inputStream2ByteArray(new FileInputStream(UploadUtil.getAbsolutePath("barcode") + "/" + i.getPicture()), true));
-				params.put("${picture}", picture);
+				picture.put("content", WordUtils.inputStream2ByteArray(new FileInputStream(UploadUtil.getAbsolutePath("barcode") + "/" + pictures[j]), true));
+				params.put("${picture}", pictures);
 				WordUtils wordutil = new WordUtils();
 				List<String[]> testList = new ArrayList<String[]>();
 				String path = "upload/base/举报线索登记表.docx";
 				String fileName= new String("举报线索登记表.docx".getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
 				wordutil.getWord(path, params, testList, fileName, response);
+				}
             } catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
