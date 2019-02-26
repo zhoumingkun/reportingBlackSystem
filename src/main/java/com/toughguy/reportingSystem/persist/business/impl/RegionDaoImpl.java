@@ -26,4 +26,10 @@ public class RegionDaoImpl extends GenericDaoImpl<Region, Integer> implements IR
 		return sqlSessionTemplate.selectOne(typeNameSpace + ".findByRegionName",regionName);
 	}
 
+	@Override
+	public Region findByPId(int id) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findByPId",id);
+	}
+
 }

@@ -31,5 +31,10 @@ public class RegionServiceImpl extends GenericServiceImpl<Region, Integer> imple
 		// TODO Auto-generated method stub
 		return dao.findByRegionName(regionName);
 	}
+	@Override
+	public Region findByPId(int id) {
+		// TODO Auto-generated method stub
+		return dao.findByPId(id);
+	}
 
 }

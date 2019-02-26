@@ -40,11 +40,13 @@ import com.toughguy.reportingSystem.service.business.prototype.IInformationServi
 import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
 import com.toughguy.reportingSystem.service.business.prototype.IKindContentService;
 import com.toughguy.reportingSystem.service.business.prototype.INoticeContentService;
+import com.toughguy.reportingSystem.service.business.prototype.IRegionService;
 import com.toughguy.reportingSystem.service.business.prototype.ISecrecyContentService;
 import com.toughguy.reportingSystem.util.BackupUtil;
 import com.toughguy.reportingSystem.util.ListSortUtil;
 import com.toughguy.reportingSystem.util.MD5Util;
 import com.toughguy.reportingSystem.util.MyEncryptUtil;
+import com.toughguy.reportingSystem.util.PoliceNumUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -68,6 +70,8 @@ public class WeixinController{
 	@Autowired
 	private IInformerService informerService;
 	
+	@Autowired
+	private IRegionService regionService;
 	@ResponseBody
 	@RequestMapping(value = "/getOpenId", method = RequestMethod.GET)//此处填自己要用到的项目名。
 	 public static String getOpenId(@RequestParam(value="code",required=false)String code) {//接收用户传过来的code，required=false表明如果这个参数没有传过来也可以。
@@ -203,6 +207,11 @@ public class WeixinController{
 //			return "{ \"success\" : 超时}";
 //		}
 		try {
+			int districtId = information.getThreadArea(); 
+			int cityId = regionService.findByPId(districtId).getId();
+			int provinceId = regionService.findByPId(cityId).getId();
+			String alarmNumber = PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);
+			information.setAlarmNumber(alarmNumber);
 			informationService.save(information);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
@@ -222,6 +231,11 @@ public class WeixinController{
 	public String anonymitySaveInformation(Information information) throws ParseException {
 		try {
 			information.setInformerId(0);
+			int districtId = information.getThreadArea(); 
+			int cityId = regionService.findByPId(districtId).getId();
+			int provinceId = regionService.findByPId(cityId).getId();
+			String alarmNumber = PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);
+			information.setAlarmNumber(alarmNumber);
 			informationService.save(information);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {

@@ -68,7 +68,10 @@ left join business_region pbl on bl.pId = pbl.id where bl.id = #{id}
 		</set>
 		where id = #{id}
 	</update>
-	
+	<!-- 根据区县id查询市或者是根据市id查询省 -->
+	<select id="findByPId" resultType="Region" parameterType="int">
+		select * from business_region br LEFT JOIN business_region pbr on br.pId = pbr.id where br.id = #{id}
+	</select>
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>
