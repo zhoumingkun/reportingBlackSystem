@@ -32,9 +32,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toughguy.reportingSystem.model.business.AboutContent;
+import com.toughguy.reportingSystem.model.business.AwardContent;
 import com.toughguy.reportingSystem.model.business.Information;
 import com.toughguy.reportingSystem.model.business.Informer;
 import com.toughguy.reportingSystem.model.business.KindContent;
+import com.toughguy.reportingSystem.model.business.NoticeContent;
+import com.toughguy.reportingSystem.model.business.SecrecyContent;
+import com.toughguy.reportingSystem.service.business.prototype.IAboutContentService;
 import com.toughguy.reportingSystem.service.business.prototype.IAwardContentService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
@@ -59,6 +64,8 @@ public class WeixinController{
 	private IKindContentService kindContentService;
     @Autowired
 	private IAwardContentService awardContentService;
+    @Autowired
+   	private IAboutContentService aboutContentService;
     @Autowired
 	private ISecrecyContentService secrecyContentService;
     @Autowired
@@ -439,6 +446,42 @@ public class WeixinController{
 			return "{ \"success\" : false }";
 		}
 	}
+	
+	//2.0版本新增
+		@ResponseBody
+		@RequestMapping(value = "/findAllKind")
+		//@RequiresPermissions("kind:findAll")
+		public List<KindContent> findAllKind() {
+			return kindContentService.findAll();
+		}
+		
+		@ResponseBody
+		@RequestMapping(value = "/findAllNotice")
+		//@RequiresPermissions("notice:findAll")
+		public List<NoticeContent> findAllNotice() {
+			return noticeContentService.findAll();
+		}
+		
+		@ResponseBody
+		@RequestMapping(value = "/findAllSecrecy")
+		//@RequiresPermissions("award:findAll")
+		public List<SecrecyContent> findAllSecrecy() {
+			return secrecyContentService.findAll();
+		}
+		
+		@ResponseBody
+		@RequestMapping(value = "/findAllAbout")
+		//@RequiresPermissions("about:findAll")
+		public List<AboutContent> findAllAbout() {
+			return aboutContentService.findAll();
+		}
+		
+		@ResponseBody
+		@RequestMapping(value = "/findAllAward")
+		//@RequiresPermissions("award:findAll")
+		public List<AwardContent> findAllAward() {
+			return awardContentService.findAll();
+		}
 }
 
 
