@@ -390,7 +390,7 @@ public class InformationController {
 	@ResponseBody
 	@RequestMapping(value = "/toExamine")
 	@RequiresPermissions("information:toExamine")
-	public String toExamine(int id,int state,int assessorId,String feedbackInformation) {
+	public String toExamine(int id,int state,int assessorId,String feedbackInformation,int acceptUnits) {
 		try {
 			Information i = informationService.find(id);
 			if(state == 1) {
@@ -398,23 +398,31 @@ public class InformationController {
 				i.setFeedbackInformation(feedbackInformation);
 				i.setState(1);
 				i.setId(id);
+				i.setAcceptUnits(acceptUnits);
+	       	    i.setAcceptTime(new Date());
 				informationService.update(i);
 			} else if(state == 2) {
 				i.setInvestigationAssessorId(assessorId);
 				i.setFeedbackInformation(feedbackInformation);
 				i.setState(2);
 				i.setId(id);
+				i.setAcceptUnits(acceptUnits);
+				i.setAcceptTime(new Date());
 				informationService.update(i);
 			} else if(state == 3) {
 				i.setEndAssessorId(assessorId);
 				i.setFeedbackInformation(feedbackInformation);
 				i.setState(3);
 				i.setId(id);
+				i.setAcceptUnits(acceptUnits);
+				i.setAcceptTime(new Date());
 				informationService.update(i);
 			} else if(state == 4) {
 				i.setFeedbackInformation(feedbackInformation);
 				i.setState(4);
 				i.setId(id);
+				i.setAcceptUnits(acceptUnits);
+				i.setAcceptTime(new Date());
 				informationService.update(i);
 			}
 			return "{ \"success\" : true }";

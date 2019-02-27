@@ -156,9 +156,6 @@
 			<if test=" alarmNumber != null and alarmNumber != '' ">
 				and alarmNumber = #{alarmNumber}
 			</if>
-			<if test=" phoneNumberOralarmNumber != null and phoneNumberOralarmNumber != '' ">
-				and (alarmNumber = #{phoneNumberOralarmNumber} or phoneNumber = #{phoneNumberOralarmNumber})
-			</if>
 		</where>
 	</sql>
 	

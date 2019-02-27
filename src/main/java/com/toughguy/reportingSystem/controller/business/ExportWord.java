@@ -1,5 +1,6 @@
 package com.toughguy.reportingSystem.controller.business;
 
+import java.awt.Image;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +29,7 @@ import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
 import com.toughguy.reportingSystem.util.MyEncryptUtil;
 import com.toughguy.reportingSystem.util.UploadUtil;
 import com.toughguy.reportingSystem.util.WordUtils;
+import com.toughguy.reportingSystem.util.XwpfTUtil;
 
 
 /**
@@ -48,7 +50,7 @@ public class ExportWord {
      * @throws Exception
      */
      @RequestMapping(value="exportWord")
-     @RequiresPermissions("export:exportWord")
+//     @RequiresPermissions("export:exportWord")
      public void exportWord(HttpServletResponse response,int id) throws Exception {  
             Map<String, Object> params = new HashMap<String, Object>(); 
             Information i = informationService.find(id);
@@ -65,24 +67,21 @@ public class ExportWord {
             params.put("${informerName}",ir.getInformerName());
             params.put("${phoneNumber}",MyEncryptUtil.decryptPhone(ir.getPhoneNumber()));
             params.put("${informContent}",i.getInformContent());
-           
-        
             try {
 				Map<String, Object> picture = new HashMap<String, Object>();
 				String[] pictures = i.getPicture().split(",");
-				for (int j = 0; j < pictures.length; j++) {
-					
-				picture.put("width", 189);
-				picture.put("height", 119);
-				picture.put("type", "jpg");
-				picture.put("content", WordUtils.inputStream2ByteArray(new FileInputStream(UploadUtil.getAbsolutePath("barcode") + "/" + pictures[j]), true));
-				params.put("${picture}", pictures);
+//				for (int j = 0; j < pictures.length; j++) {
+//					picture.put("width", 189);
+//					picture.put("height", 119);
+//					picture.put("type", "jpg");
+//					picture.put("content", WordUtils.inputStream2ByteArray(new FileInputStream(UploadUtil.getAbsolutePath("barcode") + "/" + pictures[0]), true));
+//				}
+//				params.put("${picture}",pictures);
 				WordUtils wordutil = new WordUtils();
 				List<String[]> testList = new ArrayList<String[]>();
 				String path = "upload/base/举报线索登记表.docx";
 				String fileName= new String("举报线索登记表.docx".getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
 				wordutil.getWord(path, params, testList, fileName, response);
-				}
             } catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

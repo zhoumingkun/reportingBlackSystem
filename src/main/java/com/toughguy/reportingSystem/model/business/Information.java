@@ -54,7 +54,7 @@ public class Information extends AbstractModel{
 	private String JWHSHNumber;		//10.境外黑社会
 	
 	private String alarmNumber;      //报警单号
-	private String acceptUnits;      //受理单位
+	private int acceptUnits;      //受理单位(区县id)
 	private String reportWay;        //举报方式
 	private Date acceptTime;       //受理时间
 	private String receiverAgree;    //受理人员意见
@@ -113,10 +113,10 @@ public class Information extends AbstractModel{
 	public void setAlarmNumber(String alarmNumber) {
 		this.alarmNumber = alarmNumber;
 	}
-	public String getAcceptUnits() {
+	public int getAcceptUnits() {
 		return acceptUnits;
 	}
-	public void setAcceptUnits(String acceptUnits) {
+	public void setAcceptUnits(int acceptUnits) {
 		this.acceptUnits = acceptUnits;
 	}
 	public String getReportWay() {
