@@ -38,6 +38,7 @@ import com.toughguy.reportingSystem.model.business.Information;
 import com.toughguy.reportingSystem.model.business.Informer;
 import com.toughguy.reportingSystem.model.business.KindContent;
 import com.toughguy.reportingSystem.model.business.NoticeContent;
+import com.toughguy.reportingSystem.model.business.Region;
 import com.toughguy.reportingSystem.model.business.SecrecyContent;
 import com.toughguy.reportingSystem.service.business.prototype.IAboutContentService;
 import com.toughguy.reportingSystem.service.business.prototype.IAwardContentService;
@@ -70,7 +71,8 @@ public class WeixinController{
 	private ISecrecyContentService secrecyContentService;
     @Autowired
 	private INoticeContentService noticeContentService;
-    
+    @Autowired
+	private IRegionService regionContentService;
     @Autowired
 	private IInformationService informationService;
 	
@@ -165,12 +167,6 @@ public class WeixinController{
 //        return openId;
 //    }
 		
-	//需要修改
-	@ResponseBody
-	@RequestMapping(value = "/findAllContent")
-	public List<KindContent> findAll() {
-		return kindContentService.findAll();
-	}
 	/**
 	 * 保存举报信息
 	 * @param information
@@ -273,7 +269,8 @@ public class WeixinController{
 					inft.add(i);
 				}
 			}
-			if(inf !=  null) {
+//			if(inf !=  null) {
+			else{
 				List<Information> inft1= informationService.getInformation(inf.getId());
 				for(Information i:inft1) {
 					inft.add(i);
@@ -481,6 +478,13 @@ public class WeixinController{
 		//@RequiresPermissions("award:findAll")
 		public List<AwardContent> findAllAward() {
 			return awardContentService.findAll();
+		}
+		
+		@ResponseBody
+		@RequestMapping("/getAll")
+//		@RequiresPermissions("region:list")
+		public List<Region> getAll(){
+			return regionService.findAll();
 		}
 }
 
