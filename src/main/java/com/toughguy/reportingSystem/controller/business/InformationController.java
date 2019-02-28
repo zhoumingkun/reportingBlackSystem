@@ -133,8 +133,19 @@ public class InformationController {
 	@ResponseBody
 	@RequestMapping(value = "/noAccessData")
 	@RequiresPermissions("information:data")
-	public String noAccessData(String params,HttpSession session) {
+	public String noAccessData(String params,HttpSession session,int userId) {
 		try {
+			String newParams = "";
+			User user = userService.find(userId);
+			if(params.length()>2) {
+				newParams = params.substring(0, params.length()-1);
+				newParams += ",\"threadAreaIdAndAcceptUnits\":\""+user.getRegionId() + "\"}";
+				System.out.println(newParams);
+			} else {
+				newParams = params.substring(0, 1);
+				newParams += "\"threadAreaIdAndAcceptUnits\":\""+user.getRegionId() + "\"}";
+				System.out.println(newParams);
+			}
 			ObjectMapper om = new ObjectMapper();
 			Map<String, Object> map = new HashMap<String, Object>();
 			if (!StringUtils.isEmpty(params)) {
@@ -159,13 +170,24 @@ public class InformationController {
 	@ResponseBody
 	@RequestMapping(value = "/accessData")
 	@RequiresPermissions("information:getEncrypt")
-	public String accessData(String params,HttpSession session) {
+	public String accessData(String params,HttpSession session,int userId) {
 		try {
+			String newParams = "";
+			User user = userService.find(userId);
+			if(params.length()>2) {
+				newParams = params.substring(0, params.length()-1);
+				newParams += ",\"threadAreaIdAndAcceptUnits\":\""+user.getRegionId() + "\"}";
+				System.out.println(newParams);
+			} else {
+				newParams = params.substring(0, 1);
+				newParams += "\"threadAreaIdAndAcceptUnits\":\""+user.getRegionId() + "\"}";
+				System.out.println(newParams);
+			}
 			ObjectMapper om = new ObjectMapper();
 			Map<String, Object> map = new HashMap<String, Object>();
-			if (!StringUtils.isEmpty(params)) {
+			if (!StringUtils.isEmpty(newParams)) {
 				// 参数处理
-				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
+				map = om.readValue(newParams, new TypeReference<Map<String, Object>>() {});
 			}
 			PagerModel<Information> pg = informationService.findPaginated(map);
 			for(Information i:pg.getData()) {
