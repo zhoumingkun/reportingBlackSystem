@@ -44,7 +44,6 @@
 			<if test="organizationName != null and organizationName != ''">organizationName = #{organizationName},</if>
 			<if test="intro != null and intro != ''">intro = #{intro},</if>
 			<if test="phoneNum != null and phoneNum != ''">phoneNum = #{phoneNum},</if>
-			<if test="author != null and author != ''">author = #{author},</if>
 			<if test="serviceAddress != null and serviceAddress != ''">serviceAddress = #{serviceAddress},</if>
 		</set>
 		where id = #{id}

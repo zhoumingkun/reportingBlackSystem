@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Informer">
 
 	<insert id="save" parameterType="Informer" keyProperty="id" useGeneratedKeys="true">
-		insert into business_informer (createTime,updateTime,informerName, idCard,address,phoneNumber,openId,encryptName,encryptIdCard,encryptPhoneNumber) 
-		values (#{createTime},#{updateTime},#{informerName}, #{idCard},#{address},#{phoneNumber},#{openId},#{encryptName},#{encryptIdCard},#{encryptPhoneNumber})
+		insert into business_informer (createTime,updateTime,informerName,phoneNumber,openId,encryptName,encryptPhoneNumber) 
+		values (#{createTime},#{updateTime},#{informerName},#{phoneNumber},#{openId},#{encryptName},#{encryptPhoneNumber})
 	</insert>
 	
 	<!-- 删除某个举报人 -->
@@ -45,12 +45,9 @@
 		update business_informer
 		<set>
 			<if test="informerName != null and informerName != ''">informerName = #{informerName},</if>
-			<if test="idCard != null and idCard != ''">idCard = #{idCard},</if>
-			<if test="address != null and address != ''">address = #{address},</if>
 			<if test="phoneNumber != null and phoneNumber != ''">phoneNumber = #{phoneNumber},</if>
 			<if test="openId != null and openId != ''">openId = #{openId},</if>
 			<if test="encryptName != null and encryptName != ''">encryptName = #{encryptName},</if>
-			<if test="encryptIdCard != null and encryptIdCard != ''">encryptIdCard = #{encryptIdCard},</if>
 			<if test="encryptPhoneNumber != null and encryptPhoneNumber != ''">encryptPhoneNumber = #{encryptPhoneNumber},</if>
 		</set>
 		where openId = #{openId}

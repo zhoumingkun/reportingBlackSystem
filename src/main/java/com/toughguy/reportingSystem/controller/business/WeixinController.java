@@ -34,6 +34,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.reportingSystem.model.business.AboutContent;
 import com.toughguy.reportingSystem.model.business.AwardContent;
+import com.toughguy.reportingSystem.model.business.IndustryContent;
 import com.toughguy.reportingSystem.model.business.Information;
 import com.toughguy.reportingSystem.model.business.Informer;
 import com.toughguy.reportingSystem.model.business.KindContent;
@@ -42,6 +43,7 @@ import com.toughguy.reportingSystem.model.business.Region;
 import com.toughguy.reportingSystem.model.business.SecrecyContent;
 import com.toughguy.reportingSystem.service.business.prototype.IAboutContentService;
 import com.toughguy.reportingSystem.service.business.prototype.IAwardContentService;
+import com.toughguy.reportingSystem.service.business.prototype.IIndustryContentService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
 import com.toughguy.reportingSystem.service.business.prototype.IKindContentService;
@@ -75,7 +77,8 @@ public class WeixinController{
 	private IRegionService regionContentService;
     @Autowired
 	private IInformationService informationService;
-	
+    @Autowired
+	private IIndustryContentService industryContentService;
 	@Autowired
 	private IInformerService informerService;
 	
@@ -359,14 +362,11 @@ public class WeixinController{
 	public String saveinformer(Informer informer) {
 		try {
 			String informerName = informer.getInformerName();
-			String idCard = informer.getIdCard();
 			String phoneNumber = informer.getPhoneNumber();
 			//md5加密举报人信息
 //			String informerNameMD5 = MD5Util.MD5Encode(informerName, "utf8");
-			String idCardMD5 = MyEncryptUtil.encryptPhone(idCard);
 			String phoneNumberMD5 = MyEncryptUtil.encryptPhone(phoneNumber);
 //			informer.setInformerName(informerNameMD5);
-			informer.setIdCard(idCardMD5);
 			informer.setPhoneNumber(phoneNumberMD5);
 			//添加加密举报人姓名（页面显示）
 			if(informerName == null || informerName.equals("")) {
@@ -384,9 +384,9 @@ public class WeixinController{
 				}
 				informer.setEncryptName(encryptName);
 			}
-			//添加加密举报人身份证号（页面显示）
-			String encryptIdCard = idCard.substring(0,1)+ "****************" + idCard.substring(idCard.length()-1);
-			informer.setEncryptIdCard(encryptIdCard);
+//			//添加加密举报人身份证号（页面显示）
+//			String encryptIdCard = idCard.substring(0,1)+ "****************" + idCard.substring(idCard.length()-1);
+//			informer.setEncryptIdCard(encryptIdCard);
 			//添加加密举报人手机号（页面显示）
 			String encryptPhoneNumber = phoneNumber.substring(0,1) + "*********" + phoneNumber.substring(phoneNumber.length()-1);
 			informer.setEncryptPhoneNumber(encryptPhoneNumber);
@@ -416,9 +416,7 @@ public class WeixinController{
 		Informer inf = informerService.getInformer(openId);
 		if(inf != null){
 			i.setEncryptName(inf.getEncryptName());
-			i.setEncryptIdCard(inf.getEncryptIdCard());
 			i.setEncryptPhoneNumber(inf.getEncryptPhoneNumber());
-			i.setAddress(inf.getAddress());
 			i.setId(inf.getId());
 			return i;
 		}else{
@@ -485,6 +483,13 @@ public class WeixinController{
 //		@RequiresPermissions("region:list")
 		public List<Region> getAll(){
 			return regionService.findAll();
+		}
+		
+		@ResponseBody
+		@RequestMapping(value = "/findAllIndustry")
+		//@RequiresPermissions("about:findAll")
+		public List<IndustryContent> findAll() {
+			return industryContentService.findAll();
 		}
 }
 
