@@ -610,6 +610,8 @@ public class InformationController {
 			map.put("JWHSHNumber", information.getJWHSHNumber());
 			return map;
 	}
-
+	/**
+	 * 根据用户id查出用户地域显示未审批案件（不可审批只可查看）和受理单位相匹配的案件
+	 */
 
 }

@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Region">
 
 	<insert id="save" parameterType="Region" keyProperty="id" useGeneratedKeys="true">
-		insert into business_region (createTime,updateTime,regionName,province,city,district,pId) 
-		values (#{createTime},#{updateTime},#{regionName}, #{province},#{city},#{district}#{pId},)
+		insert into business_region (createTime,updateTime,regionName,pId) 
+		values (#{createTime},#{updateTime},#{regionName},#{pId})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -62,9 +62,6 @@ left join business_region pbl on bl.pId = pbl.id where bl.id = #{id}
 		<set>
 			<if test="pId != null and pId != ''">pId = #{pId},</if>
 			<if test="regionName != null and regionName != ''">regionName = #{regionName},</if>
-			<if test="province != null and province != ''">province = #{province},</if>
-			<if test="city != null and city != ''">city = #{city},</if>
-			<if test="district != null and district != ''">district = #{district},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -77,15 +74,6 @@ left join business_region pbl on bl.pId = pbl.id where bl.id = #{id}
 		<where>
 		<if test=" regionName != null and regionName != '' ">
 				and regionName = #{regionName}
-			</if>
-			<if test=" province != null and province != '' ">
-				and province = #{province}
-			</if>
-			<if test=" city != null and city != '' ">
-				and city = #{city}
-			</if>
-			<if test=" district != null and district != '' ">
-				and district = #{district}
 			</if>
 		</where>
 	</sql>

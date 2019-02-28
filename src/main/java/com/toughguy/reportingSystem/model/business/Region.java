@@ -13,9 +13,6 @@ public class Region extends AbstractModel {
 	private int id;
 	private int pId;             //父id  
 	private String regionName;   //省份
-	private String province;     //省份
-	private String city;         //市
-	private String district;     //区
 	
 	public int getId() {
 		return id;
@@ -28,24 +25,6 @@ public class Region extends AbstractModel {
 	}
 	public void setpId(int pId) {
 		this.pId = pId;
-	}
-	public String getProvince() {
-		return province;
-	}
-	public void setProvince(String province) {
-		this.province = province;
-	}
-	public String getCity() {
-		return city;
-	}
-	public void setCity(String city) {
-		this.city = city;
-	}
-	public String getDistrict() {
-		return district;
-	}
-	public void setDistrict(String district) {
-		this.district = district;
 	}
 	public String getRegionName() {
 		return regionName;

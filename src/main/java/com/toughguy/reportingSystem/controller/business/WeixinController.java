@@ -210,7 +210,7 @@ public class WeixinController{
 //			return "{ \"success\" : 超时}";
 //		}
 		try {
-			int districtId = information.getThreadArea(); 
+			int districtId = information.getThreadAreaId(); 
 			int cityId = regionService.findByPId(districtId).getId();
 			int provinceId = regionService.findByPId(cityId).getId();
 			String alarmNumber = PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);
@@ -234,7 +234,7 @@ public class WeixinController{
 	public String anonymitySaveInformation(Information information) throws ParseException {
 		try {
 			information.setInformerId(0);
-			int districtId = information.getThreadArea(); 
+			int districtId = information.getThreadAreaId(); 
 			int cityId = regionService.findByPId(districtId).getId();
 			int provinceId = regionService.findByPId(cityId).getId();
 			String alarmNumber = PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);

@@ -37,7 +37,7 @@ public class User extends AbstractModel {
 	private String userPass;  //密码
 	private String phone;  //电话
 	private String email;  //邮箱
-	private String region;  //地域
+	private int regionId;  //地域
 	private List<Role> roleList = new ArrayList<Role>();  //页面显示字段（解决前台缓存列表页直接获取用户角色信息）
 	private int libraryId; //库id
 	
@@ -102,15 +102,12 @@ public class User extends AbstractModel {
 		this.libraryId = libraryId;
 	}
 
-	
-
-	
-	public String getRegion() {
-		return region;
+	public int getRegionId() {
+		return regionId;
 	}
 
-	public void setRegion(String region) {
-		this.region = region;
+	public void setRegionId(int regionId) {
+		this.regionId = regionId;
 	}
 
 	public String getRolesName() {

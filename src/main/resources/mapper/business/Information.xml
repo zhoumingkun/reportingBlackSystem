@@ -117,6 +117,11 @@
 	<select id="findByOpenId" parameterType="String" resultType="Information">
 		select * FROM business_information where openId = #{openId} ORDER BY createTime desc
 	</select>
+	
+	<!-- 根据线报地域查询举报信息 -->
+	<select id="findByThreadAreaId" resultType="Information" parameterType="int">
+		select * from business_information where threadAreaId = #{threadAreaId}
+	</select>
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>

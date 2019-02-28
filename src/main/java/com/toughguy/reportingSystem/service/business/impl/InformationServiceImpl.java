@@ -51,6 +51,11 @@ public class InformationServiceImpl extends GenericServiceImpl<Information, Inte
 		// TODO Auto-generated method stub
 		return ((IInformationDao)dao).findByOpenId(openId);
 	}
+	@Override
+	public List<Information> findByThreadAreaId(int threadAreaId) {
+		// TODO Auto-generated method stub
+		return ((IInformationDao)dao).findByThreadAreaId(threadAreaId);
+	}
 
 
 }
