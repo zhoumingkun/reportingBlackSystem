@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Information">
 
 	<insert id="save" parameterType="Information" keyProperty="id" useGeneratedKeys="true">
-		insert into business_information (createTime,updateTime,threadArea, clueAddress,industryField,informType,informContent,picture,video,informerId,validAssessorId,validFile,investigationFile,feedbackInformation,investigationAssessorId,openId,alarmNumber,acceptUnits,reportWay,acceptTime,receiverAgree,dutyleadAgree,sweepblackAgree,tingleadAgree,classleadAgree,watch) 
-		values (#{createTime},#{updateTime},#{threadArea}, #{clueAddress},#{industryField},#{informType}, #{informContent},#{picture},#{video},#{informerId},#{validAssessorId},#{validFile},#{investigationFile},#{feedbackInformation},#{investigationAssessorId},#{openId},#{alarmNumber},#{acceptUnits},#{reportWay},#{acceptTime},#{receiverAgree},#{dutyleadAgree},#{sweepblackAgree},#{tingleadAgree},#{classleadAgree},#{watch})
+		insert into business_information (createTime,updateTime,threadAreaId, clueAddress,industryField,informType,informContent,picture,video,informerId,validAssessorId,validFile,investigationFile,feedbackInformation,investigationAssessorId,openId,alarmNumber,acceptUnits,reportWay,acceptTime,receiverAgree,dutyleadAgree,sweepblackAgree,tingleadAgree,classleadAgree,watch) 
+		values (#{createTime},#{updateTime},#{threadAreaId}, #{clueAddress},#{industryField},#{informType}, #{informContent},#{picture},#{video},#{informerId},#{validAssessorId},#{validFile},#{investigationFile},#{feedbackInformation},#{investigationAssessorId},#{openId},#{alarmNumber},#{acceptUnits},#{reportWay},#{acceptTime},#{receiverAgree},#{dutyleadAgree},#{sweepblackAgree},#{tingleadAgree},#{classleadAgree},#{watch})
 	</insert>
 	
 	<!-- 删除某个举报信息 -->
