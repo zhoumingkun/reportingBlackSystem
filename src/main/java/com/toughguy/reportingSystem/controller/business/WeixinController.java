@@ -214,8 +214,8 @@ public class WeixinController{
 //		}
 		try {
 			int districtId = information.getThreadAreaId(); 
-			int cityId = regionService.findByPId(districtId).getId();
-			int provinceId = regionService.findByPId(cityId).getId();
+			int cityId = regionService.findByPId(districtId).getpId();
+			int provinceId = regionService.findByPId(cityId).getpId();
 			String alarmNumber = PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);
 			information.setAlarmNumber(alarmNumber);
 			informationService.save(information);
@@ -238,8 +238,8 @@ public class WeixinController{
 		try {
 			information.setInformerId(0);
 			int districtId = information.getThreadAreaId(); 
-			int cityId = regionService.findByPId(districtId).getId();
-			int provinceId = regionService.findByPId(cityId).getId();
+			int cityId = regionService.findByPId(districtId).getpId();
+			int provinceId = regionService.findByPId(cityId).getpId();
 			String alarmNumber = PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);
 			information.setAlarmNumber(alarmNumber);
 			informationService.save(information);

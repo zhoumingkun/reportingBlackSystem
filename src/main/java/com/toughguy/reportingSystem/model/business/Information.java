@@ -55,14 +55,14 @@ public class Information extends AbstractModel{
 	
 	private String alarmNumber;      //报警单号
 	private int acceptUnits;      //受理单位(区县id)
-	private String reportWay;        //举报方式
+//	private String reportWay;        //举报方式
 	private Date acceptTime;       //受理时间
-	private String receiverAgree;    //受理人员意见
-	private String dutyleadAgree;    //值班领导意见
-	private String sweepblackAgree;  //扫黑办意见
-	private String tingleadAgree;    //厅领导意见
-	private String classleadAgree;   //带班领导
-	private String watch;            //值班员
+//	private String receiverAgree;    //受理人员意见
+//	private String dutyleadAgree;    //值班领导意见
+//	private String sweepblackAgree;  //扫黑办意见
+//	private String tingleadAgree;    //厅领导意见
+//	private String classleadAgree;   //带班领导
+//	private String watch;            //值班员
 	
 	private String acceptUnitsWord; //受理单位文字（页面使用）
 	private String threadArea;   ///线报地域(页面使用)
@@ -120,54 +120,54 @@ public class Information extends AbstractModel{
 	public void setAcceptUnits(int acceptUnits) {
 		this.acceptUnits = acceptUnits;
 	}
-	public String getReportWay() {
-		return reportWay;
-	}
-	public void setReportWay(String reportWay) {
-		this.reportWay = reportWay;
-	}
+//	public String getReportWay() {
+//		return reportWay;
+//	}
+//	public void setReportWay(String reportWay) {
+//		this.reportWay = reportWay;
+//	}
 	public Date getAcceptTime() {
 		return acceptTime;
 	}
 	public void setAcceptTime(Date acceptTime) {
 		this.acceptTime = acceptTime;
 	}
-	public String getReceiverAgree() {
-		return receiverAgree;
-	}
-	public void setReceiverAgree(String receiverAgree) {
-		this.receiverAgree = receiverAgree;
-	}
-	public String getDutyleadAgree() {
-		return dutyleadAgree;
-	}
-	public void setDutyleadAgree(String dutyleadAgree) {
-		this.dutyleadAgree = dutyleadAgree;
-	}
-	public String getSweepblackAgree() {
-		return sweepblackAgree;
-	}
-	public void setSweepblackAgree(String sweepblackAgree) {
-		this.sweepblackAgree = sweepblackAgree;
-	}
-	public String getTingleadAgree() {
-		return tingleadAgree;
-	}
-	public void setTingleadAgree(String tingleadAgree) {
-		this.tingleadAgree = tingleadAgree;
-	}
-	public String getClassleadAgree() {
-		return classleadAgree;
-	}
-	public void setClassleadAgree(String classleadAgree) {
-		this.classleadAgree = classleadAgree;
-	}
-	public String getWatch() {
-		return watch;
-	}
-	public void setWatch(String watch) {
-		this.watch = watch;
-	}
+//	public String getReceiverAgree() {
+//		return receiverAgree;
+//	}
+//	public void setReceiverAgree(String receiverAgree) {
+//		this.receiverAgree = receiverAgree;
+//	}
+//	public String getDutyleadAgree() {
+//		return dutyleadAgree;
+//	}
+//	public void setDutyleadAgree(String dutyleadAgree) {
+//		this.dutyleadAgree = dutyleadAgree;
+//	}
+//	public String getSweepblackAgree() {
+//		return sweepblackAgree;
+//	}
+//	public void setSweepblackAgree(String sweepblackAgree) {
+//		this.sweepblackAgree = sweepblackAgree;
+//	}
+//	public String getTingleadAgree() {
+//		return tingleadAgree;
+//	}
+//	public void setTingleadAgree(String tingleadAgree) {
+//		this.tingleadAgree = tingleadAgree;
+//	}
+//	public String getClassleadAgree() {
+//		return classleadAgree;
+//	}
+//	public void setClassleadAgree(String classleadAgree) {
+//		this.classleadAgree = classleadAgree;
+//	}
+//	public String getWatch() {
+//		return watch;
+//	}
+//	public void setWatch(String watch) {
+//		this.watch = watch;
+//	}
 	public String getVideo() {
 		return video;
 	}
