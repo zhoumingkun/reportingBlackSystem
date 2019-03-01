@@ -28,15 +28,7 @@ public class AboutContentController {
 	//@RequiresPermissions("about:save")
 	public String saveAboutContent(AboutContent aboutContent) {
 		try {
-			int Id=aboutContent.getId();
-			String val=Id +"";
-			System.out.println(val);
-			if(val!=null){
-				aboutContentService.update(aboutContent);
-			}
-			if(val==null||"".equals(val)) {
-				aboutContentService.save(aboutContent);
-			}
+			aboutContentService.save(aboutContent);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
