@@ -13,9 +13,12 @@ public class Informer extends AbstractModel {
 	
 	private int id;
 	private String informerName;    //举报人姓名
+	private String idCard;          //身份证号
+	private String address;          //详细地址
 	private String phoneNumber;      //手机号码
 	private String openId;              //微信唯一标识符
 	private String encryptName;      //加密举报人姓名
+	private String encryptIdCard;     //加密举报人身份证号
 	private String encryptPhoneNumber;   //加密手机号
 	public int getId() {
 		return id;
@@ -29,7 +32,19 @@ public class Informer extends AbstractModel {
 	public void setInformerName(String informerName) {
 		this.informerName = informerName;
 	}
+	public String getIdCard() {
+		return idCard;
+	}
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
+	}
 	
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -48,6 +63,12 @@ public class Informer extends AbstractModel {
 	}
 	public void setEncryptName(String encryptName) {
 		this.encryptName = encryptName;
+	}
+	public String getEncryptIdCard() {
+		return encryptIdCard;
+	}
+	public void setEncryptIdCard(String encryptIdCard) {
+		this.encryptIdCard = encryptIdCard;
 	}
 	public String getEncryptPhoneNumber() {
 		return encryptPhoneNumber;
