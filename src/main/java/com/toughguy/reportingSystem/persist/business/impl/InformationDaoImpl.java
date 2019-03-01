@@ -24,20 +24,20 @@ import com.toughguy.reportingSystem.system.SystemContext;
 public class InformationDaoImpl extends GenericDaoImpl<Information, Integer> implements IInformationDao{
 
 	@Override
-	public int findNum(int state) {
+	public int findNum(Map<String, Object> params) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectOne(typeNameSpace + ".findNum", state);
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findNum", params);
 	}
 
 	@Override
-	public List<Integer> findValidNumber() {
+	public List<Integer> findValidNumber(int threadAreaIdAndAcceptUnits) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList(typeNameSpace + ".findValidNumber");
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findValidNumber",threadAreaIdAndAcceptUnits);
 	}
 	@Override
-	public List<InformationDTO> findSum() {
+	public List<InformationDTO> findSum(int threadAreaIdAndAcceptUnits) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList(typeNameSpace + ".findSum");
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findSum",threadAreaIdAndAcceptUnits);
 	}
 
 	// -- 获取总的条目数 (分页查询中使用)
@@ -54,9 +54,9 @@ public class InformationDaoImpl extends GenericDaoImpl<Information, Integer> imp
 	}
 	// -- 查询各行业领域类型数量
 	@Override
-	public Information findAllInformerType() {
+	public Information findAllInformerType(int threadAreaIdAndAcceptUnits) {
 		// TODO Auto-generated method stub
-		return  sqlSessionTemplate.selectOne(typeNameSpace + ".findAllInformerType");
+		return  sqlSessionTemplate.selectOne(typeNameSpace + ".findAllInformerType",threadAreaIdAndAcceptUnits);
 	}
 
 	@Override

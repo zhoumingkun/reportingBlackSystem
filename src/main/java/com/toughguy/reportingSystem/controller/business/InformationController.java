@@ -218,13 +218,21 @@ public class InformationController {
 	@ResponseBody
 	@RequestMapping(value = "/findNum")
 //	@RequiresPermissions("information:findNum")
-	public InformationDTO findNum() {
+	public InformationDTO findNum(int userId) {
 		try {
+			User user = userService.find(userId);
 			InformationDTO informationDTO = new InformationDTO();
-			int sum = informationService.findNum(0);   //总数
-			int invalidNumber = informationService.findNum(4);   //无效案件
-			int validNumber = informationService.findNum(1);     //已接案件
-			int endNumber = informationService.findNum(3);       //已结案件
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("state", 0);
+			params.put("threadAreaId", user.getRegionId());
+			params.put("acceptUnits", user.getRegionId());
+			int sum = informationService.findNum(params);   //总数
+			params.put("state", 4);
+			int invalidNumber = informationService.findNum(params);   //无效案件
+			params.put("state", 1);
+			int validNumber = informationService.findNum(params);     //已接案件
+			params.put("state", 3);
+			int endNumber = informationService.findNum(params);       //已结案件
 			informationDTO.setSum(sum);
 			informationDTO.setInvalidNumber(invalidNumber);
 			informationDTO.setValidNumber(validNumber);
@@ -239,10 +247,11 @@ public class InformationController {
 	@ResponseBody
 	@RequestMapping(value = "/findSumAndValid")
 //	@RequiresPermissions("information:findSumAndValid")
-	public List<InformationDTO> findSumAndValid() {
+	public List<InformationDTO> findSumAndValid(int userId) {
 		try {
-			List<Integer> is = informationService.findValidNumber(); //首页图表每日已接案
-			List<InformationDTO> informationDTOs  = informationService.findSum(); //首页图表每日数量汇总
+			User user = userService.find(userId);
+			List<Integer> is = informationService.findValidNumber(user.getRegionId()); //首页图表每日已接案
+			List<InformationDTO> informationDTOs  = informationService.findSum(user.getRegionId()); //首页图表每日数量汇总
 			if(is.size() > informationDTOs.size()) {
 				for(int i=0;i<informationDTOs.size();i++) {
 					informationDTOs.get(i).setValidNumber(is.get(i));
@@ -308,6 +317,7 @@ public class InformationController {
 			} else {
 				i.setEndAssessor(u3.getUserName());
 			}
+			System.out.println(i.getAcceptUnitsWord());
 			ObjectMapper om = new ObjectMapper();
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("information", i);
@@ -613,8 +623,9 @@ public class InformationController {
 	@ResponseBody
 	@RequestMapping(value = "/findAllInformerType")
 	@RequiresPermissions("information:findAllInformerType")
-	public Map<String, Object> findAllInformerType() {
-		Information information = informationService.findAllInformerType();
+	public Map<String, Object> findAllInformerType(int userId) {
+		User user = userService.find(userId);
+		Information information = informationService.findAllInformerType(user.getRegionId());
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("GJZZAQNumber", information.getGJZZAQNumber());
 			map.put("JCZQNumber", information.getJCZQNumber());

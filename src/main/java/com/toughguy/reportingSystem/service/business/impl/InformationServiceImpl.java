@@ -22,19 +22,19 @@ import com.toughguy.reportingSystem.service.impl.GenericServiceImpl;
 public class InformationServiceImpl extends GenericServiceImpl<Information, Integer> implements IInformationService {
 
 	@Override
-	public int findNum(int state) {
+	public int findNum(Map<String, Object> params) {
 		// TODO Auto-generated method stub
-		return ((IInformationDao)dao).findNum(state);
+		return ((IInformationDao)dao).findNum(params);
 	}
 	@Override
-	public List<Integer> findValidNumber() {
+	public List<Integer> findValidNumber(int threadAreaIdAndAcceptUnits) {
 		// TODO Auto-generated method stub
-		return ((IInformationDao)dao).findValidNumber();
+		return ((IInformationDao)dao).findValidNumber(threadAreaIdAndAcceptUnits);
 	}
 	@Override
-	public List<InformationDTO> findSum() {
+	public List<InformationDTO> findSum(int threadAreaIdAndAcceptUnits) {
 		// TODO Auto-generated method stub
-		return ((IInformationDao)dao).findSum();
+		return ((IInformationDao)dao).findSum(threadAreaIdAndAcceptUnits);
 	}
 	@Override
 	public List<Information> getInformation(int informerId) {
@@ -42,9 +42,9 @@ public class InformationServiceImpl extends GenericServiceImpl<Information, Inte
 		return ((IInformationDao)dao).getInformation(informerId);
 	}
 	@Override
-	public Information findAllInformerType() {
+	public Information findAllInformerType(int threadAreaIdAndAcceptUnits) {
 		// TODO Auto-generated method stub
-		return ((IInformationDao)dao).findAllInformerType();
+		return ((IInformationDao)dao).findAllInformerType(threadAreaIdAndAcceptUnits);
 	}
 	@Override
 	public List<Information> findByOpenId(String openId) {

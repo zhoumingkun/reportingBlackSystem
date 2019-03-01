@@ -64,7 +64,8 @@ public class Information extends AbstractModel{
 	private String classleadAgree;   //带班领导
 	private String watch;            //值班员
 	
-	
+	private String acceptUnitsWord; //受理单位文字（页面使用）
+	private String threadArea;   ///线报地域(页面使用)
 	public int getId() {
 		return id;
 	}
@@ -322,6 +323,18 @@ public class Information extends AbstractModel{
 	}
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+	public String getAcceptUnitsWord() {
+		return acceptUnitsWord;
+	}
+	public void setAcceptUnitsWord(String acceptUnitsWord) {
+		this.acceptUnitsWord = acceptUnitsWord;
+	}
+	public String getThreadArea() {
+		return threadArea;
+	}
+	public void setThreadArea(String threadArea) {
+		this.threadArea = threadArea;
 	}
 	
 }

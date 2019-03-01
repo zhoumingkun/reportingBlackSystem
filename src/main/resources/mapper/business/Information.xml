@@ -14,7 +14,9 @@
 	
 	<!-- 查询某个举报信息 -->
 	<select id="find" parameterType="int" resultType="Information">
-		select * from business_information where id = #{id}
+		select bi.*,br.regionName acceptUnitsWord,(
+		SELECT br1.regionName FROM business_information bi1 LEFT JOIN business_region br1 ON bi1.threadAreaId = br1.id where bi1.id = #{id}
+	) threadArea from business_information bi LEFT JOIN business_region br ON bi.acceptUnits = br.id where bi.id = #{id}
 	</select>
 	<!-- 查询某个举报信息（小程序） -->
 	<select id="getInformation" parameterType="Map" resultType="Information">
@@ -47,7 +49,7 @@
 	<update id="update" parameterType="Information">
 		update business_information
 		<set>
-			<if test="threadArea != null and threadArea != ''">threadArea = #{threadArea},</if>
+			<if test="threadAreaId != null and threadAreaId != ''">threadAreaId = #{threadAreaId},</if>
 			<if test="clueAddress != null and clueAddress != ''">clueAddress = #{clueAddress},</if>
 			<if test="industryField != null and industryField != ''">industryField = #{industryField},</if>
 			<if test="informType != null and informType != ''">informType = #{informType},</if>
@@ -66,7 +68,7 @@
 			<if test="alarmNumber != null and alarmNumber != ''">alarmNumber = #{alarmNumber},</if>
 			<if test="acceptUnits != null and acceptUnits != ''">acceptUnits = #{acceptUnits},</if>
 			<if test="reportWay != null and reportWay != ''">reportWay = #{reportWay},</if>
-			<if test="acceptTime != null and acceptTime != ''">opeacceptTimenId = #{acceptTime},</if>
+			<if test="acceptTime != null">acceptTime = #{acceptTime},</if>
 			<if test="receiverAgree != null and receiverAgree != ''">receiverAgree = #{receiverAgree},</if>
 			<if test="dutyleadAgree != null and dutyleadAgree != ''">dutyleadAgree = #{dutyleadAgree},</if>
 			<if test="sweepblackAgree != null and sweepblackAgree != ''">sweepblackAgree = #{sweepblackAgree},</if>
@@ -78,18 +80,22 @@
 	</update>
 	
 	<!-- 扫黑除恶案件数量汇总 -->
-	<select id="findNum" parameterType="int" resultType="int">
-		select COUNT(*) from business_information <if test="  _parameter != null and _parameter != '' ">where state = #{state}</if>
+	<select id="findNum" parameterType="Map" resultType="int">
+		select COUNT(*) from business_information 
+		<choose>
+		<when test="state != 0">where state = #{state} and (threadAreaId = #{threadAreaId} or acceptUnits = #{acceptUnits})</when>
+		<otherwise>where threadAreaId = #{threadAreaId} or acceptUnits = #{acceptUnits}</otherwise>
+		</choose>
 	</select>
 	<!-- 查询图表中每天举报总数 -->
 	<select id="findSum" parameterType="int" resultType="com.toughguy.reportingSystem.dto.InformationDTO">
 		SELECT createTime, count(*) sum 
-		FROM business_information GROUP BY DATE_FORMAT(createTime, '%Y-%M-%D') order by createTime asc
+		FROM business_information where (threadAreaId = #{threadAreaIdAndAcceptUnits} or acceptUnits = #{threadAreaIdAndAcceptUnits}) GROUP BY DATE_FORMAT(createTime, '%Y-%M-%D') order by createTime asc
 	</select>
 	<!-- 查询图表中每天举报已接案数量 -->
 	<select id="findValidNumber" parameterType="int" resultType="int">
 		SELECT count(*) validNumber
-		FROM business_information WHERE state = 1 or state = 2 or state = 3 GROUP BY DATE_FORMAT(createTime, '%Y-%M-%D') order by createTime asc
+		FROM business_information WHERE (state = 1 or state = 2 or state = 3 ) and (threadAreaId = #{threadAreaIdAndAcceptUnits} or acceptUnits = #{threadAreaIdAndAcceptUnits}) GROUP BY DATE_FORMAT(createTime, '%Y-%M-%D') order by createTime asc
 	</select>
 	<!-- 查询已接案列表 -->
 	<select id="findValidTotal" resultType="int">
@@ -98,7 +104,7 @@
 		LEFT JOIN auth_user au ON bio.validAssessorId = au.id WHERE bio.state = 1 or bio.state = 2 or bio.state = 3
 	</select>
 	<!-- 查询平台所有行业领域类型的数量  -->
-	<select id="findAllInformerType" resultType="Information"  >
+	<select id="findAllInformerType" resultType="Information" parameterType="int" >
 		select   
         COUNT(case when industryField = '1.国家政治安全' then industryField end  ) as GJZZAQNumber,
         COUNT(case when industryField = '2.基层政权' then industryField end  ) as JCZQNumber,
@@ -110,7 +116,7 @@
         COUNT(case when industryField = '8.非法高利放贷、暴力讨债' then industryField end  ) as FFGLFDNumber,
         COUNT(case when industryField = '9.插手民间纠纷' then industryField end ) as CSMJJFNumber,
         COUNT(case when industryField ='10.境外黑社会' then industryField end) as JWHSHNumber
-        from  business_information where state >= 1
+        from  business_information where state >= 1 and (threadAreaId = #{threadAreaIdAndAcceptUnits} or acceptUnits = #{threadAreaIdAndAcceptUnits})
 	</select>
 	
 	<!-- 根据openId查询举报信息 -->
@@ -160,6 +166,9 @@
 			</if>
 			<if test=" alarmNumber != null and alarmNumber != '' ">
 				and alarmNumber = #{alarmNumber}
+			</if>
+			<if test=" threadAreaIdAndAcceptUnits != null and threadAreaIdAndAcceptUnits != '' ">
+				and (threadAreaId = #{threadAreaIdAndAcceptUnits} or acceptUnits = #{threadAreaIdAndAcceptUnits})
 			</if>
 		</where>
 	</sql>

@@ -17,20 +17,22 @@ public interface IInformationService extends IGenericService<Information, Intege
 
 	/**
 	 * 查询案件数量接口
-	 * @param state
+	 * @param params
 	 * @return
 	 */
-	public int findNum(int state);
+	public int findNum(Map<String, Object> params);
 	/**
 	 * 查询每日举报已接案件数量
+	 * @param threadAreaIdAndAcceptUnits
 	 * @return
 	 */
-	public List<Integer> findValidNumber();
+	public List<Integer> findValidNumber(int threadAreaIdAndAcceptUnits);
 	/**
 	 * 查询每日举报总数
+	 * @param threadAreaIdAndAcceptUnits
 	 * @return
 	 */
-	public List<InformationDTO> findSum();
+	public List<InformationDTO> findSum(int threadAreaIdAndAcceptUnits);
 	/**
 	 * 查询记录小程序查询
 	 * @return
@@ -39,8 +41,10 @@ public interface IInformationService extends IGenericService<Information, Intege
 	public List<Information> getInformation(int informerId);
 	/**
 	 * 查询各行业领域类型数量
+	 * @param threadAreaIdAndAcceptUnits
+	 * @return
 	 */
-	public Information findAllInformerType();
+	public Information findAllInformerType(int threadAreaIdAndAcceptUnits);
 	/**
 	 * 根据openId查询举报信息（匿名）
 	 */
