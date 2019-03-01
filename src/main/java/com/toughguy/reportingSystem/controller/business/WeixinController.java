@@ -362,11 +362,14 @@ public class WeixinController{
 	public String saveinformer(Informer informer) {
 		try {
 			String informerName = informer.getInformerName();
+			String idCard = informer.getIdCard();
 			String phoneNumber = informer.getPhoneNumber();
 			//md5加密举报人信息
 //			String informerNameMD5 = MD5Util.MD5Encode(informerName, "utf8");
+			String idCardMD5 = MyEncryptUtil.encryptPhone(idCard);
 			String phoneNumberMD5 = MyEncryptUtil.encryptPhone(phoneNumber);
 //			informer.setInformerName(informerNameMD5);
+			informer.setIdCard(idCardMD5);
 			informer.setPhoneNumber(phoneNumberMD5);
 			//添加加密举报人姓名（页面显示）
 			if(informerName == null || informerName.equals("")) {
@@ -384,9 +387,9 @@ public class WeixinController{
 				}
 				informer.setEncryptName(encryptName);
 			}
-//			//添加加密举报人身份证号（页面显示）
-//			String encryptIdCard = idCard.substring(0,1)+ "****************" + idCard.substring(idCard.length()-1);
-//			informer.setEncryptIdCard(encryptIdCard);
+			//添加加密举报人身份证号（页面显示）
+			String encryptIdCard = idCard.substring(0,1)+ "****************" + idCard.substring(idCard.length()-1);
+			informer.setEncryptIdCard(encryptIdCard);
 			//添加加密举报人手机号（页面显示）
 			String encryptPhoneNumber = phoneNumber.substring(0,1) + "*********" + phoneNumber.substring(phoneNumber.length()-1);
 			informer.setEncryptPhoneNumber(encryptPhoneNumber);
@@ -416,7 +419,9 @@ public class WeixinController{
 		Informer inf = informerService.getInformer(openId);
 		if(inf != null){
 			i.setEncryptName(inf.getEncryptName());
+			i.setEncryptIdCard(inf.getEncryptIdCard());
 			i.setEncryptPhoneNumber(inf.getEncryptPhoneNumber());
+			i.setAddress(inf.getAddress());
 			i.setId(inf.getId());
 			return i;
 		}else{
