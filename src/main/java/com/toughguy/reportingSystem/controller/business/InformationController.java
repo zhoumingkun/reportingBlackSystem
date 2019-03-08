@@ -32,10 +32,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.reportingSystem.dto.InformationDTO;
 import com.toughguy.reportingSystem.model.authority.User;
+import com.toughguy.reportingSystem.model.business.IndustryContent;
 import com.toughguy.reportingSystem.model.business.Information;
 import com.toughguy.reportingSystem.model.business.Informer;
 import com.toughguy.reportingSystem.pagination.PagerModel;
 import com.toughguy.reportingSystem.service.authority.prototype.IUserService;
+import com.toughguy.reportingSystem.service.business.prototype.IIndustryContentService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
 import com.toughguy.reportingSystem.util.BackupUtil;
@@ -48,7 +50,8 @@ import com.toughguy.reportingSystem.util.MyEncryptUtil;
 public class InformationController {
 	@Autowired
 	private IInformationService informationService;
-	
+	@Autowired
+	private IIndustryContentService industryContentService;
 	@Autowired
 	private IInformerService informerService;
 	
@@ -637,10 +640,25 @@ public class InformationController {
 			map.put("FFGLFDNumber", information.getFFGLFDNumber());
 			map.put("CSMJJFNumber", information.getCSMJJFNumber());
 			map.put("JWHSHNumber", information.getJWHSHNumber());
+			
+			map.put("DJGMNumber", information.getDJGMNumber());
+			map.put("HESLBHSNumber", information.getHESLBHSNumber());
+			map.put("LDJYNumber", information.getLDJYNumber());
+			map.put("JJFZNumber", information.getJJFZNumber());
+			map.put("GSHZSNumber", information.getGSHZSNumber());
+			map.put("KHZRNumber", information.getKHZRNumber());
+			map.put("WLWXNumber", information.getWLWXNumber());
 			return map;
 	}
 	/**
 	 * 根据用户id查出用户地域显示未审批案件（不可审批只可查看）和受理单位相匹配的案件
 	 */
+	
+	@ResponseBody
+	@RequestMapping(value = "/findAllIndustry")
+	//@RequiresPermissions("about:findAll")
+	public List<IndustryContent> findAll() {
+		return industryContentService.findAll();
+	}
 
 }

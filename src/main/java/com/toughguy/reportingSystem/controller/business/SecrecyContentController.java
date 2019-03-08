@@ -24,7 +24,7 @@ public class SecrecyContentController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("secrecy:save")
+	@RequiresPermissions("secrecy:save")
 	public String saveSecrecyContent(SecrecyContent secrecyContent) {
 		try {
 			secrecyContentService.save(secrecyContent);
@@ -37,7 +37,7 @@ public class SecrecyContentController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("secrecy:edit")
+	@RequiresPermissions("secrecy:edit")
 	public String editSecrecyContent(SecrecyContent secrecyContent) {
 		try {
 			secrecyContentService.update(secrecyContent);

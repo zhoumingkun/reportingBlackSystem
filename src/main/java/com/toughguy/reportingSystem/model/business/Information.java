@@ -53,6 +53,15 @@ public class Information extends AbstractModel{
 	private String CSMJJFNumber;	//9.插手民间纠纷
 	private String JWHSHNumber;		//10.境外黑社会
 	
+	private String DJGMNumber;		//11.盗掘古墓、倒卖走私文物
+	private String HESLBHSNumber;		//12.黑恶势力保护伞
+	private String LDJYNumber;		//13.垄断经营、逃税漏税、敲诈勒索
+	private String JJFZNumber;		//14.以经济发展、志愿慈善捐款为幌子从事非法活动
+	private String GSHZSNumber;		//15.以公司、合作社等形式掩盖违法犯罪行为
+	private String KHZRNumber;		//16.恐吓、滋扰、聚众造势等软暴力
+	private String WLWXNumber;		//17.网络威胁、恐吓、侮辱诽谤、滋扰
+	
+	
 	private String alarmNumber;      //报警单号
 	private int acceptUnits;      //受理单位(区县id)
 //	private String reportWay;        //举报方式
@@ -326,6 +335,48 @@ public class Information extends AbstractModel{
 	}
 	public String getAcceptUnitsWord() {
 		return acceptUnitsWord;
+	}
+	public String getDJGMNumber() {
+		return DJGMNumber;
+	}
+	public void setDJGMNumber(String dJGMNumber) {
+		DJGMNumber = dJGMNumber;
+	}
+	public String getHESLBHSNumber() {
+		return HESLBHSNumber;
+	}
+	public void setHESLBHSNumber(String hESLBHSNumber) {
+		HESLBHSNumber = hESLBHSNumber;
+	}
+	public String getLDJYNumber() {
+		return LDJYNumber;
+	}
+	public void setLDJYNumber(String lDJYNumber) {
+		LDJYNumber = lDJYNumber;
+	}
+	public String getJJFZNumber() {
+		return JJFZNumber;
+	}
+	public void setJJFZNumber(String jJFZNumber) {
+		JJFZNumber = jJFZNumber;
+	}
+	public String getGSHZSNumber() {
+		return GSHZSNumber;
+	}
+	public void setGSHZSNumber(String gSHZSNumber) {
+		GSHZSNumber = gSHZSNumber;
+	}
+	public String getKHZRNumber() {
+		return KHZRNumber;
+	}
+	public void setKHZRNumber(String kHZRNumber) {
+		KHZRNumber = kHZRNumber;
+	}
+	public String getWLWXNumber() {
+		return WLWXNumber;
+	}
+	public void setWLWXNumber(String wLWXNumber) {
+		WLWXNumber = wLWXNumber;
 	}
 	public void setAcceptUnitsWord(String acceptUnitsWord) {
 		this.acceptUnitsWord = acceptUnitsWord;

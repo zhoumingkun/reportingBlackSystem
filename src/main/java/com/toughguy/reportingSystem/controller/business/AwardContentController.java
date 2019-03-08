@@ -25,7 +25,7 @@ public class AwardContentController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("award:save")
+	@RequiresPermissions("award:save")
 	public String saveAwardContent(AwardContent awardContent) {
 		try {
 			awardContentService.save(awardContent);
@@ -38,7 +38,7 @@ public class AwardContentController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("award:edit")
+	@RequiresPermissions("award:edit")
 	public String editAwardContent(AwardContent awardContent) {
 		try {
 			awardContentService.update(awardContent);

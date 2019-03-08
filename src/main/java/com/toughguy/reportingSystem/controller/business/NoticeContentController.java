@@ -24,7 +24,7 @@ public class NoticeContentController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("notice:save")
+	@RequiresPermissions("notice:save")
 	public String saveNoticeContent(NoticeContent noticeContent) {
 		try {
 			noticeContentService.save(noticeContent);
@@ -37,7 +37,7 @@ public class NoticeContentController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("notice:edit")
+	@RequiresPermissions("notice:edit")
 	public String editNoticeContent(NoticeContent noticeContent) {
 		try {
 			noticeContentService.update(noticeContent);

@@ -74,8 +74,6 @@ public class WeixinController{
     @Autowired
 	private INoticeContentService noticeContentService;
     @Autowired
-	private IRegionService regionContentService;
-    @Autowired
 	private IInformationService informationService;
     @Autowired
 	private IIndustryContentService industryContentService;
@@ -92,8 +90,9 @@ public class WeixinController{
 		  String WX_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
 	           //这三个参数就是之后要填上自己的值。
 	      //替换appid，appsecret，和code
-	      String requestUrl = WX_URL.replace("APPID", "wx34f0abb780bc5072").//填写自己的appid
-	        replace("SECRET", "d4cd1f6b9e0b96f506b99aebcddb1cf9").replace("JSCODE", code).//填写自己的appsecret，
+		  //wx34f0abb780bc5072  旧扫黑  宇轩   d4cd1f6b9e0b96f506b99aebcddb1cf9
+	      String requestUrl = WX_URL.replace("APPID", "wx3825d63db8b3975c").//填写自己的appid
+	        replace("SECRET", "d80ca988c69d3fc4c381ea9ce654e1e1").replace("JSCODE", code).//填写自己的appsecret，
 	        replace("authorization_code", "authorization_code");
 //	      String requestUrl = WX_URL.replace("APPID", "wx05dd96e3e0d5a7fb").//填写自己的appid
 //	    		  replace("SECRET", "d6aae1ffc685b60fbc7a8b848514108f").replace("JSCODE", code).//填写自己的appsecret，

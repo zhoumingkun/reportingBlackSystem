@@ -31,9 +31,10 @@
 	
 	<!-- 分页查询举报信息 -->
 	<select id="findPaginated" resultType="Information" parameterType="Map">
-		select bio.*,bir.encryptPhoneNumber,bir.phoneNumber,au.userName assessor from business_information bio 
+		SELECT bio.*, bir.encryptPhoneNumber,bir.phoneNumber,au.userName assessor,bre.regionName threadArea FROM
+		business_information bio LEFT JOIN business_region bre on bre.id = bio.threadAreaId
 		LEFT JOIN business_informer bir ON bio.informerId = bir.id
-		LEFT JOIN auth_user au ON bio.validAssessorId = au.id
+		LEFT JOIN auth_user au ON bio.validAssessorId = au.id 
 		<include refid="paramsSQL"/>
 		ORDER BY bio.createTime desc  limit #{offset}, #{limit}
 	</select>
@@ -108,7 +109,14 @@
         COUNT(case when industryField = '7.黄赌毒' then industryField end  ) as HDDNumber,
         COUNT(case when industryField = '8.非法高利放贷、暴力讨债' then industryField end  ) as FFGLFDNumber,
         COUNT(case when industryField = '9.插手民间纠纷' then industryField end ) as CSMJJFNumber,
-        COUNT(case when industryField ='10.境外黑社会' then industryField end) as JWHSHNumber
+        COUNT(case when industryField = '10.境外黑社会' then industryField end) as JWHSHNumber,
+        COUNT(case when industryField = '11.盗掘古墓、倒卖走私文物' then industryField end) as DJGMNumber,
+        COUNT(case when industryField = '12.黑恶势力保护伞' then industryField end) as HESLBHSNumber,
+        COUNT(case when industryField = '13.垄断经营、逃税漏税、敲诈勒索' then industryField end) as LDJYNumber,
+        COUNT(case when industryField = '14.以经济发展、志愿慈善捐款为幌子从事非法活动' then industryField end) as JJFZNumber,
+        COUNT(case when industryField = '15.以公司、合作社等形式掩盖违法犯罪行为' then industryField end) as GSHZSNumber,
+        COUNT(case when industryField = '16.恐吓、滋扰、聚众造势等软暴力' then industryField end) as KHZRNumber,
+        COUNT(case when industryField = '17.网络威胁、恐吓、侮辱诽谤、滋扰' then industryField end) as WLWXNumber
         from  business_information where state >= 1 and (threadAreaId = #{threadAreaIdAndAcceptUnits} or acceptUnits = #{threadAreaIdAndAcceptUnits})
 	</select>
 	

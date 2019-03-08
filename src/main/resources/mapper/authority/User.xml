@@ -53,7 +53,7 @@
 	
 	<!-- 分页查询用户 -->
 	<select id="findPaginated" resultType="User" parameterType="Map">
-		select * from auth_user
+		select au.*, bre.regionName regionName from auth_user au LEFT JOIN business_region bre ON au.regionId = bre.id
 		<include refid="paramsSQL"/>
 		ORDER BY createTime desc  limit #{offset}, #{limit}
 	</select>

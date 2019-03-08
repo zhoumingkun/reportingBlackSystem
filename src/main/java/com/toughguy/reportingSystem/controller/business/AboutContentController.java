@@ -25,7 +25,7 @@ public class AboutContentController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("about:save")
+	@RequiresPermissions("about:save")
 	public String saveAboutContent(AboutContent aboutContent) {
 		try {
 			aboutContentService.save(aboutContent);
@@ -38,7 +38,7 @@ public class AboutContentController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("about:edit")
+	@RequiresPermissions("about:edit")
 	public String editAboutContent(AboutContent aboutContent) {
 		try {
 			aboutContentService.update(aboutContent);
@@ -91,7 +91,7 @@ public class AboutContentController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")
-	//@RequiresPermissions("about:findAll")
+//	@RequiresPermissions("about:findAll")
 	public List<AboutContent> findAll() {
 		return aboutContentService.findAll();
 	}

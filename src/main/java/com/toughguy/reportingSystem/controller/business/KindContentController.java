@@ -24,7 +24,7 @@ public class KindContentController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("kind:save")
+	@RequiresPermissions("kind:save")
 	public String saveKindContent(KindContent kindContent) {
 		try {
 			kindContentService.save(kindContent);
@@ -37,7 +37,7 @@ public class KindContentController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("kind:edit")
+	@RequiresPermissions("kind:edit")
 	public String editKindContent(KindContent kindContent) {
 		try {
 			kindContentService.update(kindContent);
