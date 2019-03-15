@@ -26,16 +26,45 @@ public class InformationServiceImpl extends GenericServiceImpl<Information, Inte
 		// TODO Auto-generated method stub
 		return ((IInformationDao)dao).findNum(params);
 	}
+	
+	//admin
+	@Override
+	public int findNumAll(int state) {
+		// TODO Auto-generated method stub
+		return ((IInformationDao)dao).findNumAll(state);
+	}
+	@Override
+	public int findAllNum() {
+		// TODO Auto-generated method stub
+		return ((IInformationDao)dao).findAllNum();
+	}
+	
 	@Override
 	public List<Integer> findValidNumber(int threadAreaIdAndAcceptUnits) {
 		// TODO Auto-generated method stub
 		return ((IInformationDao)dao).findValidNumber(threadAreaIdAndAcceptUnits);
 	}
+	
+	//admin
+	@Override
+	public List<Integer> findValidNumberAll() {
+		// TODO Auto-generated method stub
+		return ((IInformationDao)dao).findValidNumberAll();
+	}
+	
 	@Override
 	public List<InformationDTO> findSum(int threadAreaIdAndAcceptUnits) {
 		// TODO Auto-generated method stub
 		return ((IInformationDao)dao).findSum(threadAreaIdAndAcceptUnits);
 	}
+	
+	//admin
+	@Override
+	public List<InformationDTO> findSumAll() {
+		// TODO Auto-generated method stub
+		return ((IInformationDao)dao).findSumAll();
+	}
+	
 	@Override
 	public List<Information> getInformation(int informerId) {
 		// TODO Auto-generated method stub
@@ -46,6 +75,14 @@ public class InformationServiceImpl extends GenericServiceImpl<Information, Inte
 		// TODO Auto-generated method stub
 		return ((IInformationDao)dao).findAllInformerType(threadAreaIdAndAcceptUnits);
 	}
+	
+	//admin
+	@Override
+	public Information findAllInformerTypeAll() {
+		// TODO Auto-generated method stub
+		return ((IInformationDao)dao).findAllInformerTypeAll();
+	}
+	
 	@Override
 	public List<Information> findByOpenId(String openId) {
 		// TODO Auto-generated method stub

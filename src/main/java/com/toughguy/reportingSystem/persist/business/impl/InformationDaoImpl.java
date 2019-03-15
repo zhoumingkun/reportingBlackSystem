@@ -28,16 +28,45 @@ public class InformationDaoImpl extends GenericDaoImpl<Information, Integer> imp
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectOne(typeNameSpace + ".findNum", params);
 	}
+	
+	//admin
+	@Override
+	public int findNumAll(int state) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findNumAll", state);
+	}
+	
+	//admin
+		@Override
+		public int findAllNum() {
+			// TODO Auto-generated method stub
+			return sqlSessionTemplate.selectOne(typeNameSpace + ".findAllNum");
+		}
 
 	@Override
 	public List<Integer> findValidNumber(int threadAreaIdAndAcceptUnits) {
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findValidNumber",threadAreaIdAndAcceptUnits);
 	}
+	
+	//admin
+	@Override
+	public List<Integer> findValidNumberAll() {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findValidNumberAll");
+	}
+	
 	@Override
 	public List<InformationDTO> findSum(int threadAreaIdAndAcceptUnits) {
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findSum",threadAreaIdAndAcceptUnits);
+	}
+	
+	//admin
+	@Override
+	public List<InformationDTO> findSumAll() {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findSumAll");
 	}
 
 	// -- 获取总的条目数 (分页查询中使用)
@@ -57,6 +86,13 @@ public class InformationDaoImpl extends GenericDaoImpl<Information, Integer> imp
 	public Information findAllInformerType(int threadAreaIdAndAcceptUnits) {
 		// TODO Auto-generated method stub
 		return  sqlSessionTemplate.selectOne(typeNameSpace + ".findAllInformerType",threadAreaIdAndAcceptUnits);
+	}
+	
+	//admin
+	@Override
+	public Information findAllInformerTypeAll() {
+		// TODO Auto-generated method stub
+		return  sqlSessionTemplate.selectOne(typeNameSpace + ".findAllInformerTypeAll");
 	}
 
 	@Override

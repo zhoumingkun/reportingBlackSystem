@@ -298,8 +298,8 @@ public class WeixinController{
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
-//        String realPath = "C:/java/reportingSytem/upload/barcode";
+//	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
+        String realPath = "C:/java/reportingSytem/upload/barcode";
         String path = BackupUtil.rename("jpg");
         try {
             File dir = new File(path);
@@ -332,8 +332,8 @@ public class WeixinController{
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
-//        String realPath = "C:/java/reportingSytem/upload/video";
+//	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
+        String realPath = "C:/java/reportingSytem/upload/video";
         String path = BackupUtil.rename("mp4");
         try {
             File dir = new File(path);
@@ -387,8 +387,13 @@ public class WeixinController{
 				informer.setEncryptName(encryptName);
 			}
 			//添加加密举报人身份证号（页面显示）
-			String encryptIdCard = idCard.substring(0,1)+ "****************" + idCard.substring(idCard.length()-1);
-			informer.setEncryptIdCard(encryptIdCard);
+			if(idCard == null || idCard.equals("")) {
+			} else {
+				String encryptIdCard = idCard.substring(0,1)+ "****************" + idCard.substring(idCard.length()-1);
+				informer.setEncryptIdCard(encryptIdCard);
+			}
+//			String encryptIdCard = idCard.substring(0,1)+ "****************" + idCard.substring(idCard.length()-1);
+//			informer.setEncryptIdCard(encryptIdCard);
 			//添加加密举报人手机号（页面显示）
 			String encryptPhoneNumber = phoneNumber.substring(0,1) + "*********" + phoneNumber.substring(phoneNumber.length()-1);
 			informer.setEncryptPhoneNumber(encryptPhoneNumber);

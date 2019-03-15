@@ -72,7 +72,15 @@
 		</set>
 		where id = #{id}
 	</update>
-	
+	<!-- 扫黑除恶案件数量汇总  (admin用) -->
+		<select id="findAllNum" parameterType="int" resultType="int">
+			select COUNT(*) from business_information
+		</select>	 
+	<!-- 扫黑除恶案件数量汇总  (admin用) -->
+	<select id="findNumAll" parameterType="int" resultType="int">
+		select COUNT(*) from business_information
+		<if test="  _parameter != null and _parameter != '' ">where state = #{state}</if>
+	</select>	 
 	<!-- 扫黑除恶案件数量汇总 -->
 	<select id="findNum" parameterType="Map" resultType="int">
 		select COUNT(*) from business_information 
@@ -81,11 +89,23 @@
 		<otherwise>where threadAreaId = #{threadAreaId} or acceptUnits = #{acceptUnits}</otherwise>
 		</choose>
 	</select>
+	<!-- 查询图表中每天举报总数  (admin用)-->
+		<select id="findSumAll" parameterType="int" resultType="com.toughguy.reportingSystem.dto.InformationDTO">
+			SELECT createTime, count(*) sum 
+			FROM business_information GROUP BY DATE_FORMAT(createTime, '%Y-%M-%D') order by createTime asc
+		</select>
+		
 	<!-- 查询图表中每天举报总数 -->
 	<select id="findSum" parameterType="int" resultType="com.toughguy.reportingSystem.dto.InformationDTO">
 		SELECT createTime, count(*) sum 
 		FROM business_information where (threadAreaId = #{threadAreaIdAndAcceptUnits} or acceptUnits = #{threadAreaIdAndAcceptUnits}) GROUP BY DATE_FORMAT(createTime, '%Y-%M-%D') order by createTime asc
 	</select>
+	<!-- 查询图表中每天举报已接案数量  (admin用)-->
+		<select id="findValidNumberAll" parameterType="int" resultType="int">
+			SELECT count(*) validNumber
+			FROM business_information WHERE state = 1 or state = 2 or state = 3 GROUP BY DATE_FORMAT(createTime, '%Y-%M-%D') order by createTime asc
+		</select>
+		
 	<!-- 查询图表中每天举报已接案数量 -->
 	<select id="findValidNumber" parameterType="int" resultType="int">
 		SELECT count(*) validNumber
@@ -120,6 +140,28 @@
         from  business_information where state >= 1 and (threadAreaId = #{threadAreaIdAndAcceptUnits} or acceptUnits = #{threadAreaIdAndAcceptUnits})
 	</select>
 	
+	<!-- 查询平台所有行业领域类型的数量  admin用-->
+	<select id="findAllInformerTypeAll" resultType="Information"  >
+		select   
+        COUNT(case when industryField = '1.国家政治安全' then industryField end  ) as GJZZAQNumber,
+        COUNT(case when industryField = '2.基层政权' then industryField end  ) as JCZQNumber,
+        COUNT(case when industryField = '3.宗族势力、村霸' then industryField end  ) as ZZSLCBNumber,
+        COUNT(case when industryField = '4.征地、拆迁' then industryField end  ) as ZDCQNumber,
+        COUNT(case when industryField = '5.建设工程、运输、矿产、渔业' then industryField end  ) as JSGCNumber,
+        COUNT(case when industryField = '6.欺行霸市' then industryField end  ) as QXBSNumber,
+        COUNT(case when industryField = '7.黄赌毒' then industryField end  ) as HDDNumber,
+        COUNT(case when industryField = '8.非法高利放贷、暴力讨债' then industryField end  ) as FFGLFDNumber,
+        COUNT(case when industryField = '9.插手民间纠纷' then industryField end ) as CSMJJFNumber,
+        COUNT(case when industryField = '10.境外黑社会' then industryField end) as JWHSHNumber,
+        COUNT(case when industryField = '11.盗掘古墓、倒卖走私文物' then industryField end) as DJGMNumber,
+        COUNT(case when industryField = '12.黑恶势力保护伞' then industryField end) as HESLBHSNumber,
+        COUNT(case when industryField = '13.垄断经营、逃税漏税、敲诈勒索' then industryField end) as LDJYNumber,
+        COUNT(case when industryField = '14.以经济发展、志愿慈善捐款为幌子从事非法活动' then industryField end) as JJFZNumber,
+        COUNT(case when industryField = '15.以公司、合作社等形式掩盖违法犯罪行为' then industryField end) as GSHZSNumber,
+        COUNT(case when industryField = '16.恐吓、滋扰、聚众造势等软暴力' then industryField end) as KHZRNumber,
+        COUNT(case when industryField = '17.网络威胁、恐吓、侮辱诽谤、滋扰' then industryField end) as WLWXNumber
+        from  business_information where state >= 1 
+	</select>
 	<!-- 根据openId查询举报信息 -->
 	<select id="findByOpenId" parameterType="String" resultType="Information">
 		select * FROM business_information where openId = #{openId} ORDER BY createTime desc

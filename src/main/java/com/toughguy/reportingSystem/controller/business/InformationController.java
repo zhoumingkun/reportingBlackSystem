@@ -211,6 +211,37 @@ public class InformationController {
 		}
 	}
 	
+	//admin显示全部
+	@ResponseBody
+	@RequestMapping(value = "/accessDataAll")
+//	@RequiresPermissions("information:getEncrypt")
+	public String accessDataAll(String params,HttpSession session) {
+		try {
+			ObjectMapper om = new ObjectMapper();
+			Map<String, Object> map = new HashMap<String, Object>();
+			if (!StringUtils.isEmpty(params)) {
+				// 参数处理
+				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
+			}
+			PagerModel<Information> pg = informationService.findPaginated(map);
+			for(Information i:pg.getData()) {
+				if(i.getPhoneNumber() == null || "".equals(i.getPhoneNumber())) {
+					i.setPhoneNumber("");
+				}
+				i.setEncryptPhoneNumber(MyEncryptUtil.decryptPhone(i.getPhoneNumber()));
+				i.setPhoneNumber("");
+			}
+			// 序列化查询结果为JSON
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("total", pg.getTotal());
+			result.put("rows", pg.getData());
+			return om.writeValueAsString(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"total\" : 0, \"rows\" : [] }";
+		}
+	
+			}
 	@ResponseBody	
 	@RequestMapping(value = "/find")
 //	@RequiresPermissions("information:find")
@@ -247,6 +278,27 @@ public class InformationController {
 		}
 	}
 	
+	//admin
+	@ResponseBody
+	@RequestMapping(value = "/findNumAll")
+//	@RequiresPermissions("information:findNum")
+	public InformationDTO findNumAll() {
+		try {
+			InformationDTO informationDTO = new InformationDTO();
+			int sum = informationService.findNumAll(0);   //总数
+			int invalidNumber = informationService.findNumAll(4);   //无效案件
+			int validNumber = informationService.findNumAll(1);     //已接案件
+			int endNumber = informationService.findNumAll(3);       //已结案件
+			informationDTO.setSum(sum);
+			informationDTO.setInvalidNumber(invalidNumber);
+			informationDTO.setValidNumber(validNumber);
+		informationDTO.setEndNumber(endNumber);
+		return informationDTO;
+	} catch (Exception e) {
+		e.printStackTrace();
+		return null;
+	}
+}
 	@ResponseBody
 	@RequestMapping(value = "/findSumAndValid")
 //	@RequiresPermissions("information:findSumAndValid")
@@ -270,6 +322,31 @@ public class InformationController {
 			return null;
 		}
 	}
+	
+	//admin
+	@ResponseBody
+	@RequestMapping(value = "/findSumAndValidAll")
+//	@RequiresPermissions("information:findSumAndValid")
+	public List<InformationDTO> findSumAndValidAll() {
+		try {
+			List<Integer> is = informationService.findValidNumberAll(); //首页图表每日已接案
+			List<InformationDTO> informationDTOs  = informationService.findSumAll(); //首页图表每日数量汇总
+			if(is.size() > informationDTOs.size()) {
+				for(int i=0;i<informationDTOs.size();i++) {
+					informationDTOs.get(i).setValidNumber(is.get(i));
+			}
+		} else {
+			for(int i=0;i<is.size();i++) {
+				informationDTOs.get(i).setValidNumber(is.get(i));
+			}
+		}
+		return informationDTOs;
+	} catch (Exception e) {
+		e.printStackTrace();
+		return null;
+	}
+}
+	
 	/**
 	 * 无权限
 	 * @param id
@@ -625,7 +702,7 @@ public class InformationController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/findAllInformerType")
-	@RequiresPermissions("information:findAllInformerType")
+//	@RequiresPermissions("information:findAllInformerType")
 	public Map<String, Object> findAllInformerType(int userId) {
 		User user = userService.find(userId);
 		Information information = informationService.findAllInformerType(user.getRegionId());
@@ -650,6 +727,34 @@ public class InformationController {
 			map.put("WLWXNumber", information.getWLWXNumber());
 			return map;
 	}
+	
+	//admin
+	@ResponseBody
+	@RequestMapping(value = "/findAllInformerTypeAll")
+//	@RequiresPermissions("information:findAllInformerType")
+	public Map<String, Object> findAllInformerTypeAll() {
+		Information information = informationService.findAllInformerTypeAll();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("GJZZAQNumber", information.getGJZZAQNumber());
+		map.put("JCZQNumber", information.getJCZQNumber());
+		map.put("ZZSLCBNumber", information.getZZSLCBNumber());
+		map.put("ZDCQNumber", information.getZDCQNumber());
+		map.put("JSGCNumber", information.getJSGCNumber());
+		map.put("QXBSNumber", information.getQXBSNumber());
+		map.put("HDDNumber", information.getHDDNumber());
+		map.put("FFGLFDNumber", information.getFFGLFDNumber());
+		map.put("CSMJJFNumber", information.getCSMJJFNumber());
+		map.put("JWHSHNumber", information.getJWHSHNumber());
+		
+		map.put("DJGMNumber", information.getDJGMNumber());
+		map.put("HESLBHSNumber", information.getHESLBHSNumber());
+		map.put("LDJYNumber", information.getLDJYNumber());
+		map.put("JJFZNumber", information.getJJFZNumber());
+		map.put("GSHZSNumber", information.getGSHZSNumber());
+		map.put("KHZRNumber", information.getKHZRNumber());
+		map.put("WLWXNumber", information.getWLWXNumber());
+		return map;
+}
 	/**
 	 * 根据用户id查出用户地域显示未审批案件（不可审批只可查看）和受理单位相匹配的案件
 	 */

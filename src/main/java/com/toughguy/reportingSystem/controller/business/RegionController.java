@@ -58,7 +58,7 @@ public class RegionController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-//	@RequiresPermissions("region:save")
+	@RequiresPermissions("region:save")
 	public String saveRegion(Region region) {
 		try {
 			regionService.save(region);

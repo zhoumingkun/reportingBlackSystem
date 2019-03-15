@@ -54,7 +54,7 @@ public class ExportWord {
      public void exportWord(HttpServletResponse response,int id) throws Exception {  
             Map<String, Object> params = new HashMap<String, Object>(); 
             Information i = informationService.find(id);
-			Informer ir = informerService.find(i.getInformerId());
+			Informer ir = informerService.getInformer(i.getOpenId());
 			
 			Date d = new Date();
        	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -64,8 +64,18 @@ public class ExportWord {
             params.put("${acceptUnits}",i.getAcceptUnits());
             params.put("${industryField}",i.getIndustryField());
             params.put("${informType}",i.getInformType());
-            params.put("${informerName}",ir.getInformerName());
-            params.put("${phoneNumber}",MyEncryptUtil.decryptPhone(ir.getPhoneNumber()));
+            if(i.getInformerId() != 0){
+              	 params.put("${informerName}", ir.getInformerName());
+               }else if(i.getInformerId()== 0){
+        			 params.put("${informerName}", "匿名"); 
+        		}
+//            params.put("${informerName}",ir.getInformerName());
+            if(i.getInformerId() != 0){
+             	 params.put("${phoneNumber}", MyEncryptUtil.decryptPhone(ir.getPhoneNumber()));
+              }else if(i.getInformerId()== 0){
+       			 params.put("${phoneNumber}", "匿名"); 
+       		}
+//            params.put("${phoneNumber}",MyEncryptUtil.decryptPhone(ir.getPhoneNumber()));
             params.put("${informContent}",i.getInformContent());
             try {
 				Map<String, Object> picture = new HashMap<String, Object>();
