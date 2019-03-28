@@ -269,6 +269,9 @@ public class WeixinController{
 				List<Information> inft1 = informationService.findByOpenId(openId);
 				for(Information i:inft1) {
 					inft.add(i);
+//					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+//					String sdf2=sdf.format(i.getCreateTime());
+					
 				}
 			}
 //			if(inf !=  null) {
