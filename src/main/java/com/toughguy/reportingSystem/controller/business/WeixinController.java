@@ -286,6 +286,45 @@ public class WeixinController{
 		}
 		
 	}
+	
+	/**
+	 * 获取用户的举报信息修改阅读状态
+	 * @param openId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/updateReadState")
+	public List<Information> updateReadState(String openId) {
+		if(openId == null || "".equals(openId)) {
+			return null;
+		} else {
+			List<Information> inft = new ArrayList<Information>();
+			Informer inf = informerService.getInformer(openId);
+			List<Information> information = informationService.findByOpenId(openId);
+			if(information.size()>0) {
+				//匿名
+				List<Information> inft1 = informationService.findByOpenId(openId);
+				for(Information i:inft1) {
+					i.setReadState(1);
+					inft.add(i);
+//					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+//					String sdf2=sdf.format(i.getCreateTime());
+					
+				}
+			}
+//			if(inf !=  null) {
+			else{
+				List<Information> inft1= informationService.getInformation(inf.getId());
+				for(Information i:inft1) {
+					i.setReadState(1);
+					inft.add(i);
+				}
+			}
+			ListSortUtil.ListSort(inft);
+			return inft;
+		}
+		
+	}
 	/**
 	 * 图片上传
 	 * @param request
@@ -301,8 +340,8 @@ public class WeixinController{
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-//	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
-        String realPath = "C:/java/reportingSytem/upload/barcode";
+	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
+//        String realPath = "C:/java/reportingSytem/upload/barcode";
         String path = BackupUtil.rename("jpg");
         try {
             File dir = new File(path);
@@ -335,8 +374,8 @@ public class WeixinController{
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-//	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
-        String realPath = "C:/java/reportingSytem/upload/video";
+	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
+//        String realPath = "C:/java/reportingSytem/upload/video";
         String path = BackupUtil.rename("mp4");
         try {
             File dir = new File(path);
@@ -503,6 +542,35 @@ public class WeixinController{
 		public List<IndustryContent> findAll() {
 			return industryContentService.findAll();
 		}
+		
+		@ResponseBody
+		@RequestMapping(value = "/findById")
+//		@RequiresPermissions("activity:findById")
+		public Informer findById(int informerId) {
+			return  informerService.findById(informerId);
+		}
+		
+		/**
+		 * 判断是否有新消息
+		 * @param openId
+		 * @return
+		 */
+		@ResponseBody
+		@RequestMapping(value = "/newInformation")
+		public String newInformation(String openId) {
+			if(openId == null || "".equals(openId)) {
+				return null;
+			} else {
+				List<Information> information = informationService.newInformation(openId);
+				if(information.size()>0) {
+					return "{ \"success\" : true }";
+				}else{
+					return "{ \"success\" : true }";
+				}
+				
+			}
+			}
+			
 }
 
 

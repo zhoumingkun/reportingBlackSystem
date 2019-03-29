@@ -22,5 +22,13 @@ public class InformerServiceImpl extends GenericServiceImpl<Informer, Integer> i
 		// TODO Auto-generated method stub
 		return ((IInformerDao)dao).getInformer(openId);
 	}
+	/**
+	 * 根据informerId获取个人信息
+	 */
+	@Override
+	public Informer findById(int informerId) {
+		// TODO Auto-generated method stub
+		return ((IInformerDao)dao).findById(informerId);
+	}
 	
 }

@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Information">
 
 	<insert id="save" parameterType="Information" keyProperty="id" useGeneratedKeys="true">
-		insert into business_information (createTime,updateTime,threadAreaId, clueAddress,industryField,informType,informContent,picture,video,informerId,validAssessorId,validFile,investigationFile,feedbackInformation,investigationAssessorId,openId,alarmNumber,acceptUnits,acceptTime) 
-		values (#{createTime},#{updateTime},#{threadAreaId}, #{clueAddress},#{industryField},#{informType}, #{informContent},#{picture},#{video},#{informerId},#{validAssessorId},#{validFile},#{investigationFile},#{feedbackInformation},#{investigationAssessorId},#{openId},#{alarmNumber},#{acceptUnits},#{acceptTime})
+		insert into business_information (createTime,updateTime,threadAreaId, clueAddress,industryField,informType,informContent,picture,video,informerId,validAssessorId,validFile,investigationFile,feedbackInformation,investigationAssessorId,openId,alarmNumber,acceptUnits,acceptTime,readState) 
+		values (#{createTime},#{updateTime},#{threadAreaId}, #{clueAddress},#{industryField},#{informType}, #{informContent},#{picture},#{video},#{informerId},#{validAssessorId},#{validFile},#{investigationFile},#{feedbackInformation},#{investigationAssessorId},#{openId},#{alarmNumber},#{acceptUnits},#{acceptTime},#{readState})
 	</insert>
 	
 	<!-- 删除某个举报信息 -->
@@ -17,6 +17,11 @@
 		select bi.*,br.regionName acceptUnitsWord,(
 		SELECT br1.regionName FROM business_information bi1 LEFT JOIN business_region br1 ON bi1.threadAreaId = br1.id where bi1.id = #{id}
 	) threadArea from business_information bi LEFT JOIN business_region br ON bi.acceptUnits = br.id where bi.id = #{id}
+	</select>
+	<!-- 查询是否有新举报信息 -->
+	<select id="newInformation" parameterType="String" resultType="Information">
+		select * FROM business_information where openId = #{openId} and (readState = 0 and state != -1)  
+		
 	</select>
 	<!-- 查询某个举报信息（小程序） -->
 	<select id="getInformation" parameterType="Map" resultType="Information">
@@ -63,6 +68,7 @@
 			<if test="investigationFile != null and investigationFile != ''">investigationFile = #{investigationFile},</if>
 			<if test="feedbackInformation != null and feedbackInformation != ''">feedbackInformation = #{feedbackInformation},</if>
 			<if test="state != null and state != ''">state = #{state},</if>
+			<if test="readState != null and readState != ''">readState = #{readState},</if>
 			<if test="investigationAssessorId != null and investigationAssessorId != ''">investigationAssessorId = #{investigationAssessorId},</if>
 			<if test="endAssessorId != null and endAssessorId != ''">endAssessorId = #{endAssessorId},</if>
 			<if test="openId != null and openId != ''">openId = #{openId},</if>

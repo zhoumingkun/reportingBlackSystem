@@ -27,6 +27,7 @@ public class Information extends AbstractModel{
 	private String picture;   //图片
 	private String video;    //视频
 	private int state;     //案件状态   -1待审核   1已接案  2侦办中  3已结案   4未结案
+	private int readState;     //阅读状态   0未读 1已读
 	private int informerId;   //举报人id
 	private int validAssessorId;   //审核员(已接案)(当前用户id)
 	private String validFile;    //案件附件（已接案的）
@@ -192,6 +193,12 @@ public class Information extends AbstractModel{
 	
 	
 	
+	public int getReadState() {
+		return readState;
+	}
+	public void setReadState(int readState) {
+		this.readState = readState;
+	}
 	public int getInformerId() {
 		return informerId;
 	}

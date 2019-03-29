@@ -83,6 +83,11 @@ public interface IInformationDao  extends IGenericDao<Information, Integer>{
 	 * 根据openId查询举报信息（匿名）
 	 */
 	public List<Information> findByOpenId(String openId);
+	
+	/**
+	 * 根据openId查询是否有新消息
+	 */
+	public List<Information> newInformation(String openId);
 	/**
 	 *  根据线报地域查询举报信息 
 	 */

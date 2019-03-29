@@ -12,5 +12,9 @@ public interface IInformerService extends IGenericService<Informer, Integer>{
 
 
 	public Informer getInformer(String openId);
+	/**
+	 * 根据informerId获取个人信息
+	 */
+	public Informer findById(int informerId);
 
 }

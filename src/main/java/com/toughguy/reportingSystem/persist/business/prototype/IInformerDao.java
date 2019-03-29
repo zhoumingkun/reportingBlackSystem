@@ -13,4 +13,10 @@ public interface IInformerDao  extends IGenericDao<Informer, Integer>{
 	 * 个人信息获取
 	 */
 	public Informer getInformer(String openId);
+	
+	/**
+	 * 根据informerId获取个人信息
+	 */
+	public Informer findById(int informerId);
 }
+

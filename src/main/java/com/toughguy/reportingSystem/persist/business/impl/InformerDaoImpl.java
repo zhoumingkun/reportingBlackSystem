@@ -22,5 +22,11 @@ public class InformerDaoImpl extends GenericDaoImpl<Informer, Integer> implement
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectOne(typeNameSpace + ".getInformer", openId);
 	}
+	
+	@Override
+	public Informer findById(int informerId) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findById", informerId);
+	}
 
 }
