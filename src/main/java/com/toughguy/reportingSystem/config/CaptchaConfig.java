@@ -33,7 +33,6 @@ import com.google.code.kaptcha.util.Config;
  * @since JDK1.7
  * @version 1.0
  */
-
 @Configuration
 public class CaptchaConfig {
 	
