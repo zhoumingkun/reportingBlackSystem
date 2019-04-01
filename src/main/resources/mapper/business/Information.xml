@@ -20,8 +20,7 @@
 	</select>
 	<!-- 查询是否有新举报信息 -->
 	<select id="newInformation" parameterType="String" resultType="Information">
-		select * FROM business_information where openId = #{openId} and (readState = 0 and state != -1)  
-		
+		select * FROM business_information where openId = #{openId} and (readState = 0 and state != -1) 
 	</select>
 	<!-- 查询某个举报信息（小程序） -->
 	<select id="getInformation" parameterType="Map" resultType="Information">
