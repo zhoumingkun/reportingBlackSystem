@@ -308,8 +308,6 @@ public class WeixinController{
 					i.setReadState(1);
 					informationService.update(i);
 					inft.add(i);
-//					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
-//					String sdf2=sdf.format(i.getCreateTime());
 					
 				}
 			}
@@ -342,8 +340,8 @@ public class WeixinController{
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-	        String realPath = "C:/Users/Administrator/git/reportingBlackSystem/upload/barcode";
-//        String realPath = "C:/java/reportingSytem/upload/barcode";
+//	        String realPath = "C:/Users/Administrator/git/reportingBlackSystem/upload/barcode";
+        String realPath = "C:/java/reportingSytem/upload/barcode";
         String path = BackupUtil.rename("jpg");
         try {
             File dir = new File(path);
@@ -376,8 +374,8 @@ public class WeixinController{
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-	        String realPath = "C:/Users/Administrator/git/reportingBlackSystem/upload/video";
-//        String realPath = "C:/java/reportingSytem/upload/video";
+//	        String realPath = "C:/Users/Administrator/git/reportingBlackSystem/upload/video";
+        String realPath = "C:/java/reportingSytem/upload/video";
         String path = BackupUtil.rename("mp4");
         try {
             File dir = new File(path);
@@ -412,7 +410,10 @@ public class WeixinController{
 			String idCardMD5 = MyEncryptUtil.encryptPhone(idCard);
 			String phoneNumberMD5 = MyEncryptUtil.encryptPhone(phoneNumber);
 //			informer.setInformerName(informerNameMD5);
-			informer.setIdCard(idCardMD5);
+			if(idCard == null || idCard.equals("")){
+			}else{
+				informer.setIdCard(idCardMD5);
+			}
 			informer.setPhoneNumber(phoneNumberMD5);
 			//添加加密举报人姓名（页面显示）
 			if(informerName == null || informerName.equals("")) {
@@ -468,18 +469,19 @@ public class WeixinController{
 			if(inf != null){
 				String informerName = inf.getInformerName();
 				i.setInformerName(informerName);
-				if(inf.getEncryptIdCard() != null){
-//				String idCard = MyEncryptUtil.decryptPhone(inf.getEncryptIdCard());
-				i.setIdCard(MyEncryptUtil.decryptPhone(inf.getIdCard()));
-				System.out.println("身份证号"+MyEncryptUtil.decryptPhone(inf.getIdCard()));
+				if(inf.getIdCard() == null || inf.getIdCard().equals("")){
 				}
 				else{
-					return null;
+					i.setIdCard(MyEncryptUtil.decryptPhone(inf.getIdCard()));
+					System.out.println("身份证号"+MyEncryptUtil.decryptPhone(inf.getIdCard()));
 					}
-//				String phoneNumber = MyEncryptUtil.decryptPhone(inf.getEncryptPhoneNumber());
 				i.setPhoneNumber(MyEncryptUtil.decryptPhone(inf.getPhoneNumber()));
 				System.out.println("电话号码"+MyEncryptUtil.decryptPhone(inf.getPhoneNumber()));
-				i.setAddress(inf.getAddress());;
+				if(inf.getAddress() == null || inf.getAddress().equals("")){
+				}
+				else{
+					i.setAddress(inf.getAddress());
+					}
 				return i;
 			}else{
 				return null;
