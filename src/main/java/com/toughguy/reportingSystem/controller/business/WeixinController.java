@@ -306,9 +306,8 @@ public class WeixinController{
 				List<Information> inft1 = informationService.findByOpenId(openId);
 				for(Information i:inft1) {
 					i.setReadState(1);
+					informationService.update(i);
 					inft.add(i);
-//					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
-//					String sdf2=sdf.format(i.getCreateTime());
 					
 				}
 			}
@@ -317,6 +316,7 @@ public class WeixinController{
 				List<Information> inft1= informationService.getInformation(inf.getId());
 				for(Information i:inft1) {
 					i.setReadState(1);
+					informationService.update(i);
 					inft.add(i);
 				}
 			}
@@ -340,8 +340,8 @@ public class WeixinController{
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
-//        String realPath = "C:/java/reportingSytem/upload/barcode";
+//	        String realPath = "C:/Users/Administrator/git/reportingBlackSystem/upload/barcode";
+        String realPath = "C:/java/reportingSytem/upload/barcode";
         String path = BackupUtil.rename("jpg");
         try {
             File dir = new File(path);
@@ -374,8 +374,8 @@ public class WeixinController{
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
-//        String realPath = "C:/java/reportingSytem/upload/video";
+//	        String realPath = "C:/Users/Administrator/git/reportingBlackSystem/upload/video";
+        String realPath = "C:/java/reportingSytem/upload/video";
         String path = BackupUtil.rename("mp4");
         try {
             File dir = new File(path);
@@ -401,6 +401,102 @@ public class WeixinController{
 	@ResponseBody	
 	@RequestMapping(value = "/saveInformer")
 	public String saveinformer(Informer informer) {
+		try {
+			String informerName = informer.getInformerName();
+			String idCard = informer.getIdCard();
+			String phoneNumber = informer.getPhoneNumber();
+			//md5加密举报人信息
+//			String informerNameMD5 = MD5Util.MD5Encode(informerName, "utf8");
+			String idCardMD5 = MyEncryptUtil.encryptPhone(idCard);
+			String phoneNumberMD5 = MyEncryptUtil.encryptPhone(phoneNumber);
+//			informer.setInformerName(informerNameMD5);
+			if(idCard == null || idCard.equals("")){
+			}else{
+				informer.setIdCard(idCardMD5);
+			}
+			informer.setPhoneNumber(phoneNumberMD5);
+			//添加加密举报人姓名（页面显示）
+			if(informerName == null || informerName.equals("")) {
+			} else {
+				char[] informerNames = informerName.toCharArray();
+				String encryptName = "";
+				if(informerNames.length == 2 && informerNames.length > 0) {
+					encryptName = informerName.substring(0,1) + "*";
+				} else if(informerName.length() == 3) {
+					encryptName = informerName.substring(0,1) + "**";
+				} else if(informerName.length() == 4) {
+					encryptName = informerName.substring(0,1) + "***";
+				} else {
+					encryptName = informerName.substring(0,1) + "***";
+				}
+				informer.setEncryptName(encryptName);
+			}
+			//添加加密举报人身份证号（页面显示）
+			if(idCard == null || idCard.equals("")) {
+			} else {
+				String encryptIdCard = idCard.substring(0,1)+ "****************" + idCard.substring(idCard.length()-1);
+				informer.setEncryptIdCard(encryptIdCard);
+			}
+//			String encryptIdCard = idCard.substring(0,1)+ "****************" + idCard.substring(idCard.length()-1);
+//			informer.setEncryptIdCard(encryptIdCard);
+			//添加加密举报人手机号（页面显示）
+			String encryptPhoneNumber = phoneNumber.substring(0,1) + "*********" + phoneNumber.substring(phoneNumber.length()-1);
+			informer.setEncryptPhoneNumber(encryptPhoneNumber);
+		    //添加加密其他联系方式（页面显示）
+//			if(otherContectWay == null|| otherContectWay.equals("")) {
+//			}else {
+//				String encryptOtherContectWay = otherContectWay.substring(0,1) + "*********" + otherContectWay.substring(otherContectWay.length()-1);
+//				informer.setEncryptOtherContectWay(encryptOtherContectWay);
+//			}
+			informerService.save(informer);
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+		}
+	}
+	
+	/**
+	 * 解密举报人信息
+	 * @param informer
+	 * @return
+	 */
+	@ResponseBody	
+	@RequestMapping(value = "/decodeInformer")
+	public Informer decodeformer(String openId) {
+			Informer i = new Informer();
+			Informer inf = informerService.getInformer(openId);
+			if(inf != null){
+				String informerName = inf.getInformerName();
+				i.setInformerName(informerName);
+				if(inf.getIdCard() == null || inf.getIdCard().equals("")){
+				}
+				else{
+					i.setIdCard(MyEncryptUtil.decryptPhone(inf.getIdCard()));
+					System.out.println("身份证号"+MyEncryptUtil.decryptPhone(inf.getIdCard()));
+					}
+				i.setPhoneNumber(MyEncryptUtil.decryptPhone(inf.getPhoneNumber()));
+				System.out.println("电话号码"+MyEncryptUtil.decryptPhone(inf.getPhoneNumber()));
+				if(inf.getAddress() == null || inf.getAddress().equals("")){
+				}
+				else{
+					i.setAddress(inf.getAddress());
+					}
+				return i;
+			}else{
+				return null;
+			}
+			
+	}
+	
+	/**
+	 * 编辑举报人信息
+	 * @param informer
+	 * @return
+	 */
+	@ResponseBody	
+	@RequestMapping(value = "/editInformer")
+	public String editinformer(Informer informer) {
 		try {
 			String informerName = informer.getInformerName();
 			String idCard = informer.getIdCard();
@@ -445,7 +541,7 @@ public class WeixinController{
 //				String encryptOtherContectWay = otherContectWay.substring(0,1) + "*********" + otherContectWay.substring(otherContectWay.length()-1);
 //				informer.setEncryptOtherContectWay(encryptOtherContectWay);
 //			}
-			informerService.save(informer);
+			informerService.update(informer);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -480,18 +576,18 @@ public class WeixinController{
 	 * @param informer
 	 * @return
 	 */
-	@ResponseBody
-	@RequestMapping(value = "/editInformer")
-	public String editinformer(Informer informer) {
-		try {
-			informerService.update(informer);
-			return "{ \"success\" : true }";
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return "{ \"success\" : false }";
-		}
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "/editInformer")
+//	public String editinformer(Informer informer) {
+//		try {
+//			informerService.update(informer);
+//			return "{ \"success\" : true }";
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//			return "{ \"success\" : false }";
+//		}
+//	}
 	
 	//2.0版本新增
 		@ResponseBody
@@ -565,7 +661,7 @@ public class WeixinController{
 				if(information.size()>0) {
 					return "{ \"success\" : true }";
 				}else{
-					return "{ \"success\" : true }";
+					return "{ \"success\" : false }";
 				}
 				
 			}
