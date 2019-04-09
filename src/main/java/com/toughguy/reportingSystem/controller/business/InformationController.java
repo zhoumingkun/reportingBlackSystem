@@ -638,7 +638,7 @@ public class InformationController {
 //	    C:\\java\\reportingSytem\\upload\\barcode\\
 	    try {
 	      os = res.getOutputStream();
-	      bis = new BufferedInputStream(new FileInputStream(new File("C:\\java\\reportingSytem\\upload\\barcode\\"
+	      bis = new BufferedInputStream(new FileInputStream(new File("C:\\java\\reportingBlackSystem\\upload\\barcode\\"
 		          + fileName)));
 	      int i = bis.read(buff);
 	      while (i != -1) {
@@ -675,7 +675,7 @@ public class InformationController {
 //	    C:\\java\\reportingSytem\\upload\\barcode\\
 	    try {
 	      os = res.getOutputStream();
-	      bis = new BufferedInputStream(new FileInputStream(new File("C:\\java\\reportingSytem\\upload\\barcode\\"
+	      bis = new BufferedInputStream(new FileInputStream(new File("C:\\java\\reportingBlackSystem\\upload\\barcode\\"
 	          + fileName)));
 	      int i = bis.read(buff);
 	      while (i != -1) {
