@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Region">
 
 	<insert id="save" parameterType="Region" keyProperty="id" useGeneratedKeys="true">
-		insert into business_region (createTime,updateTime,regionName,pId) 
-		values (#{createTime},#{updateTime},#{regionName},#{pId})
+		insert into business_region (createTime,updateTime,regionName,pId,reportNum) 
+		values (#{createTime},#{updateTime},#{regionName},#{pId},#{reportNum})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -62,6 +62,7 @@ left join business_region pbl on bl.pId = pbl.id where bl.id = #{id}
 		<set>
 			<if test="pId != null and pId != ''">pId = #{pId},</if>
 			<if test="regionName != null and regionName != ''">regionName = #{regionName},</if>
+			<if test="reportNum != null and reportNum != ''">reportNum = #{reportNum},</if>
 		</set>
 		where id = #{id}
 	</update>
