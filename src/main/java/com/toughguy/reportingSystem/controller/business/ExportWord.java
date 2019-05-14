@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.toughguy.reportingSystem.model.business.Information;
 import com.toughguy.reportingSystem.model.business.Informer;
+import com.toughguy.reportingSystem.model.business.Region;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
+import com.toughguy.reportingSystem.service.business.prototype.IRegionService;
 import com.toughguy.reportingSystem.util.MyEncryptUtil;
 import com.toughguy.reportingSystem.util.UploadUtil;
 import com.toughguy.reportingSystem.util.WordUtils;
@@ -44,7 +46,8 @@ public class ExportWord {
 	private IInformationService informationService;
 	@Autowired
 	private IInformerService informerService;
-	
+	@Autowired
+	private IRegionService regionService;
     /**
      * POI举报线索登记表导出word
      * @throws Exception
@@ -60,8 +63,9 @@ public class ExportWord {
        	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             params.put("${riqi}", sdf.format(d));
             params.put("${alarmNumber}",i.getAlarmNumber());
-            params.put("${acceptTime}",i.getAcceptTime());
-            params.put("${acceptUnits}",i.getAcceptUnits());
+            params.put("${acceptTime}",sdf.format(i.getAcceptTime()));
+            Region re = regionService.find(i.getAcceptUnits());
+            params.put("${acceptUnits}",re.getRegionName());
             params.put("${industryField}",i.getIndustryField());
             params.put("${informType}",i.getInformType());
             if(i.getInformerId() != 0){

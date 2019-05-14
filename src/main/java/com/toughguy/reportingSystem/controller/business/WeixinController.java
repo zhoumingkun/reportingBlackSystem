@@ -90,7 +90,7 @@ public class WeixinController{
 		  String WX_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
 	           //这三个参数就是之后要填上自己的值。
 	      //替换appid，appsecret，和code
-		  //wx34f0abb780bc5072  旧扫黑  宇轩   d4cd1f6b9e0b96f506b99aebcddb1cf9
+		  //wx34f0abb780bc5072  旧扫黑  宇轩wx3825d63db8b3975c   旧扫黑  宇轩d4cd1f6b9e0b96f506b99aebcddb1cf9  d80ca988c69d3fc4c381ea9ce654e1e1
 	      String requestUrl = WX_URL.replace("APPID", "wx3825d63db8b3975c").//填写自己的appid
 	        replace("SECRET", "d80ca988c69d3fc4c381ea9ce654e1e1").replace("JSCODE", code).//填写自己的appsecret，
 	        replace("authorization_code", "authorization_code");
@@ -212,12 +212,38 @@ public class WeixinController{
 //			return "{ \"success\" : 超时}";
 //		}
 		try {
-			int districtId = information.getThreadAreaId(); 
-			int cityId = regionService.findByPId(districtId).getpId();
-			int provinceId = regionService.findByPId(cityId).getpId();
-			String alarmNumber = PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);
-			information.setAlarmNumber(alarmNumber);
-			informationService.save(information);
+			int threadAreaIdPId=regionService.findByPId(information.getThreadAreaId()).getpId();
+			if(threadAreaIdPId == -1){
+				int districtId = 0; 
+				int cityId = 0;
+				int provinceId = information.getThreadAreaId();
+				String alarmNumber= PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);
+				information.setAlarmNumber(alarmNumber);
+				informationService.save(information);
+			}else{
+				int twoIdPId = regionService.findByPId(threadAreaIdPId).getpId();
+				if(twoIdPId == -1){
+					int districtId = 0; 
+					int cityId = information.getThreadAreaId();
+					int provinceId = threadAreaIdPId;
+					String alarmNumber= PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);
+					information.setAlarmNumber(alarmNumber);
+					informationService.save(information);
+				}else{
+					int districtId = information.getThreadAreaId(); 
+					int cityId = threadAreaIdPId;
+					int provinceId = twoIdPId;
+					String alarmNumber= PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);
+					information.setAlarmNumber(alarmNumber);
+					informationService.save(information);
+				}
+			}
+//			int districtId = information.getThreadAreaId(); 
+//			int cityId = regionService.findByPId(districtId).getpId();
+//			int provinceId = regionService.findByPId(cityId).getpId();
+//			String alarmNumber = PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);
+//			information.setAlarmNumber(alarmNumber);
+//			informationService.save(information);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -235,13 +261,32 @@ public class WeixinController{
 	@RequestMapping(value = "/anonymitySaveInformation")
 	public String anonymitySaveInformation(Information information) throws ParseException {
 		try {
-			information.setInformerId(0);
-			int districtId = information.getThreadAreaId(); 
-			int cityId = regionService.findByPId(districtId).getpId();
-			int provinceId = regionService.findByPId(cityId).getpId();
-			String alarmNumber = PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);
-			information.setAlarmNumber(alarmNumber);
-			informationService.save(information);
+			int threadAreaIdPId=regionService.findByPId(information.getThreadAreaId()).getpId();
+			if(threadAreaIdPId == -1){
+				int districtId = 0; 
+				int cityId = 0;
+				int provinceId = information.getThreadAreaId();
+				String alarmNumber= PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);
+				information.setAlarmNumber(alarmNumber);
+				informationService.save(information);
+			}else{
+				int twoIdPId = regionService.findByPId(threadAreaIdPId).getpId();
+				if(twoIdPId == -1){
+					int districtId = 0; 
+					int cityId = information.getThreadAreaId();
+					int provinceId = threadAreaIdPId;
+					String alarmNumber= PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);
+					information.setAlarmNumber(alarmNumber);
+					informationService.save(information);
+				}else{
+					int districtId = information.getThreadAreaId(); 
+					int cityId = threadAreaIdPId;
+					int provinceId = twoIdPId;
+					String alarmNumber= PoliceNumUtil.alarmNumber(provinceId, cityId, districtId);
+					information.setAlarmNumber(alarmNumber);
+					informationService.save(information);
+				}
+			}
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
