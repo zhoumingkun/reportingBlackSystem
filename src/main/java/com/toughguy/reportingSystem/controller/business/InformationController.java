@@ -267,10 +267,16 @@ public class InformationController {
 			int validNumber = informationService.findNum(params);     //已接案件
 			params.put("state", 3);
 			int endNumber = informationService.findNum(params);       //已结案件
+			params.put("state", -1);
+			int pendingNumber = informationService.findNum(params);       //待审核案件
+			params.put("state", 2);
+			int probingNumber = informationService.findNum(params);       //侦办中案件
 			informationDTO.setSum(sum);
 			informationDTO.setInvalidNumber(invalidNumber);
 			informationDTO.setValidNumber(validNumber);
 			informationDTO.setEndNumber(endNumber);
+			informationDTO.setPendingNumber(pendingNumber);
+			informationDTO.setProbingNumber(probingNumber);
 			return informationDTO;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -289,10 +295,14 @@ public class InformationController {
 			int invalidNumber = informationService.findNumAll(4);   //无效案件
 			int validNumber = informationService.findNumAll(1);     //已接案件
 			int endNumber = informationService.findNumAll(3);       //已结案件
+			int pendingNumber = informationService.findNumAll(-1);       //待审核案件
+			int probingNumber = informationService.findNumAll(2);       //侦办中案件
 			informationDTO.setSum(sum);
 			informationDTO.setInvalidNumber(invalidNumber);
 			informationDTO.setValidNumber(validNumber);
-		informationDTO.setEndNumber(endNumber);
+		    informationDTO.setEndNumber(endNumber);
+		    informationDTO.setPendingNumber(pendingNumber);
+		    informationDTO.setProbingNumber(probingNumber);
 		return informationDTO;
 	} catch (Exception e) {
 		e.printStackTrace();
@@ -464,6 +474,7 @@ public class InformationController {
 			result.put("information", i);
 			result.put("informer", informer);
 			return om.writeValueAsString(result);
+			
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -638,7 +649,7 @@ public class InformationController {
 //	    C:\\java\\reportingSytem\\upload\\barcode\\
 	    try {
 	      os = res.getOutputStream();
-	      bis = new BufferedInputStream(new FileInputStream(new File("C:\\java\\reportingBlackSystem\\upload\\barcode\\"
+	      bis = new BufferedInputStream(new FileInputStream(new File("C:\\java\\reportingSytem\\upload\\barcode\\"
 		          + fileName)));
 	      int i = bis.read(buff);
 	      while (i != -1) {
@@ -675,7 +686,7 @@ public class InformationController {
 //	    C:\\java\\reportingSytem\\upload\\barcode\\
 	    try {
 	      os = res.getOutputStream();
-	      bis = new BufferedInputStream(new FileInputStream(new File("C:\\java\\reportingBlackSystem\\upload\\barcode\\"
+	      bis = new BufferedInputStream(new FileInputStream(new File("C:\\java\\reportingSytem\\upload\\barcode\\"
 	          + fileName)));
 	      int i = bis.read(buff);
 	      while (i != -1) {
@@ -765,5 +776,45 @@ public class InformationController {
 	public List<IndustryContent> findAll() {
 		return industryContentService.findAll();
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/findAllRegionNum")
+//	@RequiresPermissions("information:findAllInformerType")
+	public Map<String, Object> findAllRegionNum() {
+		Information information = informationService.findAllRegionNum();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("TaiyuanNumber", information.getTaiyuanNumber());
+		map.put("DatongNumber", information.getDatongNumber());
+		map.put("XinzhouNumber", information.getXinzhouNumber());
+		map.put("LinfenNumber", information.getLinfenNumber());
+		map.put("YangquanNumber", information.getYangquanNumber());
+		map.put("ChangzhiNumber", information.getChangzhiNumber());
+		map.put("JinchengNumber", information.getJinchengNumber());
+		map.put("ShuozhouNumber", information.getShuozhouNumber());
+		map.put("JinzhongNumber", information.getJinzhongNumber());
+		map.put("LvliangNumber", information.getLvliangNumber());
+		map.put("YunchengNumber", information.getYunchengNumber());
+		return map;
+		
+}
+	@ResponseBody
+	@RequestMapping(value = "/findRegionNum")
+//	@RequiresPermissions("information:findAllInformerType")
+	public Map<String, Object> findRegionNum() {
+		Information information = informationService.findRegionNum();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("TaiyuanNumber", information.getTaiyuanNumber());
+		map.put("DatongNumber", information.getDatongNumber());
+		map.put("XinzhouNumber", information.getXinzhouNumber());
+		map.put("LinfenNumber", information.getLinfenNumber());
+		map.put("YangquanNumber", information.getYangquanNumber());
+		map.put("ChangzhiNumber", information.getChangzhiNumber());
+		map.put("JinchengNumber", information.getJinchengNumber());
+		map.put("ShuozhouNumber", information.getShuozhouNumber());
+		map.put("JinzhongNumber", information.getJinzhongNumber());
+		map.put("LvliangNumber", information.getLvliangNumber());
+		map.put("YunchengNumber", information.getYunchengNumber());
+		return map;
+}
 
 }

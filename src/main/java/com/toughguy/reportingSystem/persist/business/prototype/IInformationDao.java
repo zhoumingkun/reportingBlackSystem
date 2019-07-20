@@ -92,4 +92,12 @@ public interface IInformationDao  extends IGenericDao<Information, Integer>{
 	 *  根据线报地域查询举报信息 
 	 */
 	public List<Information> findByThreadAreaId(int threadAreaId);
+	
+	/**
+	 * 查询各地域案件数量
+	 * @param 
+	 * @return
+	 */
+	public Information findRegionNum();
+	public Information findAllRegionNum();
 }

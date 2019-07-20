@@ -212,6 +212,9 @@ public class WeixinController{
 //			return "{ \"success\" : 超时}";
 //		}
 		try {
+			//查询市级id
+			int cityLevelId=regionService.findByPId(information.getTipRegionId()).getpId();
+			information.setCityLevelId(cityLevelId);
 			int threadAreaIdPId=regionService.findByPId(information.getThreadAreaId()).getpId();
 			if(threadAreaIdPId == -1){
 				int districtId = 0; 
@@ -261,6 +264,8 @@ public class WeixinController{
 	@RequestMapping(value = "/anonymitySaveInformation")
 	public String anonymitySaveInformation(Information information) throws ParseException {
 		try {
+			int cityLevelId=regionService.findByPId(information.getTipRegionId()).getpId();
+			information.setCityLevelId(cityLevelId);
 			int threadAreaIdPId=regionService.findByPId(information.getThreadAreaId()).getpId();
 			if(threadAreaIdPId == -1){
 				int districtId = 0; 

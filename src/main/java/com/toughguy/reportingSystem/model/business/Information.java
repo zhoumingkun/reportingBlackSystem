@@ -19,7 +19,9 @@ import com.toughguy.reportingSystem.model.AbstractModel;
 public class Information extends AbstractModel{
 	
 	private int id;
-	private int threadAreaId; //线报地域(县/区id)
+	private int threadAreaId; //受理单位  原线报地域(县/区id)
+	private int tipRegionId; //线报地域(县/区id)
+	private int cityLevelId; //市级Id
 	private String clueAddress; //线报详址
 	private String industryField; //行业领域
 	private String informType;  //举报类别
@@ -62,6 +64,17 @@ public class Information extends AbstractModel{
 	private String KHZRNumber;		//16.恐吓、滋扰、聚众造势等软暴力
 	private String WLWXNumber;		//17.网络威胁、恐吓、侮辱诽谤、滋扰
 	
+	private String TaiyuanNumber;		//统计各地域案件数  太原
+	private String DatongNumber;		//大同
+	private String XinzhouNumber;		//忻州
+	private String LinfenNumber;		//临汾
+	private String YangquanNumber;		//阳泉
+	private String ChangzhiNumber;		//长治
+	private String JinchengNumber;		//晋城
+	private String ShuozhouNumber;		//朔州
+	private String JinzhongNumber;		//晋中
+	private String LvliangNumber;		//吕梁
+	private String YunchengNumber;		//运城
 	
 	private String alarmNumber;      //报警单号
 	private int acceptUnits;      //受理单位(区县id)
@@ -75,7 +88,8 @@ public class Information extends AbstractModel{
 //	private String watch;            //值班员
 	
 	private String acceptUnitsWord; //受理单位文字（页面使用）
-	private String threadArea;   ///线报地域(页面使用)
+	private String threadArea;   //受理单位(原线报地域页面使用)
+	private String tipRegion;   //线报地域(页面使用)
 	public int getId() {
 		return id;
 	}
@@ -192,7 +206,12 @@ public class Information extends AbstractModel{
 	}
 	
 	
-	
+	public String getTipRegion() {
+		return tipRegion;
+	}
+	public void setTipRegion(String tipRegion) {
+		this.tipRegion = tipRegion;
+	}
 	public int getReadState() {
 		return readState;
 	}
@@ -394,5 +413,84 @@ public class Information extends AbstractModel{
 	public void setThreadArea(String threadArea) {
 		this.threadArea = threadArea;
 	}
+	public int getTipRegionId() {
+		return tipRegionId;
+	}
+	public void setTipRegionId(int tipRegionId) {
+		this.tipRegionId = tipRegionId;
+	}
+	public int getCityLevelId() {
+		return cityLevelId;
+	}
+	public void setCityLevelId(int cityLevelId) {
+		this.cityLevelId = cityLevelId;
+	}
+	public String getTaiyuanNumber() {
+		return TaiyuanNumber;
+	}
+	public void setTaiyuanNumber(String taiyuanNumber) {
+		TaiyuanNumber = taiyuanNumber;
+	}
+	public String getDatongNumber() {
+		return DatongNumber;
+	}
+	public void setDatongNumber(String datongNumber) {
+		DatongNumber = datongNumber;
+	}
+	public String getXinzhouNumber() {
+		return XinzhouNumber;
+	}
+	public void setXinzhouNumber(String xinzhouNumber) {
+		XinzhouNumber = xinzhouNumber;
+	}
+	public String getLinfenNumber() {
+		return LinfenNumber;
+	}
+	public void setLinfenNumber(String linfenNumber) {
+		LinfenNumber = linfenNumber;
+	}
+	public String getYangquanNumber() {
+		return YangquanNumber;
+	}
+	public void setYangquanNumber(String yangquanNumber) {
+		YangquanNumber = yangquanNumber;
+	}
+	public String getChangzhiNumber() {
+		return ChangzhiNumber;
+	}
+	public void setChangzhiNumber(String changzhiNumber) {
+		ChangzhiNumber = changzhiNumber;
+	}
+	public String getJinchengNumber() {
+		return JinchengNumber;
+	}
+	public void setJinchengNumber(String jinchengNumber) {
+		JinchengNumber = jinchengNumber;
+	}
+	public String getShuozhouNumber() {
+		return ShuozhouNumber;
+	}
+	public void setShuozhouNumber(String shuozhouNumber) {
+		ShuozhouNumber = shuozhouNumber;
+	}
+	public String getJinzhongNumber() {
+		return JinzhongNumber;
+	}
+	public void setJinzhongNumber(String jinzhongNumber) {
+		JinzhongNumber = jinzhongNumber;
+	}
+	public String getLvliangNumber() {
+		return LvliangNumber;
+	}
+	public void setLvliangNumber(String lvliangNumber) {
+		LvliangNumber = lvliangNumber;
+	}
+	public String getYunchengNumber() {
+		return YunchengNumber;
+	}
+	public void setYunchengNumber(String yunchengNumber) {
+		YunchengNumber = yunchengNumber;
+	}
+	
 	
 }

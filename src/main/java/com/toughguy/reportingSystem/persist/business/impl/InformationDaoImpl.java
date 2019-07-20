@@ -112,4 +112,16 @@ public class InformationDaoImpl extends GenericDaoImpl<Information, Integer> imp
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findByThreadAreaId",threadAreaId);
 	}
+	
+	@Override
+	public Information findRegionNum() {
+		// TODO Auto-generated method stub
+		return  sqlSessionTemplate.selectOne(typeNameSpace + ".findRegionNum");
+	}
+	
+	@Override
+	public Information findAllRegionNum() {
+		// TODO Auto-generated method stub
+		return  sqlSessionTemplate.selectOne(typeNameSpace + ".findAllRegionNum");
+	}
 }

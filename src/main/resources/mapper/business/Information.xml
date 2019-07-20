@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Information">
 
 	<insert id="save" parameterType="Information" keyProperty="id" useGeneratedKeys="true">
-		insert into business_information (createTime,updateTime,threadAreaId, clueAddress,industryField,informType,informContent,picture,video,informerId,validAssessorId,validFile,investigationFile,feedbackInformation,investigationAssessorId,openId,alarmNumber,acceptUnits,acceptTime,readState) 
-		values (#{createTime},#{updateTime},#{threadAreaId}, #{clueAddress},#{industryField},#{informType}, #{informContent},#{picture},#{video},#{informerId},#{validAssessorId},#{validFile},#{investigationFile},#{feedbackInformation},#{investigationAssessorId},#{openId},#{alarmNumber},#{acceptUnits},#{acceptTime},#{readState})
+		insert into business_information (createTime,updateTime,threadAreaId, clueAddress,industryField,informType,informContent,picture,video,informerId,validAssessorId,validFile,investigationFile,feedbackInformation,investigationAssessorId,openId,alarmNumber,acceptUnits,acceptTime,readState,tipRegionId,cityLevelId) 
+		values (#{createTime},#{updateTime},#{threadAreaId}, #{clueAddress},#{industryField},#{informType}, #{informContent},#{picture},#{video},#{informerId},#{validAssessorId},#{validFile},#{investigationFile},#{feedbackInformation},#{investigationAssessorId},#{openId},#{alarmNumber},#{acceptUnits},#{acceptTime},#{readState},#{tipRegionId},#{cityLevelId})
 	</insert>
 	
 	<!-- 删除某个举报信息 -->
@@ -15,8 +15,8 @@
 	<!-- 查询某个举报信息 -->
 	<select id="find" parameterType="int" resultType="Information">
 		select bi.*,br.regionName acceptUnitsWord,(
-		SELECT br1.regionName FROM business_information bi1 LEFT JOIN business_region br1 ON bi1.threadAreaId = br1.id where bi1.id = #{id}
-	) threadArea from business_information bi LEFT JOIN business_region br ON bi.acceptUnits = br.id where bi.id = #{id}
+		SELECT br1.regionName FROM business_information bi1 LEFT JOIN business_region br1 ON bi1.tipRegionId = br1.id where bi1.id = #{id}
+	) tipRegion from business_information bi LEFT JOIN business_region br ON bi.acceptUnits = br.id where bi.id = #{id}
 	</select>
 	<!-- 查询是否有新举报信息 -->
 	<select id="newInformation" parameterType="String" resultType="Information">
@@ -74,6 +74,8 @@
 			<if test="alarmNumber != null and alarmNumber != ''">alarmNumber = #{alarmNumber},</if>
 			<if test="acceptUnits != null and acceptUnits != ''">acceptUnits = #{acceptUnits},</if>
 			<if test="acceptTime != null">acceptTime = #{acceptTime},</if>
+			<if test="tipRegionId != null and tipRegionId != ''">tipRegionId = #{tipRegionId},</if>
+			<if test="cityLevelId != null and cityLevelId != ''">cityLevelId = #{cityLevelId},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -167,6 +169,38 @@
         COUNT(case when industryField = '17.网络威胁、恐吓、侮辱诽谤、滋扰' then industryField end) as WLWXNumber
         from  business_information where state >= 1 
 	</select>
+	<!-- 查询平台11个地市的扫黑案件数量-->
+	<select id="findAllRegionNum" resultType="Information"  >
+		select   
+        COUNT(case when cityLevelId = '2' then cityLevelId end  ) as TaiyuanNumber,
+        COUNT(case when cityLevelId = '3' then cityLevelId end  ) as DatongNumber,
+        COUNT(case when cityLevelId = '4' then cityLevelId end  ) as XinzhouNumber,
+        COUNT(case when cityLevelId = '8' then cityLevelId end  ) as LinfenNumber,
+        COUNT(case when cityLevelId = '10' then cityLevelId end  ) as YangquanNumber,
+        COUNT(case when cityLevelId = '11' then cityLevelId end  ) as ChangzhiNumber,
+        COUNT(case when cityLevelId = '12' then cityLevelId end  ) as JinchengNumber,
+        COUNT(case when cityLevelId = '13' then cityLevelId end  ) as ShuozhouNumber,
+        COUNT(case when cityLevelId = '14' then cityLevelId end ) as JinzhongNumber,
+        COUNT(case when cityLevelId = '15' then cityLevelId end) as LvliangNumber,
+        COUNT(case when cityLevelId = '16' then cityLevelId end) as YunchengNumber
+        from  business_information 
+	</select>
+	<!-- 查询平台11个地市的扫黑案件数量-->
+	<select id="findRegionNum" resultType="Information"  >
+		select   
+        COUNT(case when cityLevelId = '2' then cityLevelId end  ) as TaiyuanNumber,
+        COUNT(case when cityLevelId = '3' then cityLevelId end  ) as DatongNumber,
+        COUNT(case when cityLevelId = '4' then cityLevelId end  ) as XinzhouNumber,
+        COUNT(case when cityLevelId = '8' then cityLevelId end  ) as LinfenNumber,
+        COUNT(case when cityLevelId = '10' then cityLevelId end  ) as YangquanNumber,
+        COUNT(case when cityLevelId = '11' then cityLevelId end  ) as ChangzhiNumber,
+        COUNT(case when cityLevelId = '12' then cityLevelId end  ) as JinchengNumber,
+        COUNT(case when cityLevelId = '13' then cityLevelId end  ) as ShuozhouNumber,
+        COUNT(case when cityLevelId = '14' then cityLevelId end ) as JinzhongNumber,
+        COUNT(case when cityLevelId = '15' then cityLevelId end) as LvliangNumber,
+        COUNT(case when cityLevelId = '16' then cityLevelId end) as YunchengNumber
+        from  business_information where state = 1 or state = 2 or state = 3
+	</select>
 	<!-- 根据openId查询举报信息 -->
 	<select id="findByOpenId" parameterType="String" resultType="Information">
 		select * FROM business_information where openId = #{openId} ORDER BY createTime desc
@@ -217,6 +251,12 @@
 			</if>
 			<if test=" threadAreaIdAndAcceptUnits != null and threadAreaIdAndAcceptUnits != '' ">
 				and (threadAreaId = #{threadAreaIdAndAcceptUnits} or acceptUnits = #{threadAreaIdAndAcceptUnits})
+			</if>
+			<if test=" tipRegionId != null and tipRegionId != '' ">
+				and tipRegionId = #{tipRegionId}
+			</if>
+			<if test=" cityLevelId != null and cityLevelId != '' ">
+				and cityLevelId = #{cityLevelId}
 			</if>
 		</where>
 	</sql>

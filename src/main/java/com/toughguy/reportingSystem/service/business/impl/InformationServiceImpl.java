@@ -99,6 +99,16 @@ public class InformationServiceImpl extends GenericServiceImpl<Information, Inte
 		// TODO Auto-generated method stub
 		return ((IInformationDao)dao).findByThreadAreaId(threadAreaId);
 	}
+	@Override
+	public Information findRegionNum() {
+		// TODO Auto-generated method stub
+		return ((IInformationDao)dao).findRegionNum();
+	}
+	@Override
+	public Information findAllRegionNum() {
+		// TODO Auto-generated method stub
+		return ((IInformationDao)dao).findAllRegionNum();
+	}
 
 
 }
